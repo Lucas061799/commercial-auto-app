@@ -81,7 +81,7 @@ export default function PageZero({ onStart }) {
           <img
             src={norbieCommercial}
             alt="Norbie"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '80%', objectFit: 'contain' }}
+            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '60%', objectFit: 'contain' }}
           />
         </div>
 
@@ -115,7 +115,7 @@ export default function PageZero({ onStart }) {
                     <select
                       value={state}
                       onChange={e => { setState(e.target.value); setDeclined(false) }}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#73C9B7]/20 focus:border-[#73C9B7] appearance-none pr-9"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#A614C3]/20 focus:border-[#A614C3] appearance-none pr-9"
                     >
                       <option value="">Select which state the vehicle is located.</option>
                       {ALL_STATES.map(s => <option key={s} value={s}>{s}</option>)}
@@ -133,7 +133,7 @@ export default function PageZero({ onStart }) {
                     <select
                       value={riskCategory}
                       onChange={e => { setRiskCategory(e.target.value); setDeclined(false) }}
-                      className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#73C9B7]/20 focus:border-[#73C9B7] appearance-none pr-9"
+                      className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#A614C3]/20 focus:border-[#A614C3] appearance-none pr-9"
                     >
                       <option value="">Select which risk category.</option>
                       {APPROVED_CATEGORIES.map(r => <option key={r} value={r}>{r}</option>)}
