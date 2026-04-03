@@ -95,32 +95,22 @@ function App() {
     }
   }, [formData])
 
-  useEffect(() => {
-    const observers = []
-    const visibleSections = new Set()
-
+  const handleMainScroll = useCallback(() => {
+    if (isScrollingToRef.current) return
+    const container = scrollContainerRef.current
+    if (!container) return
+    const containerRect = container.getBoundingClientRect()
+    const threshold = containerRect.height * 0.35
+    let current = STEPS[0].id
     STEPS.forEach(step => {
       const el = sectionRefs.current[step.id]
-      if (!el) return
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) visibleSections.add(step.id)
-            else visibleSections.delete(step.id)
-            if (!isScrollingToRef.current && visibleSections.size > 0) {
-              setActiveStep(Math.min(...visibleSections))
-            }
-          })
-        },
-        { root: scrollContainerRef.current, rootMargin: '-20% 0px -60% 0px', threshold: 0 }
-      )
-      observer.observe(el)
-      observers.push(observer)
+      if (el) {
+        const top = el.getBoundingClientRect().top - containerRect.top
+        if (top <= threshold) current = step.id
+      }
     })
-
-    return () => observers.forEach(obs => obs.disconnect())
-  }, [submitted])
+    setActiveStep(current)
+  }, [])
 
   if (!pageZeroDone) {
     return <PageZero onStart={(data) => { updateFormData('pageZero', data); setPageZeroDone(true) }} />
@@ -157,7 +147,7 @@ function App() {
         />
 
         {/* Scrollable main content */}
-        <main ref={scrollContainerRef} className="flex-1 overflow-y-auto custom-scroll bg-white">
+        <main ref={scrollContainerRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto custom-scroll bg-white">
           <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-10 py-8 space-y-8">
 
             {[
@@ -201,19 +191,6 @@ function SectionHeader({ title }) {
     <div className="px-10 pt-8 pb-0">
       <div className="flex items-center justify-between pb-4 border-b border-gray-300">
         <h2 className="text-lg font-bold text-navy">{title}</h2>
-        <div className="flex items-center gap-2 rounded-full px-4 py-2 shrink-0" style={{ border: '1px solid rgba(92,46,212,0.25)' }}>
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none">
-            <defs>
-              <linearGradient id="autoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#5C2ED4"/>
-                <stop offset="100%" stopColor="#A614C3"/>
-              </linearGradient>
-            </defs>
-            <path d="M12 16V9m0 0l-3 3m3-3l3 3" stroke="url(#autoGrad)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M6.5 18A4.5 4.5 0 016 9.1V9a6 6 0 0111.9-.9A4.5 4.5 0 0118 18H6.5z" stroke="url(#autoGrad)" strokeWidth="1.8" strokeLinejoin="round"/>
-          </svg>
-          <span className="text-sm font-medium text-gradient">All progress auto-saved</span>
-        </div>
       </div>
     </div>
   )

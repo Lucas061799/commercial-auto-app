@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import norbieCommercial from '../assets/norbie-pagezero-new.png'
+import norbieCommercial from '../assets/norbie-pagezero-v2.png'
 import bananaImg from '../assets/banana.png'
 
 const ALL_STATES = [
@@ -110,7 +110,7 @@ export default function PageZero({ onStart }) {
               <div className="space-y-5">
                 {/* State dropdown */}
                 <div>
-                  <label className="block text-sm font-semibold text-navy mb-2">State</label>
+                  <label className="block text-sm font-semibold text-navy mb-2">Location of Vehicle</label>
                   <div className="relative">
                     <select
                       value={state}
