@@ -63,6 +63,14 @@ export default function CoverageInformation({ formData, updateFormData }) {
         />
       </FormGrid>
 
+      {/* DOT# */}
+      <Input
+        label="DOT#"
+        value={data.dot}
+        onChange={set('dot')}
+        placeholder=""
+      />
+
       {/* Waiver of Subrogation */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
         <p className="text-xs font-semibold text-gray-800 mb-3">Waiver of Subrogation?</p>
@@ -132,14 +140,6 @@ export default function CoverageInformation({ formData, updateFormData }) {
           </div>
         )}
       </div>
-
-      {/* DOT# */}
-      <Input
-        label="DOT#"
-        value={data.dot}
-        onChange={set('dot')}
-        placeholder=""
-      />
 
       {/* State Filing */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">

@@ -30,6 +30,40 @@ const QUICK_FILL_DEFAULTS = {
   q11: 'No', q12: 'No', q13: 'No', q14: 'No', q15: 'No',
 }
 
+const YES_NO_STYLES = {
+  Yes: { activeBorder: '#5C2ED4', activeText: '#5C2ED4', activeBg: 'rgba(92,46,212,0.08)', dotBg: 'linear-gradient(88.09deg, #5C2ED4 0%, #7C3AED 100%)', dotBorder: '#5C2ED4' },
+  No:  { activeBorder: '#A614C3', activeText: '#A614C3', activeBg: 'rgba(166,20,195,0.08)', dotBg: 'linear-gradient(88.09deg, #A614C3 0%, #D946EF 100%)', dotBorder: '#A614C3' },
+}
+
+function ColoredYesNo({ value, onChange }) {
+  return (
+    <div className="flex gap-4">
+      {['Yes', 'No'].map(opt => {
+        const s = YES_NO_STYLES[opt]
+        const active = value === opt
+        return (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange && onChange(opt)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
+            style={active
+              ? { borderColor: s.activeBorder, color: s.activeText, background: s.activeBg }
+              : { borderColor: '#e5e7eb', color: '#6b7280' }
+            }
+          >
+            <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
+              style={{ borderColor: active ? s.dotBorder : '#d1d5db' }}>
+              {active && <div className="w-1.5 h-1.5 rounded-full" style={{ background: s.dotBg }} />}
+            </div>
+            {opt}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 function QuestionCard({ q, value, onChange, autoFilled }) {
   return (
     <div className={`rounded-xl p-4 border transition-all ${autoFilled ? 'border-[#5C2ED4]/20 bg-[#F3F0FF]/40' : 'border-gray-200 bg-gray-50'}`}>
@@ -40,7 +74,7 @@ function QuestionCard({ q, value, onChange, autoFilled }) {
         )}
       </div>
       <div className="mt-3">
-        <RadioGroup options={['Yes', 'No']} value={value} onChange={onChange} />
+        <ColoredYesNo value={value} onChange={onChange} />
       </div>
     </div>
   )
@@ -119,7 +153,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
             <div>
               <p className="text-sm font-bold text-navy leading-tight">Let Norbie pre-fill standard answers.</p>
               <p className="text-xs text-gray-500 mt-0.5">
-                Select <span className="font-semibold text-gradient">"All Yes"</span> in one click
+                Apply <span className="font-semibold text-gradient">recommended answers</span> instantly
               </p>
             </div>
           </div>

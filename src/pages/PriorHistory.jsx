@@ -20,11 +20,17 @@ export default function PriorHistory({ formData, updateFormData }) {
   return (
     <div className="w-full">
       {/* Warning banner */}
-      <div className="flex items-start gap-2.5 bg-teal-light border border-teal/20 rounded-xl px-4 py-3 mb-5">
-        <svg className="w-4 h-4 text-teal shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-start gap-2.5 rounded-xl px-4 py-3 mb-5" style={{ background: 'rgba(92,46,212,0.06)', border: '1px solid rgba(166,20,195,0.18)' }}>
+        <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" stroke="url(#warn-grad)" viewBox="0 0 24 24">
+          <defs>
+            <linearGradient id="warn-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#5C2ED4"/>
+              <stop offset="100%" stopColor="#A614C3"/>
+            </linearGradient>
+          </defs>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
         </svg>
-        <p className="text-xs text-teal font-medium leading-relaxed">
+        <p className="text-xs font-medium leading-relaxed text-gradient">
           Not entering information can affect the premium and or eligibility.
         </p>
       </div>
