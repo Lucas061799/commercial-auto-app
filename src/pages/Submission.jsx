@@ -92,17 +92,6 @@ export default function Submission({ formData, onBack }) {
             <div className="mt-3 border-b border-gray-100" />
           </div>
 
-          {/* Progress 100% */}
-          <div className="px-5 py-3 relative z-10">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-semibold text-gray-500">Progress</span>
-              <span className="text-[10px] font-bold text-gradient">100%</span>
-            </div>
-            <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-              <div className="h-full rounded-full w-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
-            </div>
-          </div>
-
           {/* Steps */}
           <nav className="flex-1 py-1 px-3 overflow-y-auto sidebar-nav relative z-10">
             {[...STEP_LABELS, 'Submission'].map((label, i) => {
@@ -322,35 +311,46 @@ export default function Submission({ formData, onBack }) {
         {/* Right Panel */}
         <aside className="w-80 bg-white border-l border-gray-100 flex flex-col shrink-0">
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
-            {/* Progress 100% */}
-            <div className="mb-3">
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-[10px] font-semibold text-gray-500">Progress</span>
-                <span className="text-[10px] font-bold text-gradient">100%</span>
+
+            {/* Title */}
+            <h2 className="text-2xl font-bold text-navy mb-3">Quote in Progress</h2>
+
+            {/* Auto-saved + % row */}
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-1.5">
+                <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
+                  <defs>
+                    <linearGradient id="autoGradSub" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#5C2ED4"/>
+                      <stop offset="100%" stopColor="#A614C3"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M12 16V9m0 0l-3 3m3-3l3 3" stroke="url(#autoGradSub)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M6.5 18A4.5 4.5 0 016 9.1V9a6 6 0 0111.9-.9A4.5 4.5 0 0118 18H6.5z" stroke="url(#autoGradSub)" strokeWidth="1.8" strokeLinejoin="round"/>
+                </svg>
+                <span className="text-xs font-medium text-gradient">All progress auto-saved</span>
               </div>
-              <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                <div className="h-full rounded-full w-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
-              </div>
+              <span className="text-xs font-bold text-gradient">100%</span>
             </div>
 
-            {/* Form Review */}
-            <button className="w-full flex items-center justify-center gap-1.5 py-2 mb-5 rounded-xl text-xs font-semibold"
-              style={{ color: '#A614C3', border: '1px solid rgba(166,20,195,0.3)', background: 'rgba(166,20,195,0.04)' }}>
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              Form Review
-            </button>
+            {/* Progress bar */}
+            <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-4">
+              <div className="h-full rounded-full w-full transition-all duration-500" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
+            </div>
 
+            {/* Divider */}
+            <div className="border-t border-gray-100 mb-5" />
+
+            {/* What's Next */}
             <h3 className="text-sm font-bold text-navy mb-5">What's Next?</h3>
-            <div className="space-y-6">
+            <div className="space-y-6 mb-6">
               {[
                 { n: 1, title: 'Review & Processing', desc: 'Your application will be reviewed within 24-48 hours' },
                 { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
                 { n: 3, title: 'Bind & Activate',     desc: 'Complete payment to activate your policy coverage' },
               ].map(item => (
                 <div key={item.n} className="flex gap-4">
-                  <span className="w-9 h-9 rounded-full bg-[#E8F5F3] text-teal text-sm font-bold flex items-center justify-center shrink-0">{item.n}</span>
+                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>{item.n}</span>
                   <div>
                     <p className="text-sm font-medium text-navy">{item.title}</p>
                     <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>
@@ -358,6 +358,19 @@ export default function Submission({ formData, onBack }) {
                 </div>
               ))}
             </div>
+
+            {/* Form Review */}
+            <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
+              style={{ color: '#A614C3', border: '1px solid rgba(166,20,195,0.3)', background: 'white' }}
+              onMouseEnter={e => e.currentTarget.style.background = 'rgba(166,20,195,0.06)'}
+              onMouseLeave={e => e.currentTarget.style.background = 'white'}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              Form Review
+            </button>
+
           </div>
 
           <div className="px-4 py-4 border-t border-gray-100 shrink-0">
