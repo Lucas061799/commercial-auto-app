@@ -347,7 +347,6 @@ export default function Submission({ formData, onBack }) {
               {[
                 { n: 1, title: 'Review & Processing', desc: 'Your application will be reviewed within 24-48 hours' },
                 { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
-                { n: 3, title: 'Bind & Activate',     desc: 'Complete payment to activate your policy coverage' },
               ].map(item => (
                 <div key={item.n} className="flex gap-4">
                   <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>{item.n}</span>
@@ -359,6 +358,9 @@ export default function Submission({ formData, onBack }) {
               ))}
             </div>
 
+          </div>
+
+          <div className="px-4 py-4 border-t border-gray-100 shrink-0 space-y-3">
             {/* Form Review */}
             <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
               style={{ color: '#A614C3', border: '1px solid rgba(166,20,195,0.3)', background: 'white' }}
@@ -370,11 +372,7 @@ export default function Submission({ formData, onBack }) {
               </svg>
               Form Review
             </button>
-
-          </div>
-
-          <div className="px-4 py-4 border-t border-gray-100 shrink-0">
-            <p className="text-xs text-gray-400 mb-2">Need assistance?</p>
+            <p className="text-xs text-gray-400">Need assistance?</p>
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
               <div>
