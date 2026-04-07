@@ -361,17 +361,6 @@ export default function Submission({ formData, onBack }) {
           </div>
 
           <div className="px-4 py-4 border-t border-gray-100 shrink-0 space-y-3">
-            {/* Form Review */}
-            <button className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
-              style={{ color: '#A614C3', border: '1px solid rgba(166,20,195,0.3)', background: 'white' }}
-              onMouseEnter={e => e.currentTarget.style.background = 'rgba(166,20,195,0.06)'}
-              onMouseLeave={e => e.currentTarget.style.background = 'white'}
-            >
-              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-              </svg>
-              Form Review
-            </button>
             <p className="text-xs text-gray-400">Need assistance?</p>
             <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
               <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
