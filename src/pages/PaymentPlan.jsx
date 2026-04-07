@@ -78,7 +78,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
         <button
           onClick={onSubmit}
           className="px-8 py-3 text-sm font-semibold text-white rounded-xl transition shadow-sm hover:opacity-90"
-          style={{ background: 'linear-gradient(to bottom, #ACD697, #75C9B7)' }}
+          style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
         >
           Submit Application
         </button>

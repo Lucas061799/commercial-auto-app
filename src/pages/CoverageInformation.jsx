@@ -63,6 +63,12 @@ export default function CoverageInformation({ formData, updateFormData }) {
         />
       </FormGrid>
 
+      {/* Waiver of Subrogation */}
+      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+        <p className="text-xs font-semibold text-gray-800 mb-3">Waiver of Subrogation?</p>
+        <RadioGroup options={['Yes', 'No']} value={data.waiverOfSubrogation} onChange={set('waiverOfSubrogation')} />
+      </div>
+
       {/* Any Auto */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
         <p className="text-xs font-semibold text-gray-800 mb-3">Any Auto (symbol 1, may require copy of contract)</p>

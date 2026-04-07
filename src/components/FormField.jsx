@@ -102,14 +102,15 @@ export function RadioGroup({ label, required, options = [], value, onChange, cla
             onClick={() => onChange && onChange(opt)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium ${
               value === opt
-                ? 'border-teal bg-teal-light text-teal'
+                ? 'border-[#5C2ED4] text-[#5C2ED4]'
                 : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
             }`}
+            style={value === opt ? { background: 'rgba(92,46,212,0.08)' } : {}}
           >
             <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
-              value === opt ? 'border-teal' : 'border-gray-300'
+              value === opt ? 'border-[#A614C3]' : 'border-gray-300'
             }`}>
-              {value === opt && <div className="w-1.5 h-1.5 rounded-full bg-teal" />}
+              {value === opt && <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' }} />}
             </div>
             {opt}
           </button>
@@ -125,8 +126,9 @@ export function Checkbox({ label, checked, onChange, className = '' }) {
     <label className={`flex items-start gap-2.5 cursor-pointer group ${className}`}>
       <div
         className={`w-4 h-4 rounded border-2 flex items-center justify-center mt-0.5 shrink-0 transition-all ${
-          checked ? 'bg-teal border-teal' : 'border-gray-300 group-hover:border-teal/50'
+          checked ? 'border-[#A614C3]' : 'border-gray-300 group-hover:border-[#5C2ED4]/40'
         }`}
+        style={checked ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' } : {}}
         onClick={() => onChange && onChange(!checked)}
       >
         {checked && (

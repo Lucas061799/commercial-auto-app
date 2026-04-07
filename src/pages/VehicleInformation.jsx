@@ -97,7 +97,7 @@ export default function VehicleInformation({ formData, updateFormData }) {
 
       <button
         onClick={addVehicle}
-        className="flex items-center gap-2 text-xs font-semibold text-teal border border-dashed border-teal rounded-xl px-4 py-3 mb-2 hover:bg-teal-light transition w-full justify-center"
+        className="flex items-center gap-2 text-xs font-semibold text-gradient border border-dashed border-[#A614C3]/30 rounded-xl px-4 py-3 mb-2 hover:bg-[#FDF0FF] transition w-full justify-center"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
