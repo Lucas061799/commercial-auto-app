@@ -313,7 +313,7 @@ export default function Submission({ formData, onBack }) {
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
 
             {/* Title */}
-            <h2 className="text-2xl font-bold text-navy mb-3">Quote in Progress</h2>
+            <h2 className="text-2xl font-bold text-navy mb-3">Submission in Progress</h2>
 
             {/* Auto-saved + % row */}
             <div className="flex items-center justify-between mb-2">
