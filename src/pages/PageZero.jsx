@@ -128,14 +128,14 @@ export default function PageZero({ onStart }) {
 
                 {/* Risk category dropdown */}
                 <div>
-                  <label className="block text-sm font-semibold text-navy mb-2">Risk Category</label>
+                  <label className="block text-sm font-semibold text-navy mb-2">Acceptable Risk Categories</label>
                   <div className="relative">
                     <select
                       value={riskCategory}
                       onChange={e => { setRiskCategory(e.target.value); setDeclined(false) }}
                       className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#A614C3]/20 focus:border-[#A614C3] appearance-none pr-9"
                     >
-                      <option value="">Select which risk category.</option>
+                      <option value="">Select from our accepted categories.</option>
                       {APPROVED_CATEGORIES.map(r => <option key={r} value={r}>{r}</option>)}
                     </select>
                     <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
