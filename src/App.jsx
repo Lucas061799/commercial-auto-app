@@ -32,6 +32,11 @@ const STEPS = [
 function UploadPopup({ onDismiss }) {
   const inputRef = useRef()
   const [dragging, setDragging] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null)
+
+  const handleFileChange = (files) => {
+    if (files && files.length > 0) setSelectedFile(files[0])
+  }
 
   return (
     <div
@@ -74,7 +79,7 @@ function UploadPopup({ onDismiss }) {
                 </linearGradient>
               </defs>
             </svg>
-            <span className="text-[11px] font-bold text-gradient tracking-wide">SAVE TIME</span>
+            <span className="text-[11px] font-bold text-gradient tracking-wide">INSTANT FORM PARSING</span>
           </div>
 
           {/* Title */}
@@ -84,11 +89,11 @@ function UploadPopup({ onDismiss }) {
           </p>
 
           {/* Drop zone */}
-          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" />
+          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => handleFileChange(e.target.files)} />
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true) }}
             onDragLeave={() => setDragging(false)}
-            onDrop={e => { e.preventDefault(); setDragging(false) }}
+            onDrop={e => { e.preventDefault(); setDragging(false); handleFileChange(e.dataTransfer.files) }}
             onClick={() => inputRef.current?.click()}
             className="cursor-pointer rounded-xl border-2 border-dashed flex flex-col items-center gap-2 py-7 mb-4 transition-all"
             style={{
@@ -113,13 +118,16 @@ function UploadPopup({ onDismiss }) {
             <p className="text-[10px] text-gray-400">PDF, JPG, PNG · Max 10MB</p>
           </div>
 
-          {/* Upload CTA button */}
+          {/* Upload CTA button — disabled until file selected */}
           <button
-            onClick={() => inputRef.current?.click()}
-            className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-4"
-            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 16px rgba(92,46,212,0.3)' }}
+            disabled={!selectedFile}
+            className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all mb-4"
+            style={selectedFile
+              ? { background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 16px rgba(92,46,212,0.3)', cursor: 'pointer' }
+              : { background: '#D1D5DB', cursor: 'not-allowed' }
+            }
           >
-            Upload Here
+            {selectedFile ? `Upload & Continue — ${selectedFile.name}` : 'Upload & Continue'}
           </button>
 
           {/* Dismiss */}
