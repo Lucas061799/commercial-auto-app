@@ -78,12 +78,6 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
     if (e.key === 'Escape')     { setOpen(false) }
   }
 
-  const focusStyle = {
-    outline: 'none',
-    borderColor: '#A614C3',
-    boxShadow: '0 0 0 3px rgba(166,20,195,0.12)',
-  }
-
   return (
     <div ref={containerRef} className="relative w-full">
       {label && (
@@ -99,10 +93,11 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
           onKeyDown={handleKeyDown}
           onFocus={() => { if (suggestions.length > 0) setOpen(true) }}
           placeholder="Start typing an address…"
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 bg-white transition-all"
-          style={error ? { borderColor: '#EF4444', outline: 'none' } : {}}
-          onFocusCapture={e => Object.assign(e.target.style, focusStyle)}
-          onBlurCapture={e => { e.target.style.boxShadow = ''; e.target.style.borderColor = error ? '#EF4444' : '#e5e7eb'; e.target.style.outline = '' }}
+          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 bg-white focus:outline-none focus:ring-2 transition-all hover:border-gray-300 ${
+            error
+              ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+              : 'border-gray-200 focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40'
+          }`}
         />
         {/* Search / loading icon */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
