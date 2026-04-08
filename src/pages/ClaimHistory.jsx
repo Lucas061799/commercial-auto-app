@@ -1,9 +1,11 @@
 import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const defaultClaim = () => ({
   id: Date.now(),
   dateOfLoss: '', payoutAmount: '',
-  addressType: 'Auto Fill',
+  lossAddress: '', lossSuite: '',
+  lossCity: '', lossState: '', lossZip: '',
   descriptionOfLoss: '',
   driverOfLoss: '', claimStatus: '',
   lostAtFault: 'No',
@@ -17,6 +19,10 @@ export default function ClaimHistory({ formData, updateFormData }) {
   const setClaims = (list) => updateFormData('claims', { claims: list })
   const setField = (idx, key) => (val) => {
     const updated = data.claims.map((c, i) => i === idx ? { ...c, [key]: val } : c)
+    setClaims(updated)
+  }
+  const handleLossAddressSelect = (idx) => ({ address, city, state, zip }) => {
+    const updated = data.claims.map((c, i) => i === idx ? { ...c, lossAddress: address, lossCity: city, lossState: state, lossZip: zip } : c)
     setClaims(updated)
   }
 
@@ -46,12 +52,20 @@ export default function ClaimHistory({ formData, updateFormData }) {
               <Input label="Date Of Loss" placeholder="MM/DD/YYYY" value={c.dateOfLoss} onChange={setField(idx, 'dateOfLoss')} />
               <Input label="Payout Amount" placeholder="$0.00" value={c.payoutAmount} onChange={setField(idx, 'payoutAmount')} />
             </FormGrid>
-            <RadioGroup
-              label="Mailing Address Entry Type"
-              options={['Auto Fill', 'Manual Entry']}
-              value={c.addressType}
-              onChange={setField(idx, 'addressType')}
-            />
+            <FormGrid>
+              <AddressAutocomplete
+                label="Loss Location Address"
+                value={c.lossAddress}
+                onChange={setField(idx, 'lossAddress')}
+                onSelect={handleLossAddressSelect(idx)}
+              />
+              <Input label="Suite/Apt/Building" value={c.lossSuite} onChange={setField(idx, 'lossSuite')} />
+            </FormGrid>
+            <FormGrid cols={3}>
+              <Input label="City" value={c.lossCity} onChange={setField(idx, 'lossCity')} />
+              <Input label="State" value={c.lossState} onChange={setField(idx, 'lossState')} />
+              <Input label="Zip" value={c.lossZip} onChange={setField(idx, 'lossZip')} />
+            </FormGrid>
             <Input label="Description Of Loss" value={c.descriptionOfLoss} onChange={setField(idx, 'descriptionOfLoss')} placeholder="" />
             <FormGrid>
               <Select label="Driver Of Loss" options={DRIVERS} value={c.driverOfLoss} onChange={setField(idx, 'driverOfLoss')} />

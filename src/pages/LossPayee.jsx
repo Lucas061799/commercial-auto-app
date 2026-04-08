@@ -6,7 +6,7 @@ const defaultPayee = () => ({
   name: '', additionalInterest: 'No',
   address: '', suite: '',
   city: '', state: '', zip: '',
-  vehicle: 'Vehicle 1',
+  vehicles: [],
 })
 
 export default function LossPayee({ formData, updateFormData }) {
@@ -66,11 +66,51 @@ export default function LossPayee({ formData, updateFormData }) {
             </FormGrid>
             <div>
               <p className="text-[11px] font-semibold text-gray-600 mb-2.5 tracking-wide">Check All The Vehicles That Applies To This Payee</p>
-              <RadioGroup
-                options={Array.from({ length: Math.max(1, (formData.vehicles?.vehicles || []).length) }, (_, i) => `Vehicle ${i + 1}`)}
-                value={p.vehicle}
-                onChange={setField(idx, 'vehicle')}
-              />
+              <div className="flex flex-wrap gap-2">
+                {Array.from({ length: Math.max(1, (formData.vehicles?.vehicles || []).length) }, (_, i) => `Vehicle ${i + 1}`).map(v => {
+                  const selected = (p.vehicles || []).includes(v)
+                  const toggleVehicle = () => {
+                    const current = p.vehicles || []
+                    const next = selected ? current.filter(x => x !== v) : [...current, v]
+                    setField(idx, 'vehicles')(next)
+                  }
+                  return (
+                    <button
+                      key={v}
+                      type="button"
+                      onClick={toggleVehicle}
+                      className="flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all"
+                      style={selected ? {
+                        background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
+                        border: '1.5px solid transparent',
+                        color: '#5C2ED4',
+                      } : {
+                        background: 'white',
+                        border: '1.5px solid #E5E7EB',
+                        color: '#6B7280',
+                      }}
+                    >
+                      <span
+                        className="w-3.5 h-3.5 rounded flex items-center justify-center shrink-0 border transition-all"
+                        style={selected ? {
+                          background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                          borderColor: 'transparent',
+                        } : {
+                          background: 'white',
+                          borderColor: '#D1D5DB',
+                        }}
+                      >
+                        {selected && (
+                          <svg className="w-2.5 h-2.5" fill="none" stroke="white" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7"/>
+                          </svg>
+                        )}
+                      </span>
+                      {v}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>

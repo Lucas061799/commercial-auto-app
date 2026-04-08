@@ -1,4 +1,5 @@
 import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const BODY_TYPES = ['Box/Straight', 'Private Passenger', 'Pick Up', 'Flatbed', 'Dump', 'Van', 'SUV', 'Trailer', 'Other']
 const USE_OPTIONS = ['Business & Personal', 'Business Only', 'Personal Only']
@@ -15,7 +16,8 @@ const defaultVehicle = () => ({
   physicalDamage: 'No',
   additionalEquipment: 'Yes',
   vehicleRegistered: '',
-  garagingAddressType: 'Auto Fill',
+  garagingAddress: '', garagingSuite: '',
+  garagingCity: '', garagingState: '', garagingZip: '',
 })
 
 export default function VehicleInformation({ formData, updateFormData }) {
@@ -25,6 +27,10 @@ export default function VehicleInformation({ formData, updateFormData }) {
   const setVehicles = (v) => updateFormData('vehicles', { vehicles: v })
   const setField = (idx, key) => (val) => {
     const updated = vehicles.map((v, i) => i === idx ? { ...v, [key]: val } : v)
+    setVehicles(updated)
+  }
+  const handleGaragingSelect = (idx) => ({ address, city, state, zip }) => {
+    const updated = vehicles.map((v, i) => i === idx ? { ...v, garagingAddress: address, garagingCity: city, garagingState: state, garagingZip: zip } : v)
     setVehicles(updated)
   }
 
@@ -85,12 +91,20 @@ export default function VehicleInformation({ formData, updateFormData }) {
               value={v.vehicleRegistered}
               onChange={setField(idx, 'vehicleRegistered')}
             />
-            <RadioGroup
-              label="Garaging Address Entry Type"
-              options={['Auto Fill', 'Manual Entry']}
-              value={v.garagingAddressType}
-              onChange={setField(idx, 'garagingAddressType')}
-            />
+            <FormGrid>
+              <AddressAutocomplete
+                label="Garaging Address"
+                value={v.garagingAddress}
+                onChange={setField(idx, 'garagingAddress')}
+                onSelect={handleGaragingSelect(idx)}
+              />
+              <Input label="Suite/Apt/Building" value={v.garagingSuite} onChange={setField(idx, 'garagingSuite')} />
+            </FormGrid>
+            <FormGrid cols={3}>
+              <Input label="City" value={v.garagingCity} onChange={setField(idx, 'garagingCity')} />
+              <Input label="State" value={v.garagingState} onChange={setField(idx, 'garagingState')} />
+              <Input label="Zip" value={v.garagingZip} onChange={setField(idx, 'garagingZip')} />
+            </FormGrid>
           </div>
         </div>
       ))}

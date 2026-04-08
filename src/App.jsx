@@ -29,14 +29,60 @@ const STEPS = [
   { id: 10, label: 'Payment Plan',      key: 'paymentPlan' },
 ]
 
+const FILE_ICONS = {
+  pdf: (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+      <path d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" stroke="url(#fileG)" strokeWidth="1.6" strokeLinejoin="round"/>
+      <path d="M13 3v5a1 1 0 001 1h5M9 13h6M9 17h4" stroke="url(#fileG)" strokeWidth="1.6" strokeLinecap="round"/>
+      <defs>
+        <linearGradient id="fileG" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
+  img: (
+    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+      <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="url(#fileG2)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      <defs>
+        <linearGradient id="fileG2" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  ),
+}
+
+function formatBytes(bytes) {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
+
 function UploadPopup({ onDismiss }) {
   const inputRef = useRef()
   const [dragging, setDragging] = useState(false)
-  const [selectedFile, setSelectedFile] = useState(null)
+  const [selectedFiles, setSelectedFiles] = useState([])
 
-  const handleFileChange = (files) => {
-    if (files && files.length > 0) setSelectedFile(files[0])
+  const addFiles = (fileList) => {
+    if (!fileList || fileList.length === 0) return
+    const incoming = Array.from(fileList)
+    setSelectedFiles(prev => {
+      const existingNames = new Set(prev.map(f => f.name))
+      const merged = [...prev, ...incoming.filter(f => !existingNames.has(f.name))]
+      return merged
+    })
   }
+
+  const removeFile = (name) => setSelectedFiles(prev => prev.filter(f => f.name !== name))
+
+  const hasFiles = selectedFiles.length > 0
+
+  const btnLabel = hasFiles
+    ? selectedFiles.length === 1
+      ? `Upload & Continue — ${selectedFiles[0].name}`
+      : `Upload & Continue — ${selectedFiles.length} files`
+    : 'Upload & Continue'
 
   return (
     <div
@@ -45,7 +91,7 @@ function UploadPopup({ onDismiss }) {
       onClick={onDismiss}
     >
       <div
-        className="relative rounded-2xl shadow-2xl overflow-hidden"
+        className="relative rounded-2xl shadow-2xl"
         style={{
           width: '460px',
           background: '#ffffff',
@@ -54,7 +100,7 @@ function UploadPopup({ onDismiss }) {
         onClick={e => e.stopPropagation()}
       >
 
-        {/* Close button — inside card, top-right */}
+        {/* Close button */}
         <button
           onClick={onDismiss}
           className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition"
@@ -89,16 +135,19 @@ function UploadPopup({ onDismiss }) {
           </p>
 
           {/* Drop zone */}
-          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => handleFileChange(e.target.files)} />
+          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden"
+            onChange={e => { addFiles(e.target.files); e.target.value = '' }} />
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true) }}
             onDragLeave={() => setDragging(false)}
-            onDrop={e => { e.preventDefault(); setDragging(false); handleFileChange(e.dataTransfer.files) }}
+            onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
             onClick={() => inputRef.current?.click()}
-            className="cursor-pointer rounded-xl border-2 border-dashed flex flex-col items-center gap-2 py-7 mb-4 transition-all"
+            className="cursor-pointer rounded-xl border-2 border-dashed flex flex-col items-center gap-2 transition-all"
             style={{
+              padding: hasFiles ? '14px 0' : '28px 0',
               borderColor: dragging ? '#5C2ED4' : 'rgba(92,46,212,0.2)',
               background: dragging ? 'rgba(92,46,212,0.04)' : 'rgba(248,246,255,0.6)',
+              marginBottom: hasFiles ? '10px' : '16px',
             }}
           >
             <div className="w-11 h-11 rounded-xl flex items-center justify-center"
@@ -113,29 +162,67 @@ function UploadPopup({ onDismiss }) {
                 </defs>
               </svg>
             </div>
-            <p className="text-sm font-semibold text-navy">Drop your file here</p>
-            <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">click to browse</span></p>
-            <p className="text-[10px] text-gray-400">PDF, JPG, PNG · Max 10MB</p>
+            {hasFiles
+              ? <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">add more files</span></p>
+              : <>
+                  <p className="text-sm font-semibold text-navy">Drop your file here</p>
+                  <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">click to browse</span></p>
+                  <p className="text-[10px] text-gray-400">PDF, JPG, PNG · Max 10MB</p>
+                </>
+            }
           </div>
 
-          {/* Upload CTA button — disabled until file selected */}
+          {/* File list */}
+          {hasFiles && (
+            <div className="space-y-2 mb-4">
+              {selectedFiles.map(file => {
+                const ext = file.name.split('.').pop().toLowerCase()
+                const icon = ext === 'pdf' ? FILE_ICONS.pdf : FILE_ICONS.img
+                return (
+                  <div key={file.name}
+                    className="flex items-center gap-3 px-3 py-2.5 rounded-xl border"
+                    style={{ background: 'rgba(248,246,255,0.7)', borderColor: 'rgba(92,46,212,0.12)' }}
+                  >
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0"
+                      style={{ background: 'rgba(92,46,212,0.08)' }}>
+                      {icon}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-navy truncate">{file.name}</p>
+                      <p className="text-[10px] text-gray-400">{formatBytes(file.size)}</p>
+                    </div>
+                    <button
+                      onClick={e => { e.stopPropagation(); removeFile(file.name) }}
+                      className="w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition"
+                      style={{ background: 'rgba(92,46,212,0.07)', color: '#A614C3' }}
+                      onMouseEnter={ev => ev.currentTarget.style.background = 'rgba(166,20,195,0.15)'}
+                      onMouseLeave={ev => ev.currentTarget.style.background = 'rgba(92,46,212,0.07)'}
+                    >
+                      <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Upload CTA button */}
           <button
-            disabled={!selectedFile}
-            className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all mb-4"
-            style={selectedFile
+            disabled={!hasFiles}
+            className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all mb-4 truncate px-4"
+            style={hasFiles
               ? { background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 16px rgba(92,46,212,0.3)', cursor: 'pointer' }
               : { background: '#D1D5DB', cursor: 'not-allowed' }
             }
           >
-            {selectedFile ? `Upload & Continue — ${selectedFile.name}` : 'Upload & Continue'}
+            {btnLabel}
           </button>
 
           {/* Dismiss */}
           <div className="text-center">
-            <button
-              onClick={onDismiss}
-              className="text-xs text-gray-400 hover:text-gray-600 transition"
-            >
+            <button onClick={onDismiss} className="text-xs text-gray-400 hover:text-gray-600 transition">
               Maybe later — I'll fill it in manually
             </button>
           </div>

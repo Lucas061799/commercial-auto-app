@@ -1,4 +1,5 @@
 import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const MARITAL_STATUS = ['Married', 'Single', 'Widowed', 'Divorced', 'Separated']
 const GENDER = ['Male', 'Female', 'Non-Binary', 'Prefer Not To Say']
@@ -7,7 +8,8 @@ const RELATIONSHIP = ['Owner/Officer', 'Employee', 'Family Member', 'Other']
 const defaultDriver = () => ({
   id: Date.now(),
   firstName: '', lastName: '',
-  mailingAddressType: 'Auto Fill',
+  mailingAddress: '', mailingSuite: '',
+  mailingCity: '', mailingState: '', mailingZip: '',
   maritalStatus: '', gender: '',
   relationshipToInsured: '',
   dob: '',
@@ -24,6 +26,10 @@ export default function DriverInformation({ formData, updateFormData }) {
   const setDrivers = (d) => updateFormData('drivers', { drivers: d })
   const setField = (idx, key) => (val) => {
     const updated = drivers.map((d, i) => i === idx ? { ...d, [key]: val } : d)
+    setDrivers(updated)
+  }
+  const handleMailingSelect = (idx) => ({ address, city, state, zip }) => {
+    const updated = drivers.map((d, i) => i === idx ? { ...d, mailingAddress: address, mailingCity: city, mailingState: state, mailingZip: zip } : d)
     setDrivers(updated)
   }
 
@@ -46,15 +52,20 @@ export default function DriverInformation({ formData, updateFormData }) {
               <Input label="Owner First Name" required value={d.firstName} onChange={setField(idx, 'firstName')} placeholder="John" />
               <Input label="Owner Last Name" required value={d.lastName} onChange={setField(idx, 'lastName')} placeholder="Smith" />
             </FormGrid>
-            <RadioGroup
-              label="Mailing Address Entry Type"
-              options={['Auto Fill', 'Manual Entry']}
-              value={d.mailingAddressType}
-              onChange={setField(idx, 'mailingAddressType')}
-            />
-            {(d.mailingAddressType === 'Auto Fill' || !d.mailingAddressType) && (
-              <Input label="Search" value={d.search || ''} onChange={setField(idx, 'search')} placeholder="" />
-            )}
+            <FormGrid>
+              <AddressAutocomplete
+                label="Mailing Address"
+                value={d.mailingAddress}
+                onChange={setField(idx, 'mailingAddress')}
+                onSelect={handleMailingSelect(idx)}
+              />
+              <Input label="Suite/Apt/Building" value={d.mailingSuite} onChange={setField(idx, 'mailingSuite')} />
+            </FormGrid>
+            <FormGrid cols={3}>
+              <Input label="City" value={d.mailingCity} onChange={setField(idx, 'mailingCity')} />
+              <Input label="State" value={d.mailingState} onChange={setField(idx, 'mailingState')} />
+              <Input label="Zip" value={d.mailingZip} onChange={setField(idx, 'mailingZip')} />
+            </FormGrid>
             <FormGrid>
               <Select label="Marital Status" options={MARITAL_STATUS} value={d.maritalStatus} onChange={setField(idx, 'maritalStatus')} />
               <Select label="Gender" options={GENDER} value={d.gender} onChange={setField(idx, 'gender')} />
