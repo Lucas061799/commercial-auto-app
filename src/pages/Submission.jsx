@@ -237,11 +237,6 @@ export default function Submission({ formData, onBack }) {
                     <SummaryRow label="Deductible" value={coverage.deductible || '$500'} />
                     <SummaryRow label="Policy Term" value={coverage.policyTerm || '12 Months'} />
                   </SummarySection>
-                  <SummarySection title="Selected Provider" icon="building">
-                    <SummaryRow label="Insurance Company" value="HISCOX" bold />
-                    <SummaryRow label="Rating" value="A+" bold />
-                    <SummaryRow label="Commission" value="+2.5%" bold />
-                  </SummarySection>
                   </div>
 
                   {/* Print button */}
@@ -348,7 +343,7 @@ export default function Submission({ formData, onBack }) {
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
 
             {/* Title */}
-            <h2 className="text-lg font-bold text-navy mb-3">Submission in Progress</h2>
+            <h2 className="text-lg font-bold text-navy mb-3">Quote Submitted</h2>
 
             {/* Auto-saved + % row */}
             <div className="flex items-center justify-between mb-2">

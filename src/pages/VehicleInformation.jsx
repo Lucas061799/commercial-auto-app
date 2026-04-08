@@ -67,7 +67,7 @@ export default function VehicleInformation({ formData, updateFormData }) {
             </FormGrid>
             <Input label="Current Value" value={v.currentValue} onChange={setField(idx, 'currentValue')} placeholder="10,000" />
             <RadioGroup
-              label="Physical Damage Coverage"
+              label="Physical damage coverage"
               options={['Yes', 'No']}
               value={v.physicalDamage}
               onChange={setField(idx, 'physicalDamage')}
@@ -79,7 +79,7 @@ export default function VehicleInformation({ formData, updateFormData }) {
               </FormGrid>
             )}
             <RadioGroup
-              label="Additional Attached Equipment"
+              label="Additional attached equipment"
               options={['Yes', 'No']}
               value={v.additionalEquipment}
               onChange={setField(idx, 'additionalEquipment')}

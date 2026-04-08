@@ -32,7 +32,7 @@ export default function ClaimHistory({ formData, updateFormData }) {
 
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-5">
         <RadioGroup
-          label="Do You Have Any Claim History?"
+          label="Do you have any claim history?"
           options={['Yes', 'No']}
           value={data.hasClaims}
           onChange={(val) => updateFormData('claims', { hasClaims: val, claims: val === 'Yes' ? [defaultClaim()] : [] })}
@@ -49,8 +49,8 @@ export default function ClaimHistory({ formData, updateFormData }) {
           </div>
           <div className="space-y-4">
             <FormGrid>
-              <Input label="Date Of Loss" placeholder="MM/DD/YYYY" value={c.dateOfLoss} onChange={setField(idx, 'dateOfLoss')} />
-              <Input label="Payout Amount" placeholder="$0.00" value={c.payoutAmount} onChange={setField(idx, 'payoutAmount')} />
+              <Input label="Date of loss" placeholder="MM/DD/YYYY" value={c.dateOfLoss} onChange={setField(idx, 'dateOfLoss')} />
+              <Input label="Payout amount" placeholder="$0.00" value={c.payoutAmount} onChange={setField(idx, 'payoutAmount')} />
             </FormGrid>
             <FormGrid>
               <AddressAutocomplete
@@ -66,13 +66,13 @@ export default function ClaimHistory({ formData, updateFormData }) {
               <Input label="State" value={c.lossState} onChange={setField(idx, 'lossState')} />
               <Input label="Zip" value={c.lossZip} onChange={setField(idx, 'lossZip')} />
             </FormGrid>
-            <Input label="Description Of Loss" value={c.descriptionOfLoss} onChange={setField(idx, 'descriptionOfLoss')} placeholder="" />
+            <Input label="Description of loss" value={c.descriptionOfLoss} onChange={setField(idx, 'descriptionOfLoss')} placeholder="" />
             <FormGrid>
-              <Select label="Driver Of Loss" options={DRIVERS} value={c.driverOfLoss} onChange={setField(idx, 'driverOfLoss')} />
-              <Select label="Claim Status" options={CLAIM_STATUSES} value={c.claimStatus} onChange={setField(idx, 'claimStatus')} />
+              <Select label="Driver of loss" options={DRIVERS} value={c.driverOfLoss} onChange={setField(idx, 'driverOfLoss')} />
+              <Select label="Claim status" options={CLAIM_STATUSES} value={c.claimStatus} onChange={setField(idx, 'claimStatus')} />
             </FormGrid>
             <RadioGroup
-              label="Lost At Fault"
+              label="Lost at fault"
               options={['Yes', 'No']}
               value={c.lostAtFault}
               onChange={setField(idx, 'lostAtFault')}

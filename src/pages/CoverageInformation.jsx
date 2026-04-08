@@ -75,44 +75,44 @@ export default function CoverageInformation({ formData, updateFormData }) {
 
       {/* Any Auto */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Any Auto (symbol 1, may require copy of contract)</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Any auto (symbol 1, may require copy of contract)</p>
         <RadioGroup options={['Yes', 'No']} value={data.anyAuto} onChange={set('anyAuto')} />
       </div>
 
       {/* Hired Auto */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Hired Auto (symbol 8)</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Hired auto (symbol 8)</p>
         <RadioGroup options={['Yes', 'No']} value={data.hiredAuto} onChange={set('hiredAuto')} />
       </div>
 
       {/* Non-Owned Auto */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Non-Owned Auto (symbol 9)</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Non-owned auto (symbol 9)</p>
         <RadioGroup options={['Yes', 'No']} value={data.nonOwnedAuto} onChange={set('nonOwnedAuto')} />
       </div>
 
       {/* Additional Driver Endorsement */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
         <p className="text-xs font-semibold text-gray-800 mb-3 leading-relaxed">
-          Additional Driver Endorsement (drivers only need to be reported at new business and each renewal)
+          Additional driver endorsement (drivers only need to be reported at new business and each renewal)
         </p>
         <RadioGroup options={['Yes', 'No']} value={data.additionalDriverEndorsement} onChange={set('additionalDriverEndorsement')} />
       </div>
 
       {/* Roadside Assistance */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Roadside Assistance (limit varies with carrier)</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Roadside assistance (limit varies with carrier)</p>
         <RadioGroup options={['Yes', 'No']} value={data.roadside} onChange={set('roadside')} />
       </div>
 
       {/* Rental Reimbursement */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Rental Reimbursement?</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Rental reimbursement?</p>
         <RadioGroup options={['Yes', 'No']} value={data.rentalReimbursement} onChange={set('rentalReimbursement')} />
         {data.rentalReimbursement === 'Yes' && (
           <div className="mt-3">
             <Select
-              label="Rental Reimbursement"
+              label="Rental reimbursement"
               options={RENTAL_OPTIONS}
               value={data.rentalLimit}
               onChange={set('rentalLimit')}
@@ -123,7 +123,7 @@ export default function CoverageInformation({ formData, updateFormData }) {
 
       {/* Cargo Coverage */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Cargo Coverage?</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Cargo coverage?</p>
         <RadioGroup options={['Yes', 'No']} value={data.cargoCoverage} onChange={set('cargoCoverage')} />
         {data.cargoCoverage === 'Yes' && (
           <div className="mt-3">
@@ -139,12 +139,12 @@ export default function CoverageInformation({ formData, updateFormData }) {
 
       {/* State Filing */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">State Filing</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">State filing</p>
         <RadioGroup options={['Yes', 'No']} value={data.stateFiling} onChange={set('stateFiling')} />
         {data.stateFiling === 'Yes' && (
           <div className="mt-3">
             <Input
-              label="State Filing Number"
+              label="State filing number"
               value={data.stateFilingNumber}
               onChange={set('stateFilingNumber')}
               placeholder=""
@@ -155,7 +155,7 @@ export default function CoverageInformation({ formData, updateFormData }) {
 
       {/* Federal Filing */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Federal Filing</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Federal filing</p>
         <RadioGroup options={['Yes', 'No']} value={data.federalFiling} onChange={set('federalFiling')} />
       </div>
 
@@ -166,7 +166,7 @@ export default function CoverageInformation({ formData, updateFormData }) {
         {data.sr22 === 'Yes' && (
           <div className="mt-3">
             <Input
-              label="What Driver?"
+              label="What driver?"
               value={data.sr22Driver}
               onChange={set('sr22Driver')}
               placeholder=""

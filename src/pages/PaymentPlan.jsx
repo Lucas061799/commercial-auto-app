@@ -33,7 +33,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
       {/* Paperless Notification */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-3">
         <RadioGroup
-          label="Paperless Notification?"
+          label="Paperless notification?"
           options={['Yes', 'No']}
           value={data.paperless}
           onChange={set('paperless')}
@@ -43,7 +43,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
       {/* Payment Reminder */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-5">
         <RadioGroup
-          label="Payment Reminder?"
+          label="Payment reminder?"
           options={['Yes', 'No']}
           value={data.reminder}
           onChange={set('reminder')}

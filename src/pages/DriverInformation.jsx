@@ -1,4 +1,6 @@
 import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
+
+const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']
 import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const MARITAL_STATUS = ['Married', 'Single', 'Widowed', 'Divorced', 'Separated']
@@ -67,48 +69,51 @@ export default function DriverInformation({ formData, updateFormData }) {
               <Input label="Zip" value={d.mailingZip} onChange={setField(idx, 'mailingZip')} />
             </FormGrid>
             <FormGrid>
-              <Select label="Marital Status" options={MARITAL_STATUS} value={d.maritalStatus} onChange={setField(idx, 'maritalStatus')} />
+              <Select label="Marital status" options={MARITAL_STATUS} value={d.maritalStatus} onChange={setField(idx, 'maritalStatus')} />
               <Select label="Gender" options={GENDER} value={d.gender} onChange={setField(idx, 'gender')} />
             </FormGrid>
-            <FormGrid>
-              <Select label="Relationship To Insured" options={RELATIONSHIP} value={d.relationshipToInsured} onChange={setField(idx, 'relationshipToInsured')} />
-              <Input label="Date Of Birth" placeholder="MM/DD/YYYY" value={d.dob} onChange={setField(idx, 'dob')} />
-            </FormGrid>
+            <Input label="Date of birth" placeholder="MM/DD/YYYY" value={d.dob} onChange={setField(idx, 'dob')} />
             <RadioGroup
-              label="Exclude Driver"
+              label="Exclude driver"
               options={['Yes', 'No']}
               value={d.excludeDriver}
               onChange={setField(idx, 'excludeDriver')}
             />
-            <Input label="Driver License Number" value={d.licenseNumber} onChange={setField(idx, 'licenseNumber')} placeholder="D1234567" />
+            <Input label="Driver license number" value={d.licenseNumber} onChange={setField(idx, 'licenseNumber')} placeholder="D1234567" />
             <FormGrid>
               <RadioGroup
-                label="State or Foreign License"
+                label="State or foreign license"
                 options={['State', 'Foreign']}
                 value={d.licenseType || 'State'}
                 onChange={setField(idx, 'licenseType')}
               />
-              <Input label="State" value={d.licenseState || ''} onChange={setField(idx, 'licenseState')} placeholder="" />
+              <Select label="License state" options={US_STATES} value={d.licenseState || ''} onChange={setField(idx, 'licenseState')} placeholder="Select state..." />
             </FormGrid>
             <FormGrid>
               <RadioGroup
-                label="Commercial Driver's License"
+                label="Commercial driver's license"
                 options={['Yes', 'No']}
                 value={d.cdl || 'No'}
                 onChange={setField(idx, 'cdl')}
               />
               {d.cdl === 'Yes' && (
-                <Input label="Date CDL Received" value={d.cdlDate || ''} onChange={setField(idx, 'cdlDate')} placeholder="MM/DD/YYYY" />
+                <Input label="Date CDL received" value={d.cdlDate || ''} onChange={setField(idx, 'cdlDate')} placeholder="MM/DD/YYYY" />
               )}
             </FormGrid>
+            <Select
+              label="Relationship to insured"
+              options={RELATIONSHIP}
+              value={d.relationshipToInsured}
+              onChange={setField(idx, 'relationshipToInsured')}
+            />
             <RadioGroup
-              label="Relation To Business"
+              label="Relation to business"
               options={['Employee', 'Owner', 'Contractor']}
               value={d.relation}
               onChange={setField(idx, 'relation')}
             />
             <RadioGroup
-              label="Any Violations In Last 3 Years?"
+              label="Any violations in the last 3 years?"
               options={['Yes', 'No']}
               value={d.hasViolations}
               onChange={setField(idx, 'hasViolations')}

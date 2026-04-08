@@ -37,7 +37,7 @@ export default function PriorHistory({ formData, updateFormData }) {
 
       {/* Has Prior Insurance History */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
-        <p className="text-xs font-semibold text-gray-800 mb-3">Has Prior Insurance History</p>
+        <p className="text-xs font-semibold text-gray-800 mb-3">Has prior insurance history</p>
         <RadioGroup
           options={['Yes', 'No']}
           value={data.hasCurrent}
@@ -64,7 +64,7 @@ export default function PriorHistory({ formData, updateFormData }) {
             <Input label="Expiration Date" value={h.expirationDate} onChange={setField(idx, 'expirationDate')} placeholder="MM/DD/YYYY" />
           </FormGrid>
           <Select
-            label="Personal Or Commercial"
+            label="Personal or commercial"
             options={['Personal', 'Commercial']}
             value={h.policyType}
             onChange={setField(idx, 'policyType')}
@@ -88,7 +88,7 @@ export default function PriorHistory({ formData, updateFormData }) {
       {/* GL/WC/BOP question */}
       <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
         <p className="text-xs font-semibold text-gray-800 mb-3 leading-relaxed">
-          Does The Insured Have One Of The Following General Liability, Worker's Compensation Or Business Owners Policy?
+          Does the insured have one of the following general liability, worker's compensation or business owners policy?
         </p>
         <RadioGroup
           options={['Yes', 'No']}

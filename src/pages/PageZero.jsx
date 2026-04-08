@@ -99,8 +99,8 @@ export default function PageZero({ onStart }) {
               <div className="mb-10">
                 <p className="text-sm font-bold tracking-widest uppercase text-gradient mb-3">Commercial Auto Insurance</p>
                 <h1 className="text-4xl font-bold text-navy leading-tight mb-3">
-                  Get Multiple Quotes —{' '}
-                  <span className="text-gradient">One Easy Application</span>
+                  Get Multiple Quotes.<br />
+                  <span className="text-gradient">One Easy Application.</span>
                 </h1>
                 <p className="text-base text-gray-500 leading-relaxed">
                   First, let's start with the basics...
