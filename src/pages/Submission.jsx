@@ -247,7 +247,7 @@ export default function Submission({ formData, onBack }) {
                   </div>
                   <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">Complete Your Coverage</span>
                 </div>
-                <h3 className="text-2xl font-bold text-navy mb-2">We Already Have Your Info—Get Quotes Faster!</h3>
+                <h3 className="text-2xl font-bold text-navy mb-2">We Already Have Your Client's Info—Get Quotes Faster!</h3>
                 <p className="text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
                   Add essential coverages in minutes. Your business information is already saved, so getting additional quotes is quick and easy.
                 </p>
@@ -284,11 +284,6 @@ export default function Submission({ formData, onBack }) {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              <div className="bg-gray-50 rounded-xl px-4 py-3 flex items-center justify-center gap-2">
-                <span>💡</span>
-                <p className="text-xs text-gray-500">Pro Tip: Your customer info is already saved—get multiple quotes in minutes, not hours</p>
               </div>
             </div>
 
