@@ -36,41 +36,38 @@ function UploadPopup({ onDismiss }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ background: 'rgba(15,10,40,0.45)', backdropFilter: 'blur(4px)' }}
+      style={{ background: 'rgba(15,10,40,0.4)', backdropFilter: 'blur(4px)' }}
       onClick={onDismiss}
     >
       <div
-        className="relative rounded-3xl shadow-2xl"
+        className="relative rounded-2xl shadow-2xl overflow-hidden"
         style={{
-          width: '480px',
-          background: 'linear-gradient(145deg, #F5F1FF 0%, #EDF8F5 60%, #F0EEFF 100%)',
-          border: '1px solid rgba(92,46,212,0.15)',
+          width: '460px',
+          background: '#ffffff',
+          border: '1px solid rgba(92,46,212,0.12)',
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Decorative gradient blobs */}
-        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #A614C3 0%, transparent 70%)' }} />
-        <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-15 pointer-events-none"
-          style={{ background: 'radial-gradient(circle, #5C2ED4 0%, transparent 70%)' }} />
+        {/* Gradient top bar */}
+        <div className="h-1.5 w-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
 
-        {/* Close button — outside overflow so it's never clipped */}
+        {/* Close button — inside card, top-right */}
         <button
           onClick={onDismiss}
-          className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition z-20 bg-white"
-          style={{ color: '#5C2ED4', border: '1px solid rgba(92,46,212,0.2)' }}
-          onMouseEnter={e => e.currentTarget.style.background = '#f3f0ff'}
-          onMouseLeave={e => e.currentTarget.style.background = 'white'}
+          className="absolute top-4 right-4 w-7 h-7 rounded-full flex items-center justify-center transition"
+          style={{ background: 'rgba(92,46,212,0.07)', color: '#5C2ED4' }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.14)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'rgba(92,46,212,0.07)'}
         >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
 
-        <div className="px-8 pt-8 pb-6 relative z-10 overflow-hidden rounded-3xl">
+        <div className="px-7 pt-5 pb-6">
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4"
-            style={{ background: 'rgba(92,46,212,0.08)', border: '1px solid rgba(92,46,212,0.15)' }}>
+            style={{ background: 'rgba(92,46,212,0.07)', border: '1px solid rgba(92,46,212,0.12)' }}>
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24">
               <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="url(#boltG)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <defs>
@@ -83,9 +80,9 @@ function UploadPopup({ onDismiss }) {
           </div>
 
           {/* Title */}
-          <h2 className="text-2xl font-bold text-navy mb-1 leading-tight">Upload &amp; Skip the Typing</h2>
-          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-            Have a competitor quote or ACORD form? Drop it here and we'll pre-fill your submission automatically.
+          <h2 className="text-xl font-bold text-navy mb-1.5 leading-tight">Upload &amp; Skip the Typing</h2>
+          <p className="text-sm text-gray-400 mb-5 leading-relaxed">
+            Have a competitor quote or ACORD form? Drop it here — we'll pre-fill your submission automatically.
           </p>
 
           {/* Drop zone */}
@@ -95,38 +92,34 @@ function UploadPopup({ onDismiss }) {
             onDragLeave={() => setDragging(false)}
             onDrop={e => { e.preventDefault(); setDragging(false) }}
             onClick={() => inputRef.current?.click()}
-            className="cursor-pointer rounded-2xl border-2 border-dashed transition-all mb-4"
+            className="cursor-pointer rounded-xl border-2 border-dashed flex flex-col items-center gap-2 py-7 mb-4 transition-all"
             style={{
-              borderColor: dragging ? '#5C2ED4' : 'rgba(92,46,212,0.25)',
-              background: dragging ? 'rgba(92,46,212,0.06)' : 'rgba(255,255,255,0.7)',
-              padding: '28px 20px',
+              borderColor: dragging ? '#5C2ED4' : 'rgba(92,46,212,0.2)',
+              background: dragging ? 'rgba(92,46,212,0.04)' : 'rgba(248,246,255,0.6)',
             }}
           >
-            {/* Paperclip icon */}
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-1"
-                style={{ background: 'linear-gradient(135deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24">
-                  <path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                    stroke="url(#clipG)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-                  <defs>
-                    <linearGradient id="clipG" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-              <p className="text-sm font-semibold text-navy">Drop your file here</p>
-              <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">click to browse</span></p>
-              <p className="text-[10px] text-gray-400 mt-1">PDF, JPG, PNG · Max 10MB</p>
+            <div className="w-11 h-11 rounded-xl flex items-center justify-center"
+              style={{ background: 'rgba(92,46,212,0.08)' }}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                  stroke="url(#clipG)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <defs>
+                  <linearGradient id="clipG" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
+            <p className="text-sm font-semibold text-navy">Drop your file here</p>
+            <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">click to browse</span></p>
+            <p className="text-[10px] text-gray-400">PDF, JPG, PNG · Max 10MB</p>
           </div>
 
           {/* Upload CTA button */}
           <button
             onClick={() => inputRef.current?.click()}
-            className="w-full py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-4"
-            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 6px 20px rgba(92,46,212,0.35)' }}
+            className="w-full py-3 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-4"
+            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 16px rgba(92,46,212,0.3)' }}
           >
             Upload Here
           </button>
