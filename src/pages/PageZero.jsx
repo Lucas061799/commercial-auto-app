@@ -64,12 +64,10 @@ export default function PageZero({ onStart }) {
   }
 
   return (
-    <div className="h-screen font-montserrat flex flex-col overflow-hidden relative" style={{ background: '#fff' }}>
-      {/* Jungle background */}
-      <img src={jungleBg} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" style={{ opacity: 0.12, zIndex: 0 }} />
+    <div className="h-screen bg-white font-montserrat flex flex-col overflow-hidden">
 
       {/* Header */}
-      <header className="relative z-10 flex items-center justify-between bg-white/80 backdrop-blur-sm border-b border-gray-100 px-8 shrink-0" style={{ height: '56px' }}>
+      <header className="flex items-center justify-between bg-white border-b border-gray-100 px-8 shrink-0" style={{ height: '56px' }}>
         <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-400 tracking-wide">POWERED BY</span>
@@ -77,13 +75,16 @@ export default function PageZero({ onStart }) {
         </div>
       </header>
 
-      <div className="relative z-10 flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden">
 
         {/* Left — 50%, Norbie fills to divider */}
-        <div className="bg-white relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
+        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
+          {/* Jungle background — left only */}
+          <img src={jungleBg} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" style={{ opacity: 0.15 }} />
           <img
             src={norbieCommercial}
             alt="Norbie"
+            className="relative z-10"
             style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '60%', objectFit: 'contain' }}
           />
         </div>
