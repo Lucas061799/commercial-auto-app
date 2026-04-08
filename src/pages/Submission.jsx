@@ -349,7 +349,7 @@ export default function Submission({ formData, onBack }) {
                 { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
               ].map(item => (
                 <div key={item.n} className="flex gap-4">
-                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>{item.n}</span>
+                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0 text-white" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}>{item.n}</span>
                   <div>
                     <p className="text-sm font-medium text-navy">{item.title}</p>
                     <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>
