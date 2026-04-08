@@ -105,7 +105,7 @@ export function RadioGroup({ label, required, options = [], value, onChange, cla
                 ? 'border-[#5C2ED4] text-[#5C2ED4]'
                 : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
             }`}
-            style={value === opt ? { background: 'rgba(92,46,212,0.08)' } : {}}
+            style={value === opt ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)' } : {}}
           >
             <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
               value === opt ? 'border-[#A614C3]' : 'border-gray-300'
