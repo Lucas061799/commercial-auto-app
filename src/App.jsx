@@ -48,8 +48,6 @@ function UploadPopup({ onDismiss }) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Gradient top bar */}
-        <div className="h-1.5 w-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
 
         {/* Close button — inside card, top-right */}
         <button
@@ -272,25 +270,6 @@ function App() {
 
         {/* Scrollable main content */}
         <main ref={scrollContainerRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto custom-scroll bg-white relative">
-          {/* Blur overlay + arrow hint when upload is pulsing */}
-          {pulseUpload && (
-            <div className="absolute inset-0 z-20 pointer-events-none transition-all duration-700"
-              style={{ backdropFilter: 'blur(2px)', background: 'rgba(255,255,255,0.45)' }}>
-              {/* Arrow pointing right toward upload panel */}
-              <div className="absolute right-6 top-1/3 flex items-center gap-2 animate-bounce-x"
-                style={{ animation: 'arrowHint 0.7s ease-in-out infinite alternate' }}>
-                <span className="text-xs font-bold text-gradient whitespace-nowrap">Upload here</span>
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#arrG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <defs>
-                    <linearGradient id="arrG" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
-              </div>
-            </div>
-          )}
 
           <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-10 py-8 space-y-8">
 
