@@ -237,7 +237,6 @@ function App() {
   const [activeStep, setActiveStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
   const [pageZeroDone, setPageZeroDone] = useState(false)
-  const [showUploadPopup, setShowUploadPopup] = useState(false)
   const [pulseUpload, setPulseUpload] = useState(false)
   const [errorFields, setErrorFields] = useState([])
   const sectionRefs = useRef({})
@@ -317,16 +316,6 @@ function App() {
     setActiveStep(current)
   }, [])
 
-  // Show upload popup once when first entering the form
-  useEffect(() => {
-    if (pageZeroDone) setShowUploadPopup(true)
-  }, [pageZeroDone])
-
-  const handleDismissPopup = () => {
-    setShowUploadPopup(false)
-    setPulseUpload(true)
-    setTimeout(() => setPulseUpload(false), 3000)
-  }
 
   if (!pageZeroDone) {
     return <PageZero onStart={(data) => { updateFormData('pageZero', data); setPageZeroDone(true) }} />
@@ -338,7 +327,6 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-white font-montserrat overflow-hidden">
-      {showUploadPopup && <UploadPopup onDismiss={handleDismissPopup} />}
       {/* Full-width top header */}
       <header className="flex items-center justify-between bg-white border-b border-gray-100 shrink-0 z-10" style={{ height: '56px' }}>
         {/* Left: logo — same width as sidebar, left-aligned with Commercial Auto below */}
