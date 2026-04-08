@@ -113,9 +113,9 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
         </div>
       </div>
 
-      {/* Dropdown */}
+      {/* Dropdown — opens upward */}
       {open && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden">
+        <div className="absolute z-50 w-full bottom-full mb-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden">
           {suggestions.map((item, idx) => {
             const a = item.address || {}
             const road    = a.road || a.pedestrian || a.footway || ''

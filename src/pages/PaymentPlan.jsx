@@ -94,12 +94,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
       }}>
         {/* Header row */}
         <div className="flex items-center gap-3.5 px-5 pt-5 pb-4">
-          <div className="relative shrink-0">
-            <img src={norbieface} alt="Norbie" className="w-10 h-10 rounded-full object-cover ring-2" style={{ ringColor: 'rgba(92,46,212,0.2)' }} />
-            <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white flex items-center justify-center" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' }}>
-              <svg className="w-1.5 h-1.5" fill="white" viewBox="0 0 8 8"><circle cx="4" cy="4" r="3"/></svg>
-            </span>
-          </div>
+          <img src={norbieface} alt="Norbie" className="w-10 h-10 rounded-full object-cover shrink-0" />
           <div>
             <p className="text-sm font-bold text-navy leading-tight">Anything else you'd like us to know?</p>
             <p className="text-xs text-gray-500 mt-0.5">Comments, special instructions, or questions — we read every one.</p>
