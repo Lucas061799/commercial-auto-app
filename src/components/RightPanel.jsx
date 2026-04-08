@@ -21,7 +21,7 @@ function getSectionCompletion(formData) {
   return results
 }
 
-export default function RightPanel({ onFormReview, formData = {} }) {
+export default function RightPanel({ onFormReview, formData = {}, pulseUpload = false }) {
   const [files, setFiles] = useState([])
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef()
@@ -86,7 +86,7 @@ export default function RightPanel({ onFormReview, formData = {} }) {
               onDragLeave={() => setDragging(false)}
               onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
               onClick={() => inputRef.current?.click()}
-              className={`cursor-pointer rounded-xl border-2 border-dashed transition-all flex flex-col items-center gap-1.5 py-4 px-3 ${dragging ? 'border-[#5C2ED4] bg-purple-50/50' : 'border-gray-200 hover:border-[#A614C3]/50 hover:bg-purple-50/20'}`}
+              className={`cursor-pointer rounded-xl border-2 border-dashed transition-all flex flex-col items-center gap-1.5 py-4 px-3 ${dragging ? 'border-[#5C2ED4] bg-purple-50/50' : 'border-gray-200 hover:border-[#A614C3]/50 hover:bg-purple-50/20'} ${pulseUpload ? 'upload-pulse' : ''}`}
             >
               <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => addFiles(e.target.files)} />
               <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

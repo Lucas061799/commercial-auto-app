@@ -29,11 +29,58 @@ const STEPS = [
   { id: 10, label: 'Payment Plan',      key: 'paymentPlan' },
 ]
 
+function UploadPopup({ onDismiss }) {
+  const inputRef = useRef()
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(15,10,40,0.35)', backdropFilter: 'blur(2px)' }}>
+      <div className="w-80 rounded-2xl shadow-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #EEF9F7 100%)', border: '1px solid rgba(92,46,212,0.12)' }}>
+        {/* Header */}
+        <div className="flex items-start justify-between px-5 pt-5 pb-0">
+          <div>
+            <h3 className="text-lg font-bold text-navy leading-tight">Upload &amp; Save Time!</h3>
+            <div className="flex items-center gap-1.5 mt-1">
+              <p className="text-xs text-gray-500 font-medium">Competitor quote or ACORD form?</p>
+              <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 text-white text-[8px] font-bold" style={{ background: '#73C9B7' }}>i</div>
+            </div>
+          </div>
+          <button onClick={onDismiss} className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition shrink-0 mt-0.5">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        {/* Upload button */}
+        <div className="px-5 pt-4 pb-2">
+          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" />
+          <button
+            onClick={() => inputRef.current?.click()}
+            className="w-full py-3 rounded-xl text-sm font-bold text-white transition hover:opacity-90 active:scale-[0.98]"
+            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
+          >
+            Upload Here
+          </button>
+          <p className="text-[10px] text-center text-gray-400 mt-2">PDF, JPG, PNG · Max 10MB</p>
+        </div>
+
+        {/* Dismiss */}
+        <div className="px-5 pb-4 pt-1 text-center">
+          <button onClick={onDismiss} className="text-xs text-gray-400 hover:text-gray-600 transition underline underline-offset-2">
+            Maybe later — I'll fill it manually
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [formData, setFormData] = useState({})
   const [activeStep, setActiveStep] = useState(1)
   const [submitted, setSubmitted] = useState(false)
   const [pageZeroDone, setPageZeroDone] = useState(false)
+  const [showUploadPopup, setShowUploadPopup] = useState(false)
+  const [pulseUpload, setPulseUpload] = useState(false)
   const [errorFields, setErrorFields] = useState([])
   const sectionRefs = useRef({})
   const scrollContainerRef = useRef(null)
@@ -112,6 +159,17 @@ function App() {
     setActiveStep(current)
   }, [])
 
+  // Show upload popup once when first entering the form
+  useEffect(() => {
+    if (pageZeroDone) setShowUploadPopup(true)
+  }, [pageZeroDone])
+
+  const handleDismissPopup = () => {
+    setShowUploadPopup(false)
+    setPulseUpload(true)
+    setTimeout(() => setPulseUpload(false), 3000)
+  }
+
   if (!pageZeroDone) {
     return <PageZero onStart={(data) => { updateFormData('pageZero', data); setPageZeroDone(true) }} />
   }
@@ -122,6 +180,7 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen bg-white font-montserrat overflow-hidden">
+      {showUploadPopup && <UploadPopup onDismiss={handleDismissPopup} />}
       {/* Full-width top header */}
       <header className="flex items-center justify-between bg-white border-b border-gray-100 shrink-0 z-10" style={{ height: '56px' }}>
         {/* Left: logo — same width as sidebar, left-aligned with Commercial Auto below */}
@@ -179,7 +238,7 @@ function App() {
           </div>
         </main>
 
-        <RightPanel onFormReview={handleCheckErrors} formData={formData} />
+        <RightPanel onFormReview={handleCheckErrors} formData={formData} pulseUpload={pulseUpload} />
       </div>
     </div>
   )
