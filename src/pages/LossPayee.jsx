@@ -81,7 +81,7 @@ export default function LossPayee({ formData, updateFormData }) {
                       onClick={toggleVehicle}
                       className="flex items-center gap-2 px-3.5 py-2 rounded-xl border text-xs font-semibold transition-all"
                       style={selected ? {
-                        background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
+                        background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                         border: '1.5px solid transparent',
                         color: '#5C2ED4',
                       } : {
