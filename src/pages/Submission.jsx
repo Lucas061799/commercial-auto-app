@@ -156,7 +156,7 @@ export default function Submission({ formData, onBack }) {
           <div className="max-w-4xl 2xl:max-w-5xl mx-auto px-10 py-8 space-y-6">
 
             {/* Submission Complete Card */}
-            <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #F3F0FF 0%, #F0F9F7 50%, #F8FCFB 100%)' }}>
+            <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #FDF5FF 100%)' }}>
               {/* Header row */}
               <div className="flex items-start gap-4 px-6 pt-6 pb-4">
                 <div className="w-12 h-12 rounded-full bg-teal-light flex items-center justify-center shrink-0">
@@ -366,7 +366,7 @@ export default function Submission({ formData, onBack }) {
                 { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
               ].map(item => (
                 <div key={item.n} className="flex gap-4">
-                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0 text-gradient" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>{item.n}</span>
+                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}><span className="text-gradient">{item.n}</span></span>
                   <div>
                     <p className="text-sm font-medium text-navy">{item.title}</p>
                     <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>
