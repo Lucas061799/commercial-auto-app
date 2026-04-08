@@ -75,25 +75,36 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
 
         {/* Upload & Save Time */}
         <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: '1px solid rgba(92,46,212,0.1)', background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
-          <div className="px-4 pt-4 pb-3">
-            <h3 className="text-base font-bold text-navy leading-tight mb-1">Upload & Save Time</h3>
+          <div className="px-4 pt-4 pb-4">
+            <h3 className="text-base font-bold text-navy leading-tight mb-0.5">Upload & Save Time!</h3>
             <div className="flex items-center gap-1.5 mb-3">
               <p className="text-[11px] text-gray-500 font-medium whitespace-nowrap">Competitor quote or ACORD form?</p>
               <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 text-white text-[8px] font-bold" style={{ background: '#73C9B7' }}>i</div>
             </div>
+
+            {/* Drop zone wraps everything — dashed border = drag affordance */}
             <div
               onDragOver={e => { e.preventDefault(); setDragging(true) }}
               onDragLeave={() => setDragging(false)}
               onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
-              onClick={() => inputRef.current?.click()}
-              className={`cursor-pointer rounded-xl border-2 border-dashed transition-all flex flex-col items-center gap-1.5 py-4 px-3 ${dragging ? 'border-[#5C2ED4] bg-purple-50/50' : 'border-gray-200 hover:border-[#A614C3]/50 hover:bg-purple-50/20'}`}
+              className={`rounded-xl border-2 border-dashed transition-all px-3 pt-3 pb-3 ${dragging ? 'border-[#5C2ED4] bg-[#5C2ED4]/5' : 'border-[#A614C3]/25'}`}
             >
               <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => addFiles(e.target.files)} />
-              <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
-              </svg>
-              <p className="text-[11px] font-semibold text-gray-500">Drop file or Click to upload</p>
-              <p className="text-[10px] text-gray-400">PDF, JPG, PNG · Max 10MB</p>
+
+              {/* Gradient upload button */}
+              <button
+                onClick={() => inputRef.current?.click()}
+                className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-2.5"
+                style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 3px 12px rgba(92,46,212,0.3)' }}
+              >
+                Upload Here
+              </button>
+
+              {/* Drag hint */}
+              <p className="text-center text-[10px] text-gray-400">
+                or <span className="font-semibold text-gray-500">drag &amp; drop</span> your file here
+              </p>
+              <p className="text-center text-[10px] text-gray-400 mt-0.5">PDF, JPG, PNG · Max 10MB</p>
             </div>
           </div>
         </div>
