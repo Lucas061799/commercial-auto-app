@@ -91,20 +91,19 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
             >
               <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => addFiles(e.target.files)} />
 
+              {/* Hint text above button */}
+              <p className="text-center text-[10px] text-gray-400 mb-2">
+                Drop a file or <span className="font-semibold text-gray-500">drag &amp; drop</span> · PDF, JPG, PNG · Max 10MB
+              </p>
+
               {/* Gradient upload button */}
               <button
                 onClick={() => inputRef.current?.click()}
-                className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-2.5"
+                className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
                 style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
               >
                 Upload Here
               </button>
-
-              {/* Drag hint */}
-              <p className="text-center text-[10px] text-gray-400">
-                or <span className="font-semibold text-gray-500">drag &amp; drop</span> your file here
-              </p>
-              <p className="text-center text-[10px] text-gray-400 mt-0.5">PDF, JPG, PNG · Max 10MB</p>
             </div>
           </div>
         </div>
