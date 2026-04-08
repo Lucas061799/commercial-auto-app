@@ -156,32 +156,47 @@ export default function Submission({ formData, onBack }) {
           <div className="max-w-4xl 2xl:max-w-5xl mx-auto px-10 py-8 space-y-6">
 
             {/* Submission Complete Card */}
-            <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #FDF5FF 100%)' }}>
+            <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden bg-white">
+              {/* Gradient top accent bar */}
+              <div className="h-1" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
+
               {/* Header row */}
-              <div className="flex items-start gap-4 px-6 pt-6 pb-4">
-                <div className="w-12 h-12 rounded-full bg-teal-light flex items-center justify-center shrink-0">
-                  <svg className="w-6 h-6 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7"/>
+              <div className="flex items-start gap-4 px-6 pt-5 pb-4">
+                <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+                  style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                    <path d="M5 13l4 4L19 7" stroke="url(#checkG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <defs>
+                      <linearGradient id="checkG" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                      </linearGradient>
+                    </defs>
                   </svg>
                 </div>
                 <div className="flex-1">
                   <h1 className="text-xl font-bold text-navy mb-1">Submission Complete!</h1>
-                  <p className="text-xs text-gray-500 leading-relaxed">
-                    Thank you for your submission. Your commercial auto insurance application has been received and is being processed. You will receive a confirmation email shortly with your quote details.
+                  <p className="text-xs text-gray-400 leading-relaxed">
+                    Your commercial auto insurance application has been received and is being processed. You'll receive a confirmation email shortly.
                   </p>
                 </div>
               </div>
 
-              {/* Info row */}
+              {/* Info row — Submission ID · Date · Status */}
               <div className="grid grid-cols-3 divide-x divide-gray-100 border-t border-gray-100">
                 {[
                   { label: 'Submission ID', value: SUBMISSION_ID },
-                  { label: 'Provider', value: 'HISCOX' },
-                  { label: 'Annual Premium', value: '----' },
+                  { label: 'Date Submitted', value: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
+                  { label: 'Status', value: 'Under Review', highlight: true },
                 ].map(item => (
                   <div key={item.label} className="px-5 py-4">
                     <p className="text-[10px] text-gray-400 mb-1">{item.label}</p>
-                    <p className="text-sm font-semibold text-navy">{item.value}</p>
+                    {item.highlight
+                      ? <span className="inline-flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                          <p className="text-sm font-semibold text-amber-500">{item.value}</p>
+                        </span>
+                      : <p className="text-sm font-semibold text-navy">{item.value}</p>
+                    }
                   </div>
                 ))}
               </div>
