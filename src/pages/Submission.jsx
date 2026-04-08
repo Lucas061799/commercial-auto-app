@@ -296,7 +296,7 @@ export default function Submission({ formData, onBack }) {
               <img src={sellMoreBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
               {/* Text left */}
               <div className="px-8 py-6 relative z-10">
-                <p className="text-lg font-bold text-navy mb-1">Sell more banana ?</p>
+                <p className="text-lg font-bold text-navy mb-1">Return to the Jungle</p>
                 <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
               </div>
             </div>
