@@ -53,6 +53,11 @@ input, select, textarea, button {
   background-clip: text;
 }
 
+/* Add Another button hover — transparent gradient */
+.add-another-btn:hover {
+  background: linear-gradient(88.09deg, rgba(92,46,212,0.08) 0.11%, rgba(166,20,195,0.08) 63.8%);
+}
+
 /* Gradient border pill */
 .badge-gradient {
   background: linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%);
