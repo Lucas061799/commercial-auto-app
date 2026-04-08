@@ -99,7 +99,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
           onKeyDown={handleKeyDown}
           onFocus={() => { if (suggestions.length > 0) setOpen(true) }}
           placeholder="Start typing an address…"
-          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 bg-gray-50 transition-all"
+          className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm text-gray-800 bg-white transition-all"
           style={error ? { borderColor: '#EF4444', outline: 'none' } : {}}
           onFocusCapture={e => Object.assign(e.target.style, focusStyle)}
           onBlurCapture={e => { e.target.style.boxShadow = ''; e.target.style.borderColor = error ? '#EF4444' : '#e5e7eb'; e.target.style.outline = '' }}
