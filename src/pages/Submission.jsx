@@ -320,22 +320,25 @@ export default function Submission({ formData, onBack }) {
 
             {/* Return to the Jungle CTA */}
             <div
-              className="rounded-2xl cursor-pointer hover:opacity-90 transition-all overflow-hidden flex items-center justify-between px-8 py-6"
+              className="rounded-2xl relative cursor-pointer hover:opacity-95 transition overflow-hidden"
               onClick={onBack}
-              style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)', border: '1px solid rgba(166,20,195,0.15)' }}
+              style={{ minHeight: '100px' }}
             >
-              <div>
-                <p className="text-lg font-bold text-navy mb-0.5">Return to the Jungle?</p>
-                <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
+              <img src={sellMoreBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="px-8 py-6 relative z-10 flex items-center justify-between">
+                <div>
+                  <p className="text-lg font-bold text-navy mb-1">Return to the Jungle?</p>
+                  <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
+                </div>
+                <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#ctaArr)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <defs>
+                    <linearGradient id="ctaArr" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
               </div>
-              <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#ctaArr)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                <defs>
-                  <linearGradient id="ctaArr" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                  </linearGradient>
-                </defs>
-              </svg>
             </div>
           </div>
         </main>
