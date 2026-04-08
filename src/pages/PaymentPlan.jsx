@@ -89,8 +89,8 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
 
       {/* Comments section */}
       <div className="rounded-2xl overflow-hidden" style={{
-        background: 'linear-gradient(135deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.04) 50%, rgba(92,46,212,0.06) 100%)',
-        border: '1px solid rgba(92,46,212,0.12)',
+        background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
+        border: '1px solid rgba(92,46,212,0.1)',
       }}>
         {/* Header row */}
         <div className="flex items-center gap-3.5 px-5 pt-5 pb-4">

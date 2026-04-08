@@ -1,20 +1,16 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 
-/**
- * AddressAutocomplete
- * Uses OpenStreetMap Nominatim (free, no API key).
- * onSelect({ address, suite, city, state, zip }) fills parent fields.
- */
 export default function AddressAutocomplete({ value, onChange, onSelect, label = 'Address', required, error }) {
   const [query, setQuery] = useState(value || '')
   const [suggestions, setSuggestions] = useState([])
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [highlighted, setHighlighted] = useState(-1)
+  const [dropdownStyle, setDropdownStyle] = useState({})
   const debounceRef = useRef(null)
   const containerRef = useRef(null)
+  const inputRef = useRef(null)
 
-  // Keep query in sync if parent changes value externally
   useEffect(() => { setQuery(value || '') }, [value])
 
   // Close on outside click
@@ -27,6 +23,30 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
     document.addEventListener('mousedown', handler)
     return () => document.removeEventListener('mousedown', handler)
   }, [])
+
+  // Recalculate dropdown position whenever it opens or window scrolls/resizes
+  const calcPosition = useCallback(() => {
+    if (!inputRef.current) return
+    const rect = inputRef.current.getBoundingClientRect()
+    setDropdownStyle({
+      position: 'fixed',
+      top: rect.bottom + 4,
+      left: rect.left,
+      width: rect.width,
+      zIndex: 9999,
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!open) return
+    calcPosition()
+    window.addEventListener('scroll', calcPosition, true)
+    window.addEventListener('resize', calcPosition)
+    return () => {
+      window.removeEventListener('scroll', calcPosition, true)
+      window.removeEventListener('resize', calcPosition)
+    }
+  }, [open, calcPosition])
 
   const search = useCallback(async (q) => {
     if (!q || q.length < 3) { setSuggestions([]); setOpen(false); return }
@@ -57,13 +77,12 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
 
   const handleSelect = (item) => {
     const a = item.address || {}
-    const road     = a.road || a.pedestrian || a.footway || ''
-    const houseNo  = a.house_number ? `${a.house_number} ` : ''
-    const street   = `${houseNo}${road}`.trim()
-    const city     = a.city || a.town || a.village || a.county || ''
-    const state    = a.state || ''
-    const zip      = a.postcode || ''
-
+    const road    = a.road || a.pedestrian || a.footway || ''
+    const houseNo = a.house_number ? `${a.house_number} ` : ''
+    const street  = `${houseNo}${road}`.trim()
+    const city    = a.city || a.town || a.village || a.county || ''
+    const state   = a.state || ''
+    const zip     = a.postcode || ''
     setQuery(street)
     setOpen(false)
     setSuggestions([])
@@ -87,11 +106,12 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
       )}
       <div className="relative">
         <input
+          ref={inputRef}
           type="text"
           value={query}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          onFocus={() => { if (suggestions.length > 0) setOpen(true) }}
+          onFocus={() => { if (suggestions.length > 0) { calcPosition(); setOpen(true) } }}
           placeholder="Start typing an address…"
           className={`w-full border rounded-lg px-3.5 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-300 bg-white focus:outline-none focus:ring-2 transition-all hover:border-gray-300 ${
             error
@@ -99,7 +119,6 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
               : 'border-gray-200 focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40'
           }`}
         />
-        {/* Search / loading icon */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
           {loading
             ? <svg className="w-4 h-4 animate-spin text-gray-400" fill="none" viewBox="0 0 24 24">
@@ -113,9 +132,12 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
         </div>
       </div>
 
-      {/* Dropdown — opens upward */}
+      {/* Dropdown — fixed positioning so it's never clipped by overflow-y-auto containers */}
       {open && suggestions.length > 0 && (
-        <div className="absolute z-50 w-full bottom-full mb-1 bg-white border border-gray-100 rounded-xl shadow-lg overflow-hidden">
+        <div
+          style={dropdownStyle}
+          className="bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden"
+        >
           {suggestions.map((item, idx) => {
             const a = item.address || {}
             const road    = a.road || a.pedestrian || a.footway || ''
