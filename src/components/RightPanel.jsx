@@ -74,7 +74,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         <div className="border-t border-gray-100 mb-5" />
 
         {/* Upload & Save Time */}
-        <div className="mb-4 rounded-2xl overflow-hidden" style={{ border: '1px solid rgba(92,46,212,0.1)', background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
+        <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: '1px solid rgba(92,46,212,0.1)', background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
           <div className="px-4 pt-4 pb-3">
             <h3 className="text-base font-bold text-navy leading-tight mb-1">Upload & Save Time</h3>
             <div className="flex items-center gap-1.5 mb-3">
@@ -86,7 +86,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
               onDragLeave={() => setDragging(false)}
               onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files) }}
               onClick={() => inputRef.current?.click()}
-              className={`cursor-pointer rounded-xl border-2 border-dashed transition-all flex flex-col items-center gap-1.5 py-4 px-3 ${dragging ? 'border-[#5C2ED4] bg-purple-50/50' : 'border-gray-200 hover:border-[#A614C3]/50 hover:bg-purple-50/20'} ${pulseUpload ? 'upload-pulse' : ''}`}
+              className={`cursor-pointer rounded-xl border-2 border-dashed transition-all flex flex-col items-center gap-1.5 py-4 px-3 ${dragging ? 'border-[#5C2ED4] bg-purple-50/50' : 'border-gray-200 hover:border-[#A614C3]/50 hover:bg-purple-50/20'}`}
             >
               <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" onChange={e => addFiles(e.target.files)} />
               <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

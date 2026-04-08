@@ -40,7 +40,7 @@ function UploadPopup({ onDismiss }) {
       onClick={onDismiss}
     >
       <div
-        className="relative rounded-3xl shadow-2xl overflow-hidden"
+        className="relative rounded-3xl shadow-2xl"
         style={{
           width: '480px',
           background: 'linear-gradient(145deg, #F5F1FF 0%, #EDF8F5 60%, #F0EEFF 100%)',
@@ -48,26 +48,26 @@ function UploadPopup({ onDismiss }) {
         }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Decorative gradient blob top-right */}
+        {/* Decorative gradient blobs */}
         <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20 pointer-events-none"
           style={{ background: 'radial-gradient(circle, #A614C3 0%, transparent 70%)' }} />
         <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-15 pointer-events-none"
           style={{ background: 'radial-gradient(circle, #5C2ED4 0%, transparent 70%)' }} />
 
-        {/* Close button */}
+        {/* Close button — outside overflow so it's never clipped */}
         <button
           onClick={onDismiss}
-          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition z-10"
-          style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}
-          onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.15)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'rgba(92,46,212,0.08)'}
+          className="absolute -top-3 -right-3 w-8 h-8 rounded-full flex items-center justify-center shadow-md transition z-20 bg-white"
+          style={{ color: '#5C2ED4', border: '1px solid rgba(92,46,212,0.2)' }}
+          onMouseEnter={e => e.currentTarget.style.background = '#f3f0ff'}
+          onMouseLeave={e => e.currentTarget.style.background = 'white'}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
 
-        <div className="px-8 pt-8 pb-6 relative z-10">
+        <div className="px-8 pt-8 pb-6 relative z-10 overflow-hidden rounded-3xl">
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4"
             style={{ background: 'rgba(92,46,212,0.08)', border: '1px solid rgba(92,46,212,0.15)' }}>
@@ -278,7 +278,27 @@ function App() {
         />
 
         {/* Scrollable main content */}
-        <main ref={scrollContainerRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto custom-scroll bg-white">
+        <main ref={scrollContainerRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto custom-scroll bg-white relative">
+          {/* Blur overlay + arrow hint when upload is pulsing */}
+          {pulseUpload && (
+            <div className="absolute inset-0 z-20 pointer-events-none transition-all duration-700"
+              style={{ backdropFilter: 'blur(2px)', background: 'rgba(255,255,255,0.45)' }}>
+              {/* Arrow pointing right toward upload panel */}
+              <div className="absolute right-6 top-1/3 flex items-center gap-2 animate-bounce-x"
+                style={{ animation: 'arrowHint 0.7s ease-in-out infinite alternate' }}>
+                <span className="text-xs font-bold text-gradient whitespace-nowrap">Upload here</span>
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#arrG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <defs>
+                    <linearGradient id="arrG" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+          )}
+
           <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-10 py-8 space-y-8">
 
             {[
