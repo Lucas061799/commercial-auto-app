@@ -61,6 +61,7 @@ export default function Submission({ formData, onBack }) {
   const applicant = formData.applicant || {}
   const vehicles  = formData.vehicles?.vehicles || []
   const coverage  = formData.coverage || {}
+  const comments  = formData.comments?.text || ''
 
   return (
     <div className="flex flex-col h-screen bg-white font-montserrat overflow-hidden">
@@ -265,6 +266,38 @@ export default function Submission({ formData, onBack }) {
                 </div>
               )}
             </div>
+
+            {/* Comments received card — only if user left a comment */}
+            {comments && (
+              <div className="rounded-2xl border overflow-hidden" style={{ borderColor: 'rgba(92,46,212,0.12)' }}>
+                <div className="h-1" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
+                <div className="px-6 py-5">
+                  <div className="flex items-start gap-4">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+                        <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                          stroke="url(#msgG)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <defs>
+                          <linearGradient id="msgG" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                          </linearGradient>
+                        </defs>
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <p className="text-sm font-bold text-navy">We received your comments!</p>
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}>NOTED</span>
+                      </div>
+                      <p className="text-xs text-gray-400 mb-3">Our team will review your notes and follow up if needed.</p>
+                      <div className="rounded-xl px-4 py-3 border" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.04) 0%, rgba(166,20,195,0.04) 100%)', borderColor: 'rgba(92,46,212,0.1)' }}>
+                        <p className="text-xs text-gray-600 leading-relaxed italic">"{comments}"</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Complete Your Coverage */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-10 py-8">
