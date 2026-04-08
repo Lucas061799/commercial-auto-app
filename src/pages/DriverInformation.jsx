@@ -34,6 +34,18 @@ export default function DriverInformation({ formData, updateFormData }) {
     const updated = drivers.map((d, i) => i === idx ? { ...d, mailingAddress: address, mailingCity: city, mailingState: state, mailingZip: zip } : d)
     setDrivers(updated)
   }
+  const applySameAsApplicant = (idx, checked) => {
+    const applicant = formData.applicant || {}
+    const updated = drivers.map((d, i) => i === idx ? {
+      ...d,
+      sameAsApplicant: checked,
+      mailingAddress: checked ? (applicant.address || '') : '',
+      mailingCity:    checked ? (applicant.city    || '') : '',
+      mailingState:   checked ? (applicant.state   || '') : '',
+      mailingZip:     checked ? (applicant.zip     || '') : '',
+    } : d)
+    setDrivers(updated)
+  }
 
   const addDriver = () => setDrivers([...drivers, defaultDriver()])
   const removeDriver = (idx) => setDrivers(drivers.filter((_, i) => i !== idx))
@@ -54,12 +66,32 @@ export default function DriverInformation({ formData, updateFormData }) {
               <Input label="Owner First Name" required value={d.firstName} onChange={setField(idx, 'firstName')} placeholder="John" />
               <Input label="Owner Last Name" required value={d.lastName} onChange={setField(idx, 'lastName')} placeholder="Smith" />
             </FormGrid>
+            {formData.applicant?.address && (
+              <label className="flex items-center gap-2 cursor-pointer w-fit">
+                <div
+                  onClick={() => applySameAsApplicant(idx, !d.sameAsApplicant)}
+                  className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
+                  style={d.sameAsApplicant
+                    ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
+                    : { borderColor: '#d1d5db', background: 'white' }}
+                >
+                  {d.sameAsApplicant && (
+                    <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
+                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </div>
+                <span className="text-xs text-gray-500">Same as applicant address
+                  <span className="ml-1 text-gray-400">({formData.applicant.address}{formData.applicant.city ? `, ${formData.applicant.city}` : ''})</span>
+                </span>
+              </label>
+            )}
             <FormGrid>
               <AddressAutocomplete
                 label="Mailing Address"
                 value={d.mailingAddress}
-                onChange={setField(idx, 'mailingAddress')}
-                onSelect={handleMailingSelect(idx)}
+                onChange={v => { setField(idx, 'sameAsApplicant')(false); setField(idx, 'mailingAddress')(v) }}
+                onSelect={({ address, city, state, zip }) => { setField(idx, 'sameAsApplicant')(false); handleMailingSelect(idx)({ address, city, state, zip }) }}
               />
               <Input label="Suite/Apt/Building" value={d.mailingSuite} onChange={setField(idx, 'mailingSuite')} />
             </FormGrid>

@@ -7,10 +7,12 @@ const defaultPayee = () => ({
   address: '', suite: '',
   city: '', state: '', zip: '',
   vehicles: [],
+  sameAsApplicant: false,
 })
 
 export default function LossPayee({ formData, updateFormData }) {
   const data = formData.lossPayee || { hasPayee: undefined, payees: [] }
+  const applicant = formData.applicant || null
   const setPayees = (list) => updateFormData('lossPayee', { payees: list })
   const setField = (idx, key) => (val) => {
     const updated = data.payees.map((item, i) => i === idx ? { ...item, [key]: val } : item)
@@ -18,6 +20,17 @@ export default function LossPayee({ formData, updateFormData }) {
   }
   const handleAddressSelect = (idx) => ({ address, city, state, zip }) => {
     const updated = data.payees.map((item, i) => i === idx ? { ...item, address, city, state, zip } : item)
+    setPayees(updated)
+  }
+  const applySameAsApplicant = (idx, checked) => {
+    const updated = data.payees.map((item, i) => i === idx ? {
+      ...item,
+      sameAsApplicant: checked,
+      address: checked ? (applicant?.address || '') : '',
+      city:    checked ? (applicant?.city    || '') : '',
+      state:   checked ? (applicant?.state   || '') : '',
+      zip:     checked ? (applicant?.zip     || '') : '',
+    } : item)
     setPayees(updated)
   }
 
@@ -48,12 +61,32 @@ export default function LossPayee({ formData, updateFormData }) {
               value={p.additionalInterest}
               onChange={setField(idx, 'additionalInterest')}
             />
+            {applicant?.address && (
+              <label className="flex items-center gap-2 cursor-pointer w-fit">
+                <div
+                  onClick={() => applySameAsApplicant(idx, !p.sameAsApplicant)}
+                  className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
+                  style={p.sameAsApplicant
+                    ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
+                    : { borderColor: '#d1d5db', background: 'white' }}
+                >
+                  {p.sameAsApplicant && (
+                    <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
+                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  )}
+                </div>
+                <span className="text-xs text-gray-500">Same as applicant address
+                  <span className="ml-1 text-gray-400">({applicant.address}{applicant.city ? `, ${applicant.city}` : ''})</span>
+                </span>
+              </label>
+            )}
             <FormGrid>
               <AddressAutocomplete
                 label="Address"
                 value={p.address}
-                onChange={setField(idx, 'address')}
-                onSelect={handleAddressSelect(idx)}
+                onChange={v => { setField(idx, 'sameAsApplicant')(false); setField(idx, 'address')(v) }}
+                onSelect={({ address, city, state, zip }) => { setField(idx, 'sameAsApplicant')(false); handleAddressSelect(idx)({ address, city, state, zip }) }}
               />
               <Input label="Suite/Apt/Building" value={p.suite} onChange={setField(idx, 'suite')} />
             </FormGrid>
