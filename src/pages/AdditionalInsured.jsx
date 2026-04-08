@@ -1,9 +1,10 @@
 import { Input, RadioGroup, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const defaultInsured = () => ({
   id: Date.now(),
-  name: '', addressType: 'Auto Fill',
-  search: '', address: '', suite: '',
+  name: '',
+  address: '', suite: '',
   city: '', state: '', zip: '',
   waiverVehicle: 'Vehicle 1',
 })
@@ -13,6 +14,10 @@ export default function AdditionalInsured({ formData, updateFormData }) {
   const setInsureds = (list) => updateFormData('additionalInsured', { insureds: list })
   const setField = (idx, key) => (val) => {
     const updated = data.insureds.map((item, i) => i === idx ? { ...item, [key]: val } : item)
+    setInsureds(updated)
+  }
+  const handleAddressSelect = (idx) => ({ address, city, state, zip }) => {
+    const updated = data.insureds.map((item, i) => i === idx ? { ...item, address, city, state, zip } : item)
     setInsureds(updated)
   }
 
@@ -41,17 +46,13 @@ export default function AdditionalInsured({ formData, updateFormData }) {
           </div>
           <div className="space-y-4">
             <Input label="Name" value={ins.name} onChange={setField(idx, 'name')} />
-            <RadioGroup
-              label="Address Entry Type"
-              options={['Auto Fill', 'Manual Entry']}
-              value={ins.addressType}
-              onChange={setField(idx, 'addressType')}
-            />
-            {ins.addressType === 'Auto Fill' && (
-              <Input label="Search" value={ins.search} onChange={setField(idx, 'search')} />
-            )}
             <FormGrid>
-              <Input label="Address" value={ins.address} onChange={setField(idx, 'address')} />
+              <AddressAutocomplete
+                label="Address"
+                value={ins.address}
+                onChange={setField(idx, 'address')}
+                onSelect={handleAddressSelect(idx)}
+              />
               <Input label="Suite/Apt/Building" value={ins.suite} onChange={setField(idx, 'suite')} />
             </FormGrid>
             <FormGrid cols={3}>

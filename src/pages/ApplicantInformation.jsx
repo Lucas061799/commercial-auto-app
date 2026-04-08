@@ -1,4 +1,5 @@
-import { Input, Textarea, Select, RadioGroup, FormGrid } from '../components/FormField'
+import { Input, Textarea, Select, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const ENTITY_OPTIONS = ['Individual', 'Corporation', 'Limit Liability Company', 'Partnership']
 
@@ -6,6 +7,10 @@ export default function ApplicantInformation({ formData, updateFormData, errorFi
   const data = formData.applicant || {}
   const set = (key) => (val) => updateFormData('applicant', { [key]: val })
   const hasError = (field) => errorFields.includes(`applicant-${field}`)
+
+  const handleAddressSelect = ({ address, city, state, zip }) => {
+    updateFormData('applicant', { address, city, state, zip })
+  }
 
   return (
     <div className="w-full">
@@ -35,20 +40,14 @@ export default function ApplicantInformation({ formData, updateFormData, errorFi
           value={data.vehicleUse} onChange={set('vehicleUse')}
           placeholder="Describe how vehicles are used..." />
 
-        <RadioGroup
-          label="Mailing Address Entry Type"
-          required
-          options={['Auto Fill', 'Manual Entry']}
-          value={data.addressType || 'Auto Fill'}
-          onChange={set('addressType')}
-        />
-
-        {(data.addressType === 'Auto Fill' || !data.addressType) && (
-          <Input label="Search" value={data.search || ''} onChange={set('search')} placeholder="" />
-        )}
-
+        {/* Address with inline autocomplete */}
         <FormGrid>
-          <Input label="Address" value={data.address} onChange={set('address')} />
+          <AddressAutocomplete
+            label="Address"
+            value={data.address || ''}
+            onChange={set('address')}
+            onSelect={handleAddressSelect}
+          />
           <Input label="Suite/Apt/Building" value={data.suite} onChange={set('suite')} />
         </FormGrid>
 
@@ -58,7 +57,6 @@ export default function ApplicantInformation({ formData, updateFormData, errorFi
           <Input label="Zip" value={data.zip} onChange={set('zip')} placeholder="00000" />
         </FormGrid>
       </div>
-
     </div>
   )
 }

@@ -1,10 +1,10 @@
 import { Input, RadioGroup, FormGrid } from '../components/FormField'
+import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const defaultPayee = () => ({
   id: Date.now(),
   name: '', additionalInterest: 'No',
-  addressType: 'Auto Fill',
-  search: '', address: '', suite: '',
+  address: '', suite: '',
   city: '', state: '', zip: '',
   vehicle: 'Vehicle 1',
 })
@@ -14,6 +14,10 @@ export default function LossPayee({ formData, updateFormData }) {
   const setPayees = (list) => updateFormData('lossPayee', { payees: list })
   const setField = (idx, key) => (val) => {
     const updated = data.payees.map((item, i) => i === idx ? { ...item, [key]: val } : item)
+    setPayees(updated)
+  }
+  const handleAddressSelect = (idx) => ({ address, city, state, zip }) => {
+    const updated = data.payees.map((item, i) => i === idx ? { ...item, address, city, state, zip } : item)
     setPayees(updated)
   }
 
@@ -46,17 +50,13 @@ export default function LossPayee({ formData, updateFormData }) {
               value={p.additionalInterest}
               onChange={setField(idx, 'additionalInterest')}
             />
-            <RadioGroup
-              label="Address Entry Type"
-              options={['Auto Fill', 'Manual Entry']}
-              value={p.addressType}
-              onChange={setField(idx, 'addressType')}
-            />
-            {p.addressType === 'Auto Fill' && (
-              <Input label="Search" value={p.search} onChange={setField(idx, 'search')} />
-            )}
             <FormGrid>
-              <Input label="Address" value={p.address} onChange={setField(idx, 'address')} />
+              <AddressAutocomplete
+                label="Address"
+                value={p.address}
+                onChange={setField(idx, 'address')}
+                onSelect={handleAddressSelect(idx)}
+              />
               <Input label="Suite/Apt/Building" value={p.suite} onChange={setField(idx, 'suite')} />
             </FormGrid>
             <FormGrid cols={3}>
