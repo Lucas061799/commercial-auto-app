@@ -31,43 +31,115 @@ const STEPS = [
 
 function UploadPopup({ onDismiss }) {
   const inputRef = useRef()
+  const [dragging, setDragging] = useState(false)
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ background: 'rgba(15,10,40,0.35)', backdropFilter: 'blur(2px)' }}>
-      <div className="w-80 rounded-2xl shadow-2xl overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #EEF9F7 100%)', border: '1px solid rgba(92,46,212,0.12)' }}>
-        {/* Header */}
-        <div className="flex items-start justify-between px-5 pt-5 pb-0">
-          <div>
-            <h3 className="text-lg font-bold text-navy leading-tight">Upload &amp; Save Time!</h3>
-            <div className="flex items-center gap-1.5 mt-1">
-              <p className="text-xs text-gray-500 font-medium">Competitor quote or ACORD form?</p>
-              <div className="w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 text-white text-[8px] font-bold" style={{ background: '#73C9B7' }}>i</div>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{ background: 'rgba(15,10,40,0.45)', backdropFilter: 'blur(4px)' }}
+      onClick={onDismiss}
+    >
+      <div
+        className="relative rounded-3xl shadow-2xl overflow-hidden"
+        style={{
+          width: '480px',
+          background: 'linear-gradient(145deg, #F5F1FF 0%, #EDF8F5 60%, #F0EEFF 100%)',
+          border: '1px solid rgba(92,46,212,0.15)',
+        }}
+        onClick={e => e.stopPropagation()}
+      >
+        {/* Decorative gradient blob top-right */}
+        <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full opacity-20 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #A614C3 0%, transparent 70%)' }} />
+        <div className="absolute -bottom-8 -left-8 w-32 h-32 rounded-full opacity-15 pointer-events-none"
+          style={{ background: 'radial-gradient(circle, #5C2ED4 0%, transparent 70%)' }} />
+
+        {/* Close button */}
+        <button
+          onClick={onDismiss}
+          className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center transition z-10"
+          style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.15)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'rgba(92,46,212,0.08)'}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <div className="px-8 pt-8 pb-6 relative z-10">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-4"
+            style={{ background: 'rgba(92,46,212,0.08)', border: '1px solid rgba(92,46,212,0.15)' }}>
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24">
+              <path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="url(#boltG)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <defs>
+                <linearGradient id="boltG" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span className="text-[11px] font-bold text-gradient tracking-wide">SAVE TIME</span>
+          </div>
+
+          {/* Title */}
+          <h2 className="text-2xl font-bold text-navy mb-1 leading-tight">Upload &amp; Skip the Typing</h2>
+          <p className="text-sm text-gray-500 mb-6 leading-relaxed">
+            Have a competitor quote or ACORD form? Drop it here and we'll pre-fill your submission automatically.
+          </p>
+
+          {/* Drop zone */}
+          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" />
+          <div
+            onDragOver={e => { e.preventDefault(); setDragging(true) }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={e => { e.preventDefault(); setDragging(false) }}
+            onClick={() => inputRef.current?.click()}
+            className="cursor-pointer rounded-2xl border-2 border-dashed transition-all mb-4"
+            style={{
+              borderColor: dragging ? '#5C2ED4' : 'rgba(92,46,212,0.25)',
+              background: dragging ? 'rgba(92,46,212,0.06)' : 'rgba(255,255,255,0.7)',
+              padding: '28px 20px',
+            }}
+          >
+            {/* Paperclip icon */}
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-1"
+                style={{ background: 'linear-gradient(135deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24">
+                  <path d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                    stroke="url(#clipG)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                  <defs>
+                    <linearGradient id="clipG" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+              <p className="text-sm font-semibold text-navy">Drop your file here</p>
+              <p className="text-xs text-gray-400">or <span className="text-gradient font-semibold">click to browse</span></p>
+              <p className="text-[10px] text-gray-400 mt-1">PDF, JPG, PNG · Max 10MB</p>
             </div>
           </div>
-          <button onClick={onDismiss} className="w-6 h-6 rounded-full flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition shrink-0 mt-0.5">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
-        </div>
 
-        {/* Upload button */}
-        <div className="px-5 pt-4 pb-2">
-          <input ref={inputRef} type="file" multiple accept=".pdf,.jpg,.png" className="hidden" />
+          {/* Upload CTA button */}
           <button
             onClick={() => inputRef.current?.click()}
-            className="w-full py-3 rounded-xl text-sm font-bold text-white transition hover:opacity-90 active:scale-[0.98]"
-            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
+            className="w-full py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-4"
+            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 6px 20px rgba(92,46,212,0.35)' }}
           >
             Upload Here
           </button>
-          <p className="text-[10px] text-center text-gray-400 mt-2">PDF, JPG, PNG · Max 10MB</p>
-        </div>
 
-        {/* Dismiss */}
-        <div className="px-5 pb-4 pt-1 text-center">
-          <button onClick={onDismiss} className="text-xs text-gray-400 hover:text-gray-600 transition underline underline-offset-2">
-            Maybe later — I'll fill it manually
-          </button>
+          {/* Dismiss */}
+          <div className="text-center">
+            <button
+              onClick={onDismiss}
+              className="text-xs text-gray-400 hover:text-gray-600 transition"
+            >
+              Maybe later — I'll fill it in manually
+            </button>
+          </div>
         </div>
       </div>
     </div>
