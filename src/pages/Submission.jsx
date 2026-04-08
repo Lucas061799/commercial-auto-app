@@ -170,11 +170,6 @@ export default function Submission({ formData, onBack }) {
                     Thank you for your submission. Your commercial auto insurance application has been received and is being processed. You will receive a confirmation email shortly with your quote details.
                   </p>
                 </div>
-                <button onClick={() => window.print()} className="w-7 h-7 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-50 transition shrink-0 mt-0.5">
-                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                  </svg>
-                </button>
               </div>
 
               {/* Info row */}
@@ -191,21 +186,27 @@ export default function Submission({ formData, onBack }) {
                 ))}
               </div>
 
-              {/* Expandable details */}
+              {/* Expandable details + print */}
               <button
                 onClick={() => setSummaryOpen(o => !o)}
                 className="w-full flex items-center justify-between px-6 py-3 border-t border-gray-100 transition text-xs font-medium text-gray-500"
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(115,201,183,0.06)'}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.04)'}
                 onMouseLeave={e => e.currentTarget.style.background = ''}
               >
-                View Full Submission Details
+                <span className="flex items-center gap-2">
+                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                  </svg>
+                  Print &amp; View Full Submission
+                </span>
                 <svg className={`w-4 h-4 text-gray-400 transition-transform ${summaryOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
                 </svg>
               </button>
 
               {summaryOpen && (
-                <div className="px-6 pb-6 border-t border-gray-50 pt-4 grid grid-cols-2 gap-4">
+                <div className="px-6 pb-6 border-t border-gray-50 pt-4">
+                  <div className="grid grid-cols-2 gap-4 mb-5">
                   <SummarySection title="Applicant Information" icon="user">
                     <SummaryRow label="Business Name" value={applicant.namedInsured || 'Acme Corporation'} />
                     <SummaryRow label="Industry" value={applicant.description || 'Transportation'} />
@@ -226,6 +227,21 @@ export default function Submission({ formData, onBack }) {
                     <SummaryRow label="Rating" value="A+" bold />
                     <SummaryRow label="Commission" value="+2.5%" bold />
                   </SummarySection>
+                  </div>
+
+                  {/* Print button */}
+                  <button
+                    onClick={() => window.print()}
+                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition border"
+                    style={{ color: '#5C2ED4', borderColor: 'rgba(92,46,212,0.2)', background: 'white' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.04)'}
+                    onMouseLeave={e => e.currentTarget.style.background = 'white'}
+                  >
+                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                    </svg>
+                    Print Submission
+                  </button>
                 </div>
               )}
             </div>
@@ -287,18 +303,24 @@ export default function Submission({ formData, onBack }) {
               </div>
             </div>
 
-            {/* Sell More Banana CTA Section */}
+            {/* Return to the Jungle CTA */}
             <div
-              className="rounded-2xl relative cursor-pointer hover:opacity-95 transition overflow-hidden"
+              className="rounded-2xl cursor-pointer hover:opacity-90 transition-all overflow-hidden flex items-center justify-between px-8 py-6"
               onClick={onBack}
-              style={{ minHeight: '100px' }}
+              style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)', border: '1px solid rgba(166,20,195,0.15)' }}
             >
-              <img src={sellMoreBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-              {/* Text left */}
-              <div className="px-8 py-6 relative z-10">
-                <p className="text-lg font-bold text-navy mb-1">Return to the Jungle</p>
+              <div>
+                <p className="text-lg font-bold text-navy mb-0.5">Return to the Jungle?</p>
                 <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
               </div>
+              <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#ctaArr)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <defs>
+                  <linearGradient id="ctaArr" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                  </linearGradient>
+                </defs>
+              </svg>
             </div>
           </div>
         </main>
