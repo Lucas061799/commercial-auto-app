@@ -34,74 +34,76 @@ export default function AdditionalInsured({ formData, updateFormData }) {
   return (
     <div className="w-full">
 
-      {/* Blanket coverages card */}
-      <div className="rounded-2xl mb-4 overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)', border: '1px solid rgba(92,46,212,0.1)' }}>
-        <div className="px-5 py-4">
-          <p className="text-[13px] font-semibold text-navy mb-3">Do you require any of the following blanket coverages?</p>
-          <div className="flex flex-wrap gap-3">
-            {BLANKET_OPTIONS.map(({ key, label }) => {
-              const checked = !!blanket[key]
-              return (
-                <button
-                  key={key}
-                  type="button"
-                  onClick={() => toggleBlanket(key)}
-                  className={`flex items-center gap-2.5 px-4 py-2 rounded-xl border text-xs font-medium transition-all ${
-                    checked ? 'border-[#5C2ED4] text-[#5C2ED4]' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'
-                  }`}
-                  style={checked ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)' } : {}}
-                >
-                  <div
-                    className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center shrink-0 transition-all"
-                    style={checked
-                      ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
-                      : { borderColor: '#d1d5db', background: 'white' }}
-                  >
-                    {checked && (
-                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
-                        <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    )}
-                  </div>
-                  {label}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Guidance banner when blanket is selected */}
-          {anyBlanket && (
-            <div className="mt-3 flex items-start gap-2 px-3 py-2.5 rounded-xl" style={{ background: 'rgba(92,46,212,0.06)', border: '1px solid rgba(92,46,212,0.12)' }}>
-              <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="url(#infoG)" strokeWidth="2" strokeLinecap="round"/>
-                <defs>
-                  <linearGradient id="infoG" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                  </linearGradient>
-                </defs>
-              </svg>
-              <p className="text-[11px] leading-relaxed text-gradient font-medium">
-                Since you've selected blanket coverage, the specific insured details below are optional — you may leave them blank if they apply broadly.
-              </p>
-            </div>
-          )}
-        </div>
+      {/* Always-visible question */}
+      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
+        <RadioGroup
+          label="Are there any additional insureds to add?"
+          options={['Yes', 'No']}
+          value={data.hasAdditional}
+          onChange={(val) => {
+            updateFormData('additionalInsured', {
+              hasAdditional: val,
+              insureds: val === 'Yes' && data.insureds.length === 0 ? [defaultInsured()] : val === 'No' ? [] : data.insureds,
+            })
+          }}
+        />
       </div>
 
-      {data.insureds.length === 0 && (
-        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
-          <RadioGroup
-            label="Are there any additional insureds to add?"
-            options={['Yes', 'No']}
-            value={data.hasAdditional}
-            onChange={(val) => {
-              updateFormData('additionalInsured', { hasAdditional: val, insureds: val === 'Yes' ? [defaultInsured()] : [] })
-            }}
-          />
+      {/* Blanket coverages card — only after Yes */}
+      {data.hasAdditional === 'Yes' && (
+        <div className="rounded-2xl mb-4 overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)', border: '1px solid rgba(92,46,212,0.1)' }}>
+          <div className="px-5 py-4">
+            <p className="text-[13px] font-semibold text-navy mb-3">Do you require any of the following blanket coverages?</p>
+            <div className="flex flex-wrap gap-3">
+              {BLANKET_OPTIONS.map(({ key, label }) => {
+                const checked = !!blanket[key]
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    onClick={() => toggleBlanket(key)}
+                    className={`flex items-center gap-2.5 px-4 py-2 rounded-xl border text-xs font-medium transition-all ${
+                      checked ? 'border-[#5C2ED4] text-[#5C2ED4]' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'
+                    }`}
+                    style={checked ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)' } : {}}
+                  >
+                    <div
+                      className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center shrink-0 transition-all"
+                      style={checked
+                        ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
+                        : { borderColor: '#d1d5db', background: 'white' }}
+                    >
+                      {checked && (
+                        <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
+                          <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
+                    </div>
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
+            {anyBlanket && (
+              <div className="mt-3 flex items-start gap-2 px-3 py-2.5 rounded-xl" style={{ background: 'rgba(92,46,212,0.06)', border: '1px solid rgba(92,46,212,0.12)' }}>
+                <svg className="w-3.5 h-3.5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                  <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="url(#infoG)" strokeWidth="2" strokeLinecap="round"/>
+                  <defs>
+                    <linearGradient id="infoG" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <p className="text-[11px] leading-relaxed text-gradient font-medium">
+                  Since you've selected blanket coverage, the specific insured details below are optional — you may leave them blank if they apply broadly.
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       )}
 
-      {data.insureds.map((ins, idx) => (
+      {data.hasAdditional === 'Yes' && data.insureds.map((ins, idx) => (
         <div key={ins.id} className="bg-gray-50 rounded-xl p-5 mb-4 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-navy">Additional Insured #{idx + 1}</h3>
@@ -137,7 +139,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
         </div>
       ))}
 
-      {data.insureds.length > 0 && (
+      {data.hasAdditional === 'Yes' && data.insureds.length > 0 && (
         <button
           onClick={() => setInsureds([...data.insureds, defaultInsured()])}
           className="flex items-center gap-2 text-xs font-semibold border border-dashed border-[#A614C3]/30 rounded-xl px-4 py-3 mb-2 add-another-btn transition w-full justify-center"

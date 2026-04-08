@@ -23,18 +23,16 @@ export default function LossPayee({ formData, updateFormData }) {
 
   return (
     <div className="w-full">
-      {data.payees.length === 0 && (
-        <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
-          <RadioGroup
-            label="Are there any loss payees or lienholders?"
-            options={['Yes', 'No']}
-            value={data.hasPayee}
-            onChange={(val) => updateFormData('lossPayee', { hasPayee: val, payees: val === 'Yes' ? [defaultPayee()] : [] })}
-          />
-        </div>
-      )}
+      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 mb-4">
+        <RadioGroup
+          label="Are there any loss payees or lienholders?"
+          options={['Yes', 'No']}
+          value={data.hasPayee}
+          onChange={(val) => updateFormData('lossPayee', { hasPayee: val, payees: val === 'Yes' && data.payees.length === 0 ? [defaultPayee()] : val === 'No' ? [] : data.payees })}
+        />
+      </div>
 
-      {data.payees.map((p, idx) => (
+      {data.hasPayee === 'Yes' && data.payees.map((p, idx) => (
         <div key={p.id} className="bg-gray-50 rounded-xl p-5 mb-4 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-sm font-medium text-navy">Loss Payee #{idx + 1}</h3>
@@ -104,7 +102,7 @@ export default function LossPayee({ formData, updateFormData }) {
         </div>
       ))}
 
-      {data.payees.length > 0 && (
+      {data.hasPayee === 'Yes' && data.payees.length > 0 && (
         <button
           onClick={() => setPayees([...data.payees, defaultPayee()])}
           className="flex items-center gap-2 text-xs font-semibold border border-dashed border-[#A614C3]/30 rounded-xl px-4 py-3 mb-2 add-another-btn transition w-full justify-center"
