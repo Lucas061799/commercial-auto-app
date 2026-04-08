@@ -248,14 +248,24 @@ export default function Submission({ formData, onBack }) {
                   <button
                     onClick={() => window.print()}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition border"
-                    style={{ color: '#5C2ED4', borderColor: 'rgba(92,46,212,0.2)', background: 'white' }}
-                    onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.04)'}
+                    style={{ borderColor: 'rgba(92,46,212,0.2)', background: 'white' }}
+                    onMouseEnter={e => e.currentTarget.style.background = 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)'}
                     onMouseLeave={e => e.currentTarget.style.background = 'white'}
                   >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                      <defs>
+                        <linearGradient id="printG" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                        </linearGradient>
+                      </defs>
+                      <path stroke="url(#printG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                     </svg>
-                    Print Submission
+                    <span style={{
+                      background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                      WebkitBackgroundClip: 'text',
+                      backgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                    }}>Print Submission</span>
                   </button>
                 </div>
               )}
@@ -325,19 +335,9 @@ export default function Submission({ formData, onBack }) {
               style={{ minHeight: '100px' }}
             >
               <img src={sellMoreBg} alt="" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="px-8 py-6 relative z-10 flex items-center justify-between">
-                <div>
-                  <p className="text-lg font-bold text-navy mb-1">Return to the Jungle?</p>
-                  <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
-                </div>
-                <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24">
-                  <path d="M5 12h14M13 6l6 6-6 6" stroke="url(#ctaArr)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <defs>
-                    <linearGradient id="ctaArr" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                    </linearGradient>
-                  </defs>
-                </svg>
+              <div className="px-8 py-6 relative z-10">
+                <p className="text-lg font-bold text-navy mb-1">Return to the Jungle?</p>
+                <p className="text-xs text-gray-400">Head back to <span className="font-semibold text-gradient underline underline-offset-2">Norbielink</span></p>
               </div>
             </div>
           </div>
