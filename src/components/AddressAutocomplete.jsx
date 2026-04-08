@@ -81,7 +81,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
   return (
     <div ref={containerRef} className="relative w-full">
       {label && (
-        <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
           {label}{required && <span className="text-red-400 ml-0.5">*</span>}
         </label>
       )}
@@ -93,7 +93,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
           onKeyDown={handleKeyDown}
           onFocus={() => { if (suggestions.length > 0) setOpen(true) }}
           placeholder="Start typing an address…"
-          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 bg-white focus:outline-none focus:ring-2 transition-all hover:border-gray-300 ${
+          className={`w-full border rounded-lg px-3.5 py-2.5 pr-10 text-sm text-gray-800 placeholder-gray-300 bg-white focus:outline-none focus:ring-2 transition-all hover:border-gray-300 ${
             error
               ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
               : 'border-gray-200 focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40'
