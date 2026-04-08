@@ -95,7 +95,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
               <button
                 onClick={() => inputRef.current?.click()}
                 className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98] mb-2.5"
-                style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 3px 12px rgba(92,46,212,0.3)' }}
+                style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
               >
                 Upload Here
               </button>
