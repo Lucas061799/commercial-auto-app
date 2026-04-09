@@ -80,12 +80,12 @@ export default function PageZero({ onStart }) {
         {/* Left — 50%, Norbie fills to divider */}
         <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
           {/* Jungle background — left only */}
-          <img src={jungleBg} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" style={{ opacity: 0.15 }} />
+          <img src={jungleBg} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
           <img
             src={norbieCommercial}
             alt="Norbie"
             className="relative z-10"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '60%', objectFit: 'contain' }}
+            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%) scaleX(-1)', width: '60%', objectFit: 'contain' }}
           />
         </div>
 
