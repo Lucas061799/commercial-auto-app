@@ -124,11 +124,11 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl"
                     style={isLast ? {
                       background: isDark
-                        ? 'linear-gradient(rgba(255,255,255,0.07), rgba(255,255,255,0.07)) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
+                        ? 'linear-gradient(90deg, rgba(166,20,195,0.68) 0%, rgba(42,28,70,0.28) 100%) padding-box, linear-gradient(90deg, #A614C3 0%, #5C2ED4 100%) border-box'
                         : 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                       border: '1.5px solid transparent',
                       boxShadow: isDark
-                        ? '0 4px 20px rgba(92,46,212,0.35), 0 1px 8px rgba(166,20,195,0.2)'
+                        ? '0 4px 24px rgba(166,20,195,0.25), 0 1px 8px rgba(92,46,212,0.2)'
                         : '0 2px 12px rgba(92,46,212,0.15)',
                     } : { border: '1.5px solid transparent' }}
                   >
