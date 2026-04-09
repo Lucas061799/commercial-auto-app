@@ -84,7 +84,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
               >
                 {isDone && !isActive ? (
                   <span className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                    style={{ background: isDark ? 'rgba(166,20,195,0.15)' : 'rgba(166, 20, 195, 0.10)' }}>
+                    style={{ background: isDark ? 'rgba(166,20,195,0.28)' : 'rgba(166,20,195,0.10)' }}>
                     <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
                       <defs>
                         <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -92,7 +92,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                           <stop offset="100%" stopColor="#A614C3"/>
                         </linearGradient>
                       </defs>
-                      <path d="M2.5 7l3 3 6-6" stroke="url(#checkGrad)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                      <path d="M2.5 7l3 3 6-6" stroke={isDark ? '#D8A8F0' : 'url(#checkGrad)'} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                   </span>
                 ) : (
@@ -100,7 +100,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                     className="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0"
                     style={isActive
                       ? { background: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }
-                      : { background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)', color: isDark ? '#9CA3AF' : '#9CA3AF' }
+                      : { background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.85)', color: isDark ? '#C4B5D4' : '#9CA3AF' }
                     }
                   >
                     {isSubmissionStep ? '✓' : step.id}
@@ -117,7 +117,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                           WebkitTextFillColor: 'transparent',
                           backgroundClip: 'text',
                         }
-                    : { color: isDark ? '#9CA3AF' : isDone ? '#4B5563' : '#9CA3AF' }
+                    : { color: isDark ? (isDone ? '#D1D5DB' : '#8B8FA8') : (isDone ? '#4B5563' : '#9CA3AF') }
                   }
                 >
                   {step.label}
