@@ -79,7 +79,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         <div className="mb-5" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#F3F4F6'}` }} />
 
         {/* Upload & Save Time */}
-        <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: '1px solid rgba(92,46,212,0.1)', background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
+        <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)', background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
           <div className="px-4 pt-4 pb-4">
             <h3 className="text-base font-bold text-navy leading-tight mb-0.5">Upload & Save Time!</h3>
             <div className="flex items-center gap-1.5 mb-3">
@@ -117,7 +117,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         {files.length > 0 && (
           <div className="mb-4 space-y-2">
             {files.map(f => (
-              <div key={f.id} className="flex items-center justify-between bg-white border border-gray-100 rounded-xl px-3 py-2">
+              <div key={f.id} className="flex items-center justify-between rounded-xl px-3 py-2" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F3F4F6' }}>
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 border border-gray-200 rounded-lg flex items-center justify-center shrink-0">
                     <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

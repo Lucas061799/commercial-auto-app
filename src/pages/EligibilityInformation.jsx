@@ -35,7 +35,7 @@ const YES_NO_STYLES = {
   No:  { activeBorder: '#A614C3', activeText: '#A614C3', activeBg: 'rgba(166,20,195,0.08)', dotBg: 'linear-gradient(88.09deg, #A614C3 0%, #D946EF 100%)', dotBorder: '#A614C3' },
 }
 
-function ColoredYesNo({ value, onChange }) {
+function ColoredYesNo({ value, onChange, isDark = false }) {
   return (
     <div className="flex gap-4">
       {['Yes', 'No'].map(opt => {
@@ -49,7 +49,7 @@ function ColoredYesNo({ value, onChange }) {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
             style={active
               ? { borderColor: s.activeBorder, color: s.activeText, background: s.activeBg }
-              : { borderColor: '#e5e7eb', color: '#6b7280' }
+              : { borderColor: isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb', color: isDark ? '#9CA3AF' : '#6b7280', background: 'transparent' }
             }
           >
             <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
@@ -64,23 +64,29 @@ function ColoredYesNo({ value, onChange }) {
   )
 }
 
-function QuestionCard({ q, value, onChange, autoFilled }) {
+function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
   return (
-    <div className={`rounded-xl p-4 border transition-all ${autoFilled ? 'border-[#5C2ED4]/20 bg-[#F3F0FF]/40' : 'border-gray-200 bg-gray-50'}`}>
+    <div
+      className="rounded-xl p-4 border transition-all"
+      style={autoFilled
+        ? { borderColor: 'rgba(92,46,212,0.2)', background: isDark ? 'rgba(92,46,212,0.12)' : 'rgba(243,240,255,0.4)' }
+        : { borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#e5e7eb', background: isDark ? '#1F2543' : '#f9fafb' }
+      }
+    >
       <div className="flex items-start justify-between gap-3">
-        <p className="text-xs font-semibold text-gray-800 leading-relaxed flex-1">{q.label}</p>
+        <p className="text-xs font-semibold leading-relaxed flex-1" style={{ color: isDark ? '#F9FAFB' : '#1f2937' }}>{q.label}</p>
         {autoFilled && (
-          <span className="text-[9px] font-bold text-[#5C2ED4] bg-brand-light px-2 py-0.5 rounded-full shrink-0 mt-0.5">Auto-Filled</span>
+          <span className="text-[9px] font-bold text-[#5C2ED4] px-2 py-0.5 rounded-full shrink-0 mt-0.5" style={{ background: isDark ? 'rgba(92,46,212,0.2)' : 'rgba(243,240,255,1)' }}>Auto-Filled</span>
         )}
       </div>
       <div className="mt-3">
-        <ColoredYesNo value={value} onChange={onChange} />
+        <ColoredYesNo value={value} onChange={onChange} isDark={isDark} />
       </div>
     </div>
   )
 }
 
-function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor, defaultOpen = false }) {
+function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor, defaultOpen = false, isDark = false }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
     <div className="rounded-xl border overflow-hidden" style={{ borderColor: defaultColor + '33' }}>
@@ -91,7 +97,7 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
       >
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold" style={{ color: defaultColor }}>{title}</span>
-          <span className="text-[10px] text-gray-400 font-medium">{subtitle}</span>
+          <span className="text-[10px] font-medium" style={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>{subtitle}</span>
         </div>
         <svg
           className="w-4 h-4 transition-transform shrink-0"
@@ -102,7 +108,7 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
         </svg>
       </button>
       {open && (
-        <div className="p-3 space-y-2 bg-white">
+        <div className="p-3 space-y-2" style={{ background: isDark ? '#1A1E38' : 'white' }}>
           {keys.map(key => (
             <QuestionCard
               key={key}
@@ -110,6 +116,7 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
               value={data[key]}
               onChange={val => onChange(key, val)}
               autoFilled={data[key] === QUICK_FILL_DEFAULTS[key]}
+              isDark={isDark}
             />
           ))}
         </div>
@@ -118,7 +125,7 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
   )
 }
 
-export default function EligibilityInformation({ formData, updateFormData }) {
+export default function EligibilityInformation({ formData, updateFormData, isDark = false }) {
   const data = formData.eligibility || {}
   const [quickFilled, setQuickFilled] = useState(false)
 
@@ -145,8 +152,11 @@ export default function EligibilityInformation({ formData, updateFormData }) {
       {/* Norbie Quick-Fill Banner */}
       {!quickFilled && (
         <div
-          className="mb-5 flex items-center justify-between rounded-2xl px-5 py-3.5 border border-[#7C3AED]/10 gap-4"
-          style={{ background: 'linear-gradient(to right, #F8F6FF, #F2FAF8)' }}
+          className="mb-5 flex items-center justify-between rounded-2xl px-5 py-3.5 gap-4"
+          style={{
+            background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(to right, #F8F6FF, #F2FAF8)',
+            border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(124,58,237,0.1)',
+          }}
         >
           <div className="flex items-center gap-3 min-w-0">
             <img src={norbieface} alt="Norbie" className="w-9 h-9 rounded-full shrink-0" />
@@ -187,6 +197,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
             onChange={handleChange}
             defaultColor="#5C2ED4"
             defaultOpen={false}
+            isDark={isDark}
           />
           <CollapsibleGroup
             title="Users usually select No to these questions"
@@ -196,6 +207,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
             onChange={handleChange}
             defaultColor="#A614C3"
             defaultOpen={false}
+            isDark={isDark}
           />
         </div>
       ) : (
@@ -211,13 +223,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
             </div>
             <div className="space-y-2">
               {YES_KEYS.map(key => (
-                <QuestionCard
-                  key={key}
-                  q={Q_MAP[key]}
-                  value={data[key]}
-                  onChange={val => handleChange(key, val)}
-                  autoFilled={false}
-                />
+                <QuestionCard key={key} q={Q_MAP[key]} value={data[key]} onChange={val => handleChange(key, val)} autoFilled={false} isDark={isDark} />
               ))}
             </div>
           </div>
@@ -232,13 +238,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
             </div>
             <div className="space-y-2">
               {NO_KEYS.map(key => (
-                <QuestionCard
-                  key={key}
-                  q={Q_MAP[key]}
-                  value={data[key]}
-                  onChange={val => handleChange(key, val)}
-                  autoFilled={false}
-                />
+                <QuestionCard key={key} q={Q_MAP[key]} value={data[key]} onChange={val => handleChange(key, val)} autoFilled={false} isDark={isDark} />
               ))}
             </div>
           </div>
@@ -246,7 +246,7 @@ export default function EligibilityInformation({ formData, updateFormData }) {
       )}
 
       {allAnswered && (
-        <div className="mt-5 p-3 bg-[#F3F0FF] rounded-xl border border-[#7C3AED]/20 flex items-center gap-2">
+        <div className="mt-5 p-3 rounded-xl border flex items-center gap-2" style={{ background: isDark ? 'rgba(92,46,212,0.15)' : '#F3F0FF', borderColor: 'rgba(124,58,237,0.2)' }}>
           <svg className="w-4 h-4 text-[#7C3AED] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>

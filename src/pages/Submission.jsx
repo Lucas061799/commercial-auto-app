@@ -292,22 +292,22 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               </button>
 
               {summaryOpen && (
-                <div className="px-6 pb-6 border-t border-gray-50 pt-4">
+                <div className="px-6 pb-6 pt-4" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #f9fafb' }}>
                   <div className="grid grid-cols-2 gap-4 mb-5">
-                  <SummarySection title="Applicant Information" icon="user">
-                    <SummaryRow label="Business Name" value={applicant.namedInsured || 'Acme Corporation'} />
-                    <SummaryRow label="Industry" value={applicant.description || 'Transportation'} />
-                    <SummaryRow label="Years in Business" value={applicant.yearsInBusiness || '5 Years'} />
+                  <SummarySection title="Applicant Information" icon="user" isDark={isDark}>
+                    <SummaryRow label="Business Name" value={applicant.namedInsured || 'Acme Corporation'} isDark={isDark} />
+                    <SummaryRow label="Industry" value={applicant.description || 'Transportation'} isDark={isDark} />
+                    <SummaryRow label="Years in Business" value={applicant.yearsInBusiness || '5 Years'} isDark={isDark} />
                   </SummarySection>
-                  <SummarySection title="Vehicle Information" icon="truck">
-                    <SummaryRow label="Total Vehicles" value={`${vehicles.length || 3} Vehicles`} />
-                    <SummaryRow label="Vehicle Types" value="Light Trucks" />
-                    <SummaryRow label="Primary Use" value="Service/Repair" />
+                  <SummarySection title="Vehicle Information" icon="truck" isDark={isDark}>
+                    <SummaryRow label="Total Vehicles" value={`${vehicles.length || 1} Vehicles`} isDark={isDark} />
+                    <SummaryRow label="Vehicle Types" value="Light Trucks" isDark={isDark} />
+                    <SummaryRow label="Primary Use" value="Service/Repair" isDark={isDark} />
                   </SummarySection>
-                  <SummarySection title="Coverage Details" icon="shield">
-                    <SummaryRow label="Liability Limit" value={coverage.liabilityLimit || '$1M/$2M'} />
-                    <SummaryRow label="Deductible" value={coverage.deductible || '$500'} />
-                    <SummaryRow label="Policy Term" value={coverage.policyTerm || '12 Months'} />
+                  <SummarySection title="Coverage Details" icon="shield" isDark={isDark}>
+                    <SummaryRow label="Liability Limit" value={coverage.liabilityLimit || '$1M/$2M'} isDark={isDark} />
+                    <SummaryRow label="Deductible" value={coverage.deductible || '$500'} isDark={isDark} />
+                    <SummaryRow label="Policy Term" value={coverage.policyTerm || '12 Months'} isDark={isDark} />
                   </SummarySection>
                   </div>
 
@@ -315,9 +315,9 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   <button
                     onClick={() => window.print()}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition border"
-                    style={{ borderColor: 'rgba(92,46,212,0.2)', background: 'white' }}
+                    style={{ borderColor: 'rgba(92,46,212,0.2)', background: isDark ? 'rgba(255,255,255,0.04)' : 'white' }}
                     onMouseEnter={e => e.currentTarget.style.background = 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)'}
-                    onMouseLeave={e => e.currentTarget.style.background = 'white'}
+                    onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'white'}
                   >
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
                       <defs>
@@ -494,23 +494,13 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
           </div>
 
-          <div className="px-4 py-4 shrink-0 space-y-3" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-            <p className="text-xs text-gray-400">Need assistance?</p>
-            <div className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}>
-              <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
-              <div>
-                <p className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
-                <p className="text-xs text-gray-400">AI Assistant</p>
-              </div>
-            </div>
-          </div>
         </aside>
       </div>
     </div>
   )
 }
 
-function SummarySection({ title, icon, children }) {
+function SummarySection({ title, icon, children, isDark = false }) {
   const icons = {
     user:     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>,
     truck:    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1M13 16l2 1m0-11l3 5h2a1 1 0 011 1v4"/>,
@@ -518,25 +508,25 @@ function SummarySection({ title, icon, children }) {
     building: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>,
   }
   return (
-    <div className="bg-white rounded-xl p-4 border border-gray-100">
+    <div className="rounded-xl p-4" style={{ background: isDark ? '#252948' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F3F4F6' }}>
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-6 h-6 bg-teal-light rounded-lg flex items-center justify-center">
-          <svg className="w-3.5 h-3.5 text-teal" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: isDark ? 'rgba(92,46,212,0.2)' : '#e6f7f4' }}>
+          <svg className="w-3.5 h-3.5" fill="none" stroke={isDark ? '#73C9B7' : '#73C9B7'} viewBox="0 0 24 24">
             {icons[icon]}
           </svg>
         </div>
-        <h3 className="text-xs font-bold text-navy">{title}</h3>
+        <h3 className="text-xs font-bold" style={{ color: isDark ? '#F9FAFB' : '#1f2937' }}>{title}</h3>
       </div>
       <div className="space-y-2">{children}</div>
     </div>
   )
 }
 
-function SummaryRow({ label, value, bold }) {
+function SummaryRow({ label, value, bold, isDark = false }) {
   return (
     <div className="flex justify-between">
       <span className="text-[10px] text-gray-400">{label}</span>
-      <span className={`text-[10px] ${bold ? 'font-bold text-navy' : 'font-semibold text-gray-700'}`}>{value}</span>
+      <span className="text-[10px] font-semibold" style={{ color: isDark ? (bold ? '#F9FAFB' : '#D1D5DB') : (bold ? '#1f2937' : '#374151') }}>{value}</span>
     </div>
   )
 }
