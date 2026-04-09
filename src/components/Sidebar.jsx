@@ -70,9 +70,9 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                 onClick={() => onStepClick(step.id)}
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150"
                 style={isActive ? isDark ? {
-                  background: 'linear-gradient(90deg, rgba(166,20,195,0.68) 0%, rgba(42,28,70,0.28) 100%)',
+                  background: 'linear-gradient(180deg, rgba(166,20,195,0.68) 0%, rgba(42,28,70,0.28) 100%)',
                   border: '1.5px solid rgba(166,20,195,0.65)',
-                  boxShadow: '0 4px 24px rgba(166,20,195,0.25), 0 0 0 0px transparent',
+                  boxShadow: '0 4px 24px rgba(166,20,195,0.25)',
                 } : {
                   background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                   border: '1.5px solid transparent',
@@ -99,7 +99,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                   <span
                     className="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0"
                     style={isActive
-                      ? { background: 'linear-gradient(135deg, #5C2ED4 0%, #A614C3 100%)', color: '#FFFFFF' }
+                      ? { background: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }
                       : { background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)', color: isDark ? '#9CA3AF' : '#9CA3AF' }
                     }
                   >
