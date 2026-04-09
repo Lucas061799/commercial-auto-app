@@ -170,10 +170,10 @@ input, select, textarea, button {
 }
 
 /* Selected radio button text → white in dark mode */
-[data-dark="true"] button.text-\[#5C2ED4\] {
-  color: #FFFFFF !important;
-}
-[data-dark="true"] button.text-\[#A614C3\] {
+[data-dark="true"] button[class*="text-[#5C2ED4]"],
+[data-dark="true"] button[class*="text-[#A614C3]"],
+[data-dark="true"] button[class*="border-[#5C2ED4]"],
+[data-dark="true"] button[class*="border-[#A614C3]"] {
   color: #FFFFFF !important;
 }
 
