@@ -76,8 +76,8 @@ export default function PageZero({ onStart }) {
 
       <div className="flex flex-1 overflow-hidden">
 
-        {/* Left — 50%, Norbie fills to divider */}
-        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
+        {/* Left — exactly 50% */}
+        <div className="relative overflow-hidden" style={{ width: '50%', height: 'calc(100vh - 56px)', flexShrink: 0 }}>
           {/* Jungle background — left only */}
           <img
             src={page0Img}
@@ -89,9 +89,9 @@ export default function PageZero({ onStart }) {
         {/* Divider */}
         <div className="w-px bg-gray-100 shrink-0" />
 
-        {/* Right — form */}
-        <div className="flex-1 overflow-y-auto relative">
-          <div className="min-h-full flex flex-col justify-center items-start py-10 px-[10%]">
+        {/* Right — exactly 50% */}
+        <div className="overflow-y-auto relative" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
+          <div className="min-h-full flex flex-col justify-center items-center py-10 px-[10%]">
           <div className="w-full max-w-xl">
 
           {!declined ? (
