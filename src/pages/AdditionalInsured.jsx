@@ -237,7 +237,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
               anyBlanket={anyBlanket}
               blanketWOS={blanketWOS}
               applicant={applicant}
-              onField={setField(idx)}
+              onField={(key) => setField(idx, key)}
               onAddressSelect={handleAddressSelect(idx)}
               onRemove={() => setInsureds(data.insureds.filter((_, i) => i !== idx))}
             />
