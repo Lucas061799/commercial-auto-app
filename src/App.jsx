@@ -233,10 +233,16 @@ function UploadPopup({ onDismiss }) {
 }
 
 function App() {
+  // URL param shortcuts for Builder.io / Figma import
+  // ?page=main → skip PageZero
+  // ?page=submission → go straight to submission
+  const urlParams = new URLSearchParams(window.location.search)
+  const pageParam = urlParams.get('page')
+
   const [formData, setFormData] = useState({})
   const [activeStep, setActiveStep] = useState(1)
-  const [submitted, setSubmitted] = useState(false)
-  const [pageZeroDone, setPageZeroDone] = useState(false)
+  const [submitted, setSubmitted] = useState(pageParam === 'submission')
+  const [pageZeroDone, setPageZeroDone] = useState(pageParam === 'main' || pageParam === 'submission')
   const [pulseUpload, setPulseUpload] = useState(false)
   const [errorFields, setErrorFields] = useState([])
   const sectionRefs = useRef({})

@@ -203,10 +203,11 @@ export default function AdditionalInsured({ formData, updateFormData }) {
                       key={key}
                       type="button"
                       onClick={() => toggleBlanket(key)}
-                      className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl border text-xs font-medium transition-all text-left ${
-                        checked ? 'border-[#5C2ED4] text-[#5C2ED4]' : 'border-gray-200 text-gray-500 hover:border-gray-300 bg-white'
-                      }`}
-                      style={checked ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)' } : {}}
+                      className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-medium transition-all text-left"
+                      style={checked ? {
+                        background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
+                        border: '1.5px solid transparent',
+                      } : { border: '1.5px solid #e5e7eb', background: 'white', color: '#6b7280' }}
                     >
                       <div
                         className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center shrink-0 transition-all"
@@ -221,7 +222,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
                         )}
                       </div>
                       <div>
-                        <p>{label}</p>
+                        <p style={checked ? { background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } : {}}>{label}</p>
                         <p className="text-[10px] text-gray-400 font-normal mt-0.5">{desc}</p>
                       </div>
                     </button>
