@@ -19,7 +19,7 @@ const PLAN_OPTIONS_MAP = {
   ],
 }
 
-export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
+export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark = false }) {
   const data = formData.payment || {}
   const comments = formData.comments?.text || ''
   const set = (key) => (val) => updateFormData('payment', { [key]: val })
@@ -80,17 +80,17 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
       {/* ── Divider separating payment from comments ── */}
       <div className="relative my-8">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-dashed border-gray-200" />
+          <div className="w-full border-t border-dashed" style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#e5e7eb' }} />
         </div>
         <div className="relative flex justify-center">
-          <span className="bg-white px-4 text-[11px] font-semibold text-gray-400 tracking-widest uppercase">Not related to payment</span>
+          <span className="px-4 text-[11px] font-semibold text-gray-400 tracking-widest uppercase" style={{ background: isDark ? '#1A1E38' : 'white' }}>Not related to payment</span>
         </div>
       </div>
 
       {/* Comments section */}
       <div className="rounded-2xl overflow-hidden" style={{
-        background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
-        border: '1px solid rgba(92,46,212,0.1)',
+        background: isDark ? 'rgba(92,46,212,0.10)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
+        border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)',
       }}>
         {/* Header row */}
         <div className="flex items-center gap-3.5 px-5 pt-5 pb-4">
@@ -103,7 +103,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit }) {
 
         {/* Textarea area */}
         <div className="px-5 pb-5">
-          <div className="rounded-xl overflow-hidden" style={{ background: 'rgba(255,255,255,0.75)', border: '1px solid rgba(92,46,212,0.1)' }}>
+          <div className="rounded-xl overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)', border: '1px solid rgba(92,46,212,0.1)' }}>
             <textarea
               value={comments}
               onChange={e => setComments(e.target.value)}

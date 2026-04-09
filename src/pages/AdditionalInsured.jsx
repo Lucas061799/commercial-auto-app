@@ -16,7 +16,7 @@ const BLANKET_OPTIONS = [
   { key: 'blanketWOS', label: 'Blanket Waiver of Subrogation', desc: 'Waives subrogation rights across all covered parties' },
 ]
 
-function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onField, onAddressSelect, onRemove }) {
+function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onField, onAddressSelect, onRemove, isDark = false }) {
   const [open, setOpen] = useState(!anyBlanket)
 
   const applyApplicantAddress = (checked) => {
@@ -35,7 +35,7 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
   }
 
   return (
-    <div className="rounded-xl border mb-3 overflow-hidden transition-all" style={{ borderColor: anyBlanket ? 'rgba(92,46,212,0.12)' : '#e5e7eb', background: anyBlanket ? 'rgba(248,246,255,0.5)' : '#f9fafb' }}>
+    <div className="rounded-xl border mb-3 overflow-hidden transition-all" style={{ borderColor: anyBlanket ? 'rgba(92,46,212,0.12)' : isDark ? 'rgba(255,255,255,0.08)' : '#e5e7eb', background: anyBlanket ? (isDark ? 'rgba(92,46,212,0.10)' : 'rgba(248,246,255,0.5)') : (isDark ? '#1F2543' : '#f9fafb') }}>
       {/* Accordion header */}
       <button
         type="button"
@@ -151,7 +151,7 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
   )
 }
 
-export default function AdditionalInsured({ formData, updateFormData }) {
+export default function AdditionalInsured({ formData, updateFormData, isDark = false }) {
   const data = formData.additionalInsured || { hasAdditional: undefined, insureds: [] }
   const blanket = formData.blanket || {}
   const anyBlanket = BLANKET_OPTIONS.some(o => blanket[o.key])
@@ -191,7 +191,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
       {data.hasAdditional === 'Yes' && (
         <>
           {/* Blanket coverages */}
-          <div className="rounded-2xl mb-4 overflow-hidden" style={{ background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)', border: '1px solid rgba(92,46,212,0.1)' }}>
+          <div className="rounded-2xl mb-4 overflow-hidden" style={{ background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)', border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)' }}>
             <div className="px-5 py-4">
               <p className="text-[13px] font-semibold text-navy mb-1">Do you require any of the following blanket coverages?</p>
               <p className="text-[11px] text-gray-400 mb-3">Select all that apply — both can be chosen simultaneously.</p>
@@ -207,7 +207,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
                       style={checked ? {
                         background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                         border: '1.5px solid transparent',
-                      } : { border: '1.5px solid #e5e7eb', background: 'white', color: '#6b7280' }}
+                      } : { border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb'}`, background: isDark ? 'rgba(255,255,255,0.05)' : 'white', color: isDark ? '#9CA3AF' : '#6b7280' }}
                     >
                       <div
                         className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center shrink-0 transition-all"
@@ -257,6 +257,7 @@ export default function AdditionalInsured({ formData, updateFormData }) {
               onField={(key) => setField(idx, key)}
               onAddressSelect={handleAddressSelect(idx)}
               onRemove={() => setInsureds(data.insureds.filter((_, i) => i !== idx))}
+              isDark={isDark}
             />
           ))}
 

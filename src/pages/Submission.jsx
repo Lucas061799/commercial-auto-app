@@ -50,7 +50,7 @@ function Confetti() {
   )
 }
 
-export default function Submission({ formData, onBack }) {
+export default function Submission({ formData, onBack, isDark = false, onToggleDark }) {
   const [summaryOpen, setSummaryOpen] = useState(false)
   const [showConfetti, setShowConfetti] = useState(true)
 
@@ -64,11 +64,18 @@ export default function Submission({ formData, onBack }) {
   const comments  = formData.comments?.text || ''
 
   return (
-    <div className="flex flex-col h-screen bg-white font-montserrat overflow-hidden">
+    <div className="flex flex-col h-screen font-montserrat overflow-hidden" style={{ background: isDark ? '#131629' : 'white' }}>
       {showConfetti && <Confetti />}
 
-      {/* Full-width top header — identical to homepage */}
-      <header className="flex items-center justify-between bg-white border-b border-gray-100 shrink-0 z-10" style={{ height: '56px' }}>
+      {/* Full-width top header */}
+      <header
+        className="flex items-center justify-between shrink-0 z-10"
+        style={{
+          height: '56px',
+          background: isDark ? '#191D35' : 'white',
+          borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
+        }}
+      >
         <div className="w-64 shrink-0 px-5 flex items-center h-full">
           <button onClick={onBack} className="focus:outline-none">
             <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
@@ -80,17 +87,25 @@ export default function Submission({ formData, onBack }) {
         </div>
       </header>
 
-      {/* Three-column layout — identical to homepage */}
+      {/* Three-column layout */}
       <div className="flex flex-1 overflow-hidden">
 
-        {/* Left Sidebar — identical structure to main Sidebar component */}
-        <aside className="w-64 border-r border-gray-100 flex flex-col h-full shrink-0 relative overflow-hidden" style={{ background: 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)' }}>
+        {/* Left Sidebar */}
+        <aside
+          className="w-64 2xl:w-72 flex flex-col h-full shrink-0 relative overflow-hidden"
+          style={{
+            background: isDark
+              ? '#191D35'
+              : 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)',
+            borderRight: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
+          }}
+        >
 
-          {/* Title — left-aligned with logo above */}
+          {/* Title */}
           <div className="px-5 pt-5 pb-3 relative z-10">
-            <h2 className="text-base font-bold text-navy leading-tight">Commercial Auto</h2>
-            <p className="text-xs text-gray-400 mt-0.5">Submission Number: {SUBMISSION_ID}</p>
-            <div className="mt-3 border-b border-gray-100" />
+            <h2 className="text-base font-bold leading-tight" style={{ color: isDark ? '#F9FAFB' : undefined }}>Commercial Auto</h2>
+            <p className="text-xs mt-0.5" style={{ color: '#9CA3AF' }}>Submission Number: {SUBMISSION_ID}</p>
+            <div className="mt-3" style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#F3F4F6'}` }} />
           </div>
 
           {/* Steps */}
@@ -99,7 +114,6 @@ export default function Submission({ formData, onBack }) {
               const isLast = i === STEP_LABELS.length
               return (
                 <div key={label} className="relative mb-0.5">
-                  {/* Active left bar for last step */}
                   {isLast && (
                     <div
                       className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-6 rounded-full z-20"
@@ -109,11 +123,13 @@ export default function Submission({ formData, onBack }) {
                   <div
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl"
                     style={isLast ? {
-                      background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
+                      background: isDark
+                        ? 'linear-gradient(#232847, #232847) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
+                        : 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                       border: '1.5px solid transparent',
                     } : { border: '1.5px solid transparent' }}
                   >
-                    {/* Badge */}
+                    {/* Badge — checkmark for all */}
                     <span
                       className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
                       style={{ background: 'rgba(166, 20, 195, 0.10)' }}
@@ -130,13 +146,13 @@ export default function Submission({ formData, onBack }) {
                     </span>
                     {/* Label */}
                     <span
-                      className={`text-xs truncate ${isLast ? 'font-semibold' : 'text-gray-500 font-medium'}`}
+                      className={`text-xs truncate ${isLast ? 'font-semibold' : 'font-medium'}`}
                       style={isLast ? {
                         background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
-                      } : {}}
+                      } : { color: isDark ? '#9CA3AF' : '#6B7280' }}
                     >
                       {label}
                     </span>
@@ -146,18 +162,73 @@ export default function Submission({ formData, onBack }) {
             })}
           </nav>
 
-          {/* Jungle bg */}
-          <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
-            <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom opacity-30" />
+          {/* Chat with Norbie */}
+          <div className="px-3 pb-2 relative z-10">
+            <div
+              className="flex items-center gap-3 rounded-xl px-4 py-3"
+              style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}
+            >
+              <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
+              <div>
+                <p className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
+                <p className="text-xs" style={{ color: '#9CA3AF' }}>AI Assistant</p>
+              </div>
+            </div>
           </div>
+
+          {/* Dark Mode toggle */}
+          <div className="px-3 pb-4 relative z-10">
+            <button
+              onClick={onToggleDark}
+              className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all"
+              style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}
+            >
+              <div className="flex items-center gap-3">
+                {isDark ? (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#F9FAFB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                  </svg>
+                )}
+                <span className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Dark Mode</span>
+              </div>
+              <div
+                className="w-10 h-5 rounded-full relative transition-all"
+                style={{ background: isDark ? 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' : '#e5e7eb' }}
+              >
+                <div
+                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
+                  style={{ left: isDark ? '22px' : '2px' }}
+                />
+              </div>
+            </button>
+          </div>
+
+          {/* Background image — light mode only */}
+          {!isDark && (
+            <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
+              <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom opacity-30" />
+            </div>
+          )}
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 overflow-y-auto custom-scroll bg-white">
+        <main className="flex-1 overflow-y-auto custom-scroll" style={{ background: isDark ? '#131629' : 'white' }}>
           <div className="max-w-4xl 2xl:max-w-5xl mx-auto px-10 py-8 space-y-6">
 
             {/* Submission Complete Card */}
-            <div className="rounded-2xl border border-gray-100 shadow-sm overflow-hidden bg-white">
+            <div className="rounded-2xl overflow-hidden" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
               {/* Gradient top accent bar */}
               <div className="h-1" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }} />
 
@@ -300,7 +371,7 @@ export default function Submission({ formData, onBack }) {
             )}
 
             {/* Complete Your Coverage */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm px-10 py-8">
+            <div className="rounded-2xl px-10 py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center gap-2 mb-3">
                   <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(166,20,195,0.10)' }}>
@@ -328,7 +399,7 @@ export default function Submission({ formData, onBack }) {
                   { name: 'General Liability',      desc: 'Protect against third-party claims',    price: '$450/year',   badge: 'RECOMMENDED', badgeClass: 'bg-teal',      icon: iconGL },
                   { name: 'Business Owners',        desc: 'Bundle and save on multiple coverages', price: '$850/year',   badge: 'BEST VALUE',  badgeClass: 'bg-teal',      icon: iconBO },
                 ].map((item) => (
-                  <div key={item.name} className="flex items-center justify-between px-5 py-4 border border-gray-100 rounded-2xl hover:shadow-sm transition">
+                  <div key={item.name} className="flex items-center justify-between px-5 py-4 rounded-2xl hover:shadow-sm transition" style={{ border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
                     <div className="flex items-center gap-4">
                       {/* Icon at 0.5x — w-6 h-6 instead of w-12 h-12 */}
                       <div className="w-6 h-6 rounded-lg overflow-hidden shrink-0 bg-gray-50">
@@ -372,7 +443,7 @@ export default function Submission({ formData, onBack }) {
         </main>
 
         {/* Right Panel */}
-        <aside className="w-80 bg-white border-l border-gray-100 flex flex-col shrink-0">
+        <aside className="w-80 flex flex-col shrink-0" style={{ background: isDark ? '#191D35' : 'white', borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
 
             {/* Title */}
@@ -423,12 +494,12 @@ export default function Submission({ formData, onBack }) {
 
           </div>
 
-          <div className="px-4 py-4 border-t border-gray-100 shrink-0 space-y-3">
+          <div className="px-4 py-4 shrink-0 space-y-3" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
             <p className="text-xs text-gray-400">Need assistance?</p>
-            <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
+            <div className="flex items-center gap-3 rounded-xl px-4 py-3" style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}>
               <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
               <div>
-                <p className="text-sm font-semibold text-gray-700">Chat with Norbie</p>
+                <p className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
                 <p className="text-xs text-gray-400">AI Assistant</p>
               </div>
             </div>

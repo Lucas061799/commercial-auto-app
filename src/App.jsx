@@ -332,7 +332,7 @@ function App() {
   }
 
   if (submitted) {
-    return <Submission formData={formData} onBack={() => setSubmitted(false)} />
+    return <Submission formData={formData} onBack={() => setSubmitted(false)} isDark={darkMode} onToggleDark={() => setDarkMode(d => !d)} />
   }
 
   return (
@@ -386,11 +386,11 @@ function App() {
               { id: 3, title: 'Driver Information',     el: <DriverInformation formData={formData} updateFormData={updateFormData} /> },
               { id: 4, title: 'Eligibility Information',el: <EligibilityInformation formData={formData} updateFormData={updateFormData} /> },
               { id: 5, title: 'Coverage Information',   el: <CoverageInformation formData={formData} updateFormData={updateFormData} errorFields={errorFields} /> },
-              { id: 6, title: 'Additional Insured',     el: <AdditionalInsured formData={formData} updateFormData={updateFormData} /> },
+              { id: 6, title: 'Additional Insured',     el: <AdditionalInsured formData={formData} updateFormData={updateFormData} isDark={darkMode} /> },
               { id: 7, title: 'Loss Payee Information', el: <LossPayee formData={formData} updateFormData={updateFormData} /> },
               { id: 8, title: 'Prior History',          el: <PriorHistory formData={formData} updateFormData={updateFormData} /> },
               { id: 9, title: 'Claim History',          el: <ClaimHistory formData={formData} updateFormData={updateFormData} /> },
-              { id: 10, title: 'Payment Plan',          el: <PaymentPlan formData={formData} updateFormData={updateFormData} onSubmit={() => setSubmitted(true)} errorFields={errorFields} /> },
+              { id: 10, title: 'Payment Plan',          el: <PaymentPlan formData={formData} updateFormData={updateFormData} onSubmit={() => setSubmitted(true)} errorFields={errorFields} isDark={darkMode} /> },
             ].map(section => (
               <section
                 key={section.id}
