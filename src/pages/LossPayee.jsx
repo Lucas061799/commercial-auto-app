@@ -61,26 +61,43 @@ export default function LossPayee({ formData, updateFormData }) {
               value={p.additionalInterest}
               onChange={setField(idx, 'additionalInterest')}
             />
-            {applicant?.address && (
-              <label className="flex items-center gap-2 cursor-pointer w-fit">
-                <div
-                  onClick={() => applySameAsApplicant(idx, !p.sameAsApplicant)}
-                  className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
-                  style={p.sameAsApplicant
-                    ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
-                    : { borderColor: '#d1d5db', background: 'white' }}
+            {/* Same as applicant address */}
+            {(() => {
+              const hasAddr = !!applicant?.address
+              const applied = p.sameAsApplicant
+              return (
+                <button
+                  type="button"
+                  onClick={() => hasAddr && applySameAsApplicant(idx, !applied)}
+                  className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left"
+                  style={applied
+                    ? { borderColor: '#5C2ED4', background: 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)' }
+                    : { borderColor: '#e5e7eb', background: '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
                 >
-                  {p.sameAsApplicant && (
-                    <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
-                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                  <div
+                    className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
+                    style={applied
+                      ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
+                      : { borderColor: '#d1d5db', background: 'white' }}
+                  >
+                    {applied && (
+                      <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
+                        <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-semibold text-gray-700">Same as applicant address</p>
+                    <p className="text-[10px] text-gray-400 mt-0.5 truncate">
+                      {hasAddr ? `${applicant.address}${applicant.city ? `, ${applicant.city}` : ''}${applicant.state ? `, ${applicant.state}` : ''}` : 'Fill in applicant address first'}
+                    </p>
+                  </div>
+                  {applied && (
+                    <span className="text-[9px] font-bold text-white px-2 py-0.5 rounded-full shrink-0" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' }}>Applied</span>
                   )}
-                </div>
-                <span className="text-xs text-gray-500">Same as applicant address
-                  <span className="ml-1 text-gray-400">({applicant.address}{applicant.city ? `, ${applicant.city}` : ''})</span>
-                </span>
-              </label>
-            )}
+                </button>
+              )
+            })()}
             <FormGrid>
               <AddressAutocomplete
                 label="Address"
