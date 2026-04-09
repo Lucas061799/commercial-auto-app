@@ -49,11 +49,11 @@ function ColoredYesNo({ value, onChange, isDark = false }) {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
             style={active
               ? { borderColor: s.activeBorder, color: s.activeText, background: s.activeBg }
-              : { borderColor: isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb', color: isDark ? '#9CA3AF' : '#6b7280', background: 'transparent' }
+              : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#e5e7eb', color: isDark ? '#E5E7EB' : '#6b7280', background: 'transparent' }
             }
           >
             <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
-              style={{ borderColor: active ? s.dotBorder : '#d1d5db' }}>
+              style={{ borderColor: active ? s.dotBorder : isDark ? 'rgba(255,255,255,0.3)' : '#d1d5db' }}>
               {active && <div className="w-1.5 h-1.5 rounded-full" style={{ background: s.dotBg }} />}
             </div>
             {opt}

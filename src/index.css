@@ -150,14 +150,14 @@ input, select, textarea, button {
 
 /* Radio / button group items (not selected) */
 [data-dark="true"] button.border-gray-200 {
-  border-color: rgba(255,255,255,0.12) !important;
-  color: #9CA3AF !important;
+  border-color: rgba(255,255,255,0.18) !important;
+  color: #E5E7EB !important;
   background: transparent !important;
 }
 [data-dark="true"] button.border-gray-200:hover {
-  border-color: rgba(255,255,255,0.22) !important;
+  border-color: rgba(255,255,255,0.3) !important;
   background: rgba(255,255,255,0.05) !important;
-  color: #D1D5DB !important;
+  color: #FFFFFF !important;
 }
 
 /* Labels */
