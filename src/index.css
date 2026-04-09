@@ -86,3 +86,95 @@ input, select, textarea, button {
   background: #e2e8f0;
   border-radius: 99px;
 }
+
+/* ============================================================
+   DARK MODE — [data-dark="true"] overrides
+   ============================================================ */
+
+/* Base text */
+[data-dark="true"] .text-navy,
+[data-dark="true"] .text-gray-800,
+[data-dark="true"] .text-gray-700,
+[data-dark="true"] .text-gray-600 {
+  color: #F9FAFB !important;
+}
+[data-dark="true"] .text-gray-500,
+[data-dark="true"] .text-gray-400 {
+  color: #9CA3AF !important;
+}
+
+/* Section/card backgrounds */
+[data-dark="true"] .bg-gray-50 {
+  background-color: #1F2543 !important;
+}
+[data-dark="true"] .bg-gray-100 {
+  background-color: #252948 !important;
+}
+[data-dark="true"] .bg-white {
+  background-color: #1A1E38 !important;
+}
+
+/* Borders */
+[data-dark="true"] .border-gray-100,
+[data-dark="true"] .border-gray-200,
+[data-dark="true"] .border-gray-300 {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+[data-dark="true"] .divide-gray-100 > * + * {
+  border-color: rgba(255,255,255,0.08) !important;
+}
+
+/* Inputs, selects, textareas */
+[data-dark="true"] input,
+[data-dark="true"] select,
+[data-dark="true"] textarea {
+  background-color: #252948 !important;
+  border-color: rgba(255,255,255,0.12) !important;
+  color: #F9FAFB !important;
+}
+[data-dark="true"] input::placeholder,
+[data-dark="true"] textarea::placeholder {
+  color: #4B5563 !important;
+}
+[data-dark="true"] select option {
+  background-color: #252948;
+  color: #F9FAFB;
+}
+
+/* Radio / button group items (not selected) */
+[data-dark="true"] button.border-gray-200 {
+  border-color: rgba(255,255,255,0.12) !important;
+  color: #9CA3AF !important;
+}
+
+/* Labels */
+[data-dark="true"] label {
+  color: #9CA3AF !important;
+}
+[data-dark="true"] label.font-semibold,
+[data-dark="true"] label .font-semibold {
+  color: #D1D5DB !important;
+}
+
+/* "Add another" dashed button */
+[data-dark="true"] .add-another-btn {
+  border-color: rgba(166,20,195,0.25) !important;
+  color: #9CA3AF !important;
+}
+[data-dark="true"] .add-another-btn:hover {
+  background: linear-gradient(88.09deg, rgba(92,46,212,0.15) 0.11%, rgba(166,20,195,0.15) 63.8%) !important;
+}
+
+/* Warning/info banners */
+[data-dark="true"] .bg-\[\#F3F0FF\],
+[data-dark="true"] .bg-brand-light {
+  background-color: rgba(92,46,212,0.15) !important;
+}
+
+/* Scrollbar in dark */
+[data-dark="true"] .custom-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.1);
+}
+[data-dark="true"] .custom-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.2);
+}

@@ -244,6 +244,9 @@ function App() {
   const [submitted, setSubmitted] = useState(pageParam === 'submission')
   const [pageZeroDone, setPageZeroDone] = useState(pageParam === 'main' || pageParam === 'submission')
   const [darkMode, setDarkMode] = useState(false)
+  useEffect(() => {
+    document.documentElement.setAttribute('data-dark', darkMode ? 'true' : 'false')
+  }, [darkMode])
   const [pulseUpload, setPulseUpload] = useState(false)
   const [errorFields, setErrorFields] = useState([])
   const sectionRefs = useRef({})
