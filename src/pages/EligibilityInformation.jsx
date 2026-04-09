@@ -76,7 +76,7 @@ function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
       <div className="flex items-start justify-between gap-3">
         <p className="text-xs font-semibold leading-relaxed flex-1" style={{ color: isDark ? '#F9FAFB' : '#1f2937' }}>{q.label}</p>
         {autoFilled && (
-          <span className="text-[9px] font-bold text-[#5C2ED4] px-2 py-0.5 rounded-full shrink-0 mt-0.5" style={{ background: isDark ? 'rgba(92,46,212,0.2)' : 'rgba(243,240,255,1)' }}>Auto-Filled</span>
+          <span className="text-[9px] font-bold px-2 py-0.5 rounded-full shrink-0 mt-0.5" style={{ background: isDark ? 'rgba(166,20,195,0.35)' : 'rgba(243,240,255,1)', color: isDark ? '#F0ABFC' : '#5C2ED4' }}>Auto-Filled</span>
         )}
       </div>
       <div className="mt-3">
