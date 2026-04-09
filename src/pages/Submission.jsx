@@ -124,15 +124,18 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl"
                     style={isLast ? {
                       background: isDark
-                        ? 'linear-gradient(#232847, #232847) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
+                        ? 'linear-gradient(rgba(255,255,255,0.07), rgba(255,255,255,0.07)) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
                         : 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
                       border: '1.5px solid transparent',
+                      boxShadow: isDark
+                        ? '0 4px 20px rgba(92,46,212,0.35), 0 1px 8px rgba(166,20,195,0.2)'
+                        : '0 2px 12px rgba(92,46,212,0.15)',
                     } : { border: '1.5px solid transparent' }}
                   >
                     {/* Badge — checkmark for all */}
                     <span
                       className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                      style={{ background: 'rgba(166, 20, 195, 0.10)' }}
+                      style={{ background: isLast ? 'linear-gradient(135deg, #5C2ED4 0%, #A614C3 100%)' : (isDark ? 'rgba(166,20,195,0.15)' : 'rgba(166, 20, 195, 0.10)') }}
                     >
                       <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
                         <defs>
@@ -147,12 +150,17 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     {/* Label */}
                     <span
                       className={`text-xs truncate ${isLast ? 'font-semibold' : 'font-medium'}`}
-                      style={isLast ? {
-                        background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      } : { color: isDark ? '#9CA3AF' : '#6B7280' }}
+                      style={isLast
+                        ? isDark
+                          ? { color: '#FFFFFF' }
+                          : {
+                              background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              backgroundClip: 'text',
+                            }
+                        : { color: isDark ? '#9CA3AF' : '#6B7280' }
+                      }
                     >
                       {label}
                     </span>

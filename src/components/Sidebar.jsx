@@ -71,9 +71,12 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                 className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all duration-150"
                 style={isActive ? {
                   background: isDark
-                    ? 'linear-gradient(#232847, #232847) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
+                    ? 'linear-gradient(rgba(255,255,255,0.07), rgba(255,255,255,0.07)) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box'
                     : 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
-                  border: '1.5px solid transparent'
+                  border: '1.5px solid transparent',
+                  boxShadow: isDark
+                    ? '0 4px 20px rgba(92,46,212,0.35), 0 1px 8px rgba(166,20,195,0.2)'
+                    : '0 2px 12px rgba(92,46,212,0.15)',
                 } : {
                   border: '1.5px solid transparent',
                   background: 'transparent'
@@ -81,7 +84,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
               >
                 {isDone && !isActive ? (
                   <span className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                    style={{ background: 'rgba(166, 20, 195, 0.10)' }}>
+                    style={{ background: isDark ? 'rgba(166,20,195,0.15)' : 'rgba(166, 20, 195, 0.10)' }}>
                     <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
                       <defs>
                         <linearGradient id="checkGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -96,8 +99,8 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                   <span
                     className="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0"
                     style={isActive
-                      ? { background: 'rgba(166, 20, 195, 0.10)', color: '#7B2FBE' }
-                      : { background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)', color: isDark ? '#F9FAFB' : '#9CA3AF' }
+                      ? { background: 'linear-gradient(135deg, #5C2ED4 0%, #A614C3 100%)', color: '#FFFFFF' }
+                      : { background: isDark ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.85)', color: isDark ? '#9CA3AF' : '#9CA3AF' }
                     }
                   >
                     {isSubmissionStep ? '✓' : step.id}
@@ -105,14 +108,17 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                 )}
                 <span
                   className={`text-xs truncate ${isActive ? 'font-semibold' : isDone ? 'font-medium' : ''}`}
-                  style={isActive ? {
-                    background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  } : {
-                    color: isDark ? '#F9FAFB' : isDone ? '#4B5563' : '#9CA3AF',
-                  }}
+                  style={isActive
+                    ? isDark
+                      ? { color: '#FFFFFF' }
+                      : {
+                          background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          backgroundClip: 'text',
+                        }
+                    : { color: isDark ? '#9CA3AF' : isDone ? '#4B5563' : '#9CA3AF' }
+                  }
                 >
                   {step.label}
                 </span>
