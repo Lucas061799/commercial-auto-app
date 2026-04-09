@@ -99,8 +99,10 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                   <span
                     className="w-6 h-6 rounded-md flex items-center justify-center text-[11px] font-bold shrink-0"
                     style={isActive
-                      ? { background: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }
-                      : { background: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.85)', color: isDark ? '#C4B5D4' : '#9CA3AF' }
+                      ? isDark
+                        ? { background: 'rgba(255,255,255,0.2)', color: '#FFFFFF' }
+                        : { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.12) 0%, rgba(166,20,195,0.12) 100%)', color: '#5C2ED4' }
+                      : { background: isDark ? 'rgba(255,255,255,0.12)' : '#F3F4F6', color: isDark ? '#C4B5D4' : '#9CA3AF' }
                     }
                   >
                     {isSubmissionStep ? '✓' : step.id}

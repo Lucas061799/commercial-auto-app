@@ -48,7 +48,7 @@ function ColoredYesNo({ value, onChange, isDark = false }) {
             onClick={() => onChange && onChange(opt)}
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
             style={active
-              ? { borderColor: s.activeBorder, color: s.activeText, background: s.activeBg }
+              ? { borderColor: s.activeBorder, color: isDark ? '#FFFFFF' : s.activeText, background: isDark ? 'rgba(255,255,255,0.08)' : s.activeBg }
               : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#e5e7eb', color: isDark ? '#E5E7EB' : '#6b7280', background: 'transparent' }
             }
           >
@@ -96,8 +96,8 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
         style={{ background: defaultColor + '0D' }}
       >
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold" style={{ color: defaultColor }}>{title}</span>
-          <span className="text-[10px] font-medium" style={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>{subtitle}</span>
+          <span className="text-xs font-bold" style={{ color: isDark ? '#FFFFFF' : defaultColor }}>{title}</span>
+          <span className="text-[10px] font-medium" style={{ color: isDark ? '#9CA3AF' : '#9CA3AF' }}>{subtitle}</span>
         </div>
         <svg
           className="w-4 h-4 transition-transform shrink-0"

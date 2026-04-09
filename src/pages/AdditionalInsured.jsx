@@ -83,13 +83,13 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
                 className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left"
                 style={applied
                   ? { borderColor: '#5C2ED4', background: 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)' }
-                  : { borderColor: '#e5e7eb', background: '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
+                  : { borderColor: isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb', background: isDark ? '#252948' : '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
               >
                 <div
                   className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
                   style={applied
                     ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
-                    : { borderColor: '#d1d5db', background: 'white' }}
+                    : { borderColor: isDark ? 'rgba(255,255,255,0.25)' : '#d1d5db', background: isDark ? 'rgba(255,255,255,0.05)' : 'white' }}
                 >
                   {applied && (
                     <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
@@ -98,7 +98,7 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-semibold text-gray-700">Same as applicant address</p>
+                  <p className="text-xs font-semibold" style={{ color: isDark ? '#D1D5DB' : '#374151' }}>Same as applicant address</p>
                   <p className="text-[10px] text-gray-400 mt-0.5 truncate">
                     {hasAddr ? `${applicant.address}${applicant.city ? `, ${applicant.city}` : ''}${applicant.state ? `, ${applicant.state}` : ''}` : 'Fill in applicant address first'}
                   </p>
@@ -265,7 +265,7 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
             onClick={() => setInsureds([...data.insureds, defaultInsured()])}
             className="flex items-center gap-2 text-xs font-semibold border border-dashed border-[#A614C3]/30 rounded-xl px-4 py-3 mb-2 add-another-btn transition w-full justify-center"
           >
-            <svg className="w-4 h-4" fill="none" stroke="#5C2ED4" viewBox="0 0 24 24">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4"/>
             </svg>
             <span className="text-gradient">Add Another</span>

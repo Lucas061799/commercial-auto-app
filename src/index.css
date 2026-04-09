@@ -169,10 +169,18 @@ input, select, textarea, button {
   color: #D1D5DB !important;
 }
 
+/* Selected radio button text → white in dark mode */
+[data-dark="true"] button.text-\[#5C2ED4\] {
+  color: #FFFFFF !important;
+}
+[data-dark="true"] button.text-\[#A614C3\] {
+  color: #FFFFFF !important;
+}
+
 /* "Add another" dashed button */
 [data-dark="true"] .add-another-btn {
   border-color: rgba(166,20,195,0.55) !important;
-  color: #9CA3AF !important;
+  color: #C084FC !important;
 }
 [data-dark="true"] .add-another-btn:hover {
   background: linear-gradient(88.09deg, rgba(92,46,212,0.15) 0.11%, rgba(166,20,195,0.15) 63.8%) !important;
