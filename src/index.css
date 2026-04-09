@@ -171,7 +171,7 @@ input, select, textarea, button {
 
 /* "Add another" dashed button */
 [data-dark="true"] .add-another-btn {
-  border-color: rgba(166,20,195,0.25) !important;
+  border-color: rgba(166,20,195,0.55) !important;
   color: #9CA3AF !important;
 }
 [data-dark="true"] .add-another-btn:hover {
@@ -205,4 +205,13 @@ input, select, textarea, button {
 }
 [data-dark="true"] .custom-scroll::-webkit-scrollbar-thumb:hover {
   background: rgba(255,255,255,0.2);
+}
+
+/* Fix focus ring color in dark mode */
+[data-dark="true"] input:focus,
+[data-dark="true"] select:focus,
+[data-dark="true"] textarea:focus {
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(166,20,195,0.25) !important;
+  border-color: rgba(166,20,195,0.65) !important;
 }

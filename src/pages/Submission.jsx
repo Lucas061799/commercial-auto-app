@@ -78,12 +78,12 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
       >
         <div className="w-64 shrink-0 px-5 flex items-center h-full">
           <button onClick={onBack} className="focus:outline-none">
-            <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
+            <img src={norbielinkLogo} alt="NorbieLink" className="h-8" style={isDark ? { filter: 'brightness(0) invert(1)' } : {}} />
           </button>
         </div>
         <div className="flex items-center gap-2 px-8">
           <span className="text-xs text-gray-400 tracking-wide">POWERED BY</span>
-          <img src={btisLogo} alt="btis" className="h-7" />
+          <img src={btisLogo} alt="btis" className="h-7" style={isDark ? { filter: 'brightness(0) invert(1)' } : {}} />
         </div>
       </header>
 
@@ -191,44 +191,44 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all"
               style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}
             >
-              <div className="flex items-center gap-3">
-                {isDark ? (
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#F9FAFB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="5"/>
-                    <line x1="12" y1="1" x2="12" y2="3"/>
-                    <line x1="12" y1="21" x2="12" y2="23"/>
-                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                    <line x1="1" y1="12" x2="3" y2="12"/>
-                    <line x1="21" y1="12" x2="23" y2="12"/>
-                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-                  </svg>
-                )}
+              {/* Sun / Moon icon */}
+              {isDark ? (
+                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="#F9FAFB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                </svg>
+              ) : (
+                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              )}
+              {/* Right side: label + toggle pill */}
+              <div className="flex items-center gap-2 ml-auto">
                 <span className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Dark Mode</span>
-              </div>
-              <div
-                className="w-10 h-5 rounded-full relative transition-all"
-                style={{ background: isDark ? 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' : '#e5e7eb' }}
-              >
                 <div
-                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
-                  style={{ left: isDark ? '22px' : '2px' }}
-                />
+                  className="w-10 h-5 rounded-full relative transition-all"
+                  style={{ background: isDark ? '#E8622A' : '#D1D5DB' }}
+                >
+                  <div
+                    className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
+                    style={{ left: isDark ? '22px' : '2px' }}
+                  />
+                </div>
               </div>
             </button>
           </div>
 
-          {/* Background image — light mode only */}
-          {!isDark && (
-            <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
-              <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom opacity-30" />
-            </div>
-          )}
+          {/* Background image */}
+          <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
+            <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.12 : 0.30 }} />
+          </div>
         </aside>
 
         {/* Main Content */}
@@ -451,7 +451,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
         </main>
 
         {/* Right Panel */}
-        <aside className="w-80 flex flex-col shrink-0" style={{ background: isDark ? '#191D35' : 'white', borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+        <aside className="w-80 2xl:w-96 flex flex-col shrink-0" style={{ background: isDark ? '#191D35' : 'white', borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
 
             {/* Title */}

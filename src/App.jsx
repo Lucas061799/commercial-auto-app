@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import norbielinkLogo from './assets/norbielink-logo.png'
+import norbielinkLogoDark from './assets/norbielink-logo-dark.png'
 import btisLogo from './assets/btislogo.png'
+import btisLogoDark from './assets/btislogo-dark.png'
 import Sidebar from './components/Sidebar'
 import RightPanel from './components/RightPanel'
 import ApplicantInformation from './pages/ApplicantInformation'
@@ -348,12 +350,12 @@ function App() {
       >
         {/* Left: logo — same width as sidebar, left-aligned with Commercial Auto below */}
         <div className="w-64 2xl:w-72 shrink-0 px-5 flex items-center h-full">
-          <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
+          <img src={darkMode ? norbielinkLogoDark : norbielinkLogo} alt="NorbieLink" className="h-8" />
         </div>
         {/* Right: powered by btis — pushed to far right */}
         <div className="flex items-center gap-2 px-8">
           <span className="text-xs text-gray-400 tracking-wide">POWERED BY</span>
-          <img src={btisLogo} alt="btis" className="h-7" />
+          <img src={darkMode ? btisLogoDark : btisLogo} alt="btis" className="h-7" />
         </div>
       </header>
 

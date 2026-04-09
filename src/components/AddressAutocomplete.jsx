@@ -11,6 +11,15 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
   const containerRef = useRef(null)
   const inputRef = useRef(null)
 
+  const [isDark, setIsDark] = useState(document.documentElement.getAttribute('data-dark') === 'true')
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.getAttribute('data-dark') === 'true')
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-dark'] })
+    return () => observer.disconnect()
+  }, [])
+
   useEffect(() => { setQuery(value || '') }, [value])
 
   // Close on outside click
@@ -135,8 +144,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
       {/* Dropdown — fixed positioning so it's never clipped by overflow-y-auto containers */}
       {open && suggestions.length > 0 && (
         <div
-          style={dropdownStyle}
-          className="bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden"
+          style={{ ...dropdownStyle, background: isDark ? '#252948' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F3F4F6', borderRadius: '12px', overflow: 'hidden', boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.4)' : '0 8px 24px rgba(0,0,0,0.1)' }}
         >
           {suggestions.map((item, idx) => {
             const a = item.address || {}
@@ -155,8 +163,8 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
                 onMouseDown={() => handleSelect(item)}
                 className="w-full text-left px-4 py-2.5 flex items-start gap-3 transition-all"
                 style={idx === highlighted
-                  ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' }
-                  : { background: 'white' }
+                  ? { background: isDark ? 'rgba(167,139,250,0.15)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' }
+                  : { background: isDark ? '#252948' : 'white' }
                 }
                 onMouseEnter={() => setHighlighted(idx)}
               >
@@ -165,7 +173,7 @@ export default function AddressAutocomplete({ value, onChange, onSelect, label =
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
                 <div>
-                  <p className="text-xs font-semibold text-gray-800">{line1}</p>
+                  <p className="text-xs font-semibold text-gray-800" style={isDark ? { color: '#F9FAFB' } : undefined}>{line1}</p>
                   {line2 && <p className="text-[10px] text-gray-400 mt-0.5">{line2}</p>}
                 </div>
               </button>

@@ -55,8 +55,8 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
             <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
               <defs>
                 <linearGradient id="autoGradRP" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#5C2ED4"/>
-                  <stop offset="100%" stopColor="#A614C3"/>
+                  <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                  <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
                 </linearGradient>
               </defs>
               <path d="M12 16V9m0 0l-3 3m3-3l3 3" stroke="url(#autoGradRP)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
