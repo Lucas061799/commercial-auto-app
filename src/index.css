@@ -155,8 +155,8 @@ input, select, textarea, button {
   background: transparent !important;
 }
 [data-dark="true"] button.border-gray-200:hover {
-  border-color: rgba(255,255,255,0.3) !important;
-  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(166,20,195,0.6) !important;
+  background: linear-gradient(88.09deg, rgba(92,46,212,0.15) 0%, rgba(166,20,195,0.15) 100%) !important;
   color: #FFFFFF !important;
 }
 
