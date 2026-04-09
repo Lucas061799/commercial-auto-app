@@ -1,9 +1,8 @@
 import { useState } from 'react'
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import norbieCommercial from '../assets/norbie-pagezero-v2.png'
+import page0Img from '../assets/Page0-Final.jpeg'
 import bananaImg from '../assets/banana.png'
-import jungleBg from '../assets/jungle.png'
 
 const ALL_STATES = [
   'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
@@ -80,12 +79,10 @@ export default function PageZero({ onStart }) {
         {/* Left — 50%, Norbie fills to divider */}
         <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
           {/* Jungle background — left only */}
-          <img src={jungleBg} alt="" className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none" />
           <img
-            src={norbieCommercial}
-            alt="Norbie"
-            className="relative z-10"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%) scaleX(-1)', width: '60%', objectFit: 'contain' }}
+            src={page0Img}
+            alt="Hero"
+            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '88%', objectFit: 'contain', maskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)', maskComposite: 'intersect', WebkitMaskComposite: 'destination-in' }}
           />
         </div>
 
