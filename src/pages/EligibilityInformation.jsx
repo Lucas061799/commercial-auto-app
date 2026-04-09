@@ -49,7 +49,7 @@ function ColoredYesNo({ value, onChange, isDark = false }) {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
             style={active
               ? { borderColor: s.activeBorder, color: isDark ? '#FFFFFF' : s.activeText, background: isDark ? 'rgba(255,255,255,0.08)' : s.activeBg }
-              : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#e5e7eb', color: isDark ? '#E5E7EB' : '#6b7280', background: 'transparent' }
+              : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#e5e7eb', color: isDark ? '#FFFFFF' : '#6b7280', background: 'transparent' }
             }
           >
             <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
