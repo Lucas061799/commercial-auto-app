@@ -243,6 +243,7 @@ function App() {
   const [activeStep, setActiveStep] = useState(1)
   const [submitted, setSubmitted] = useState(pageParam === 'submission')
   const [pageZeroDone, setPageZeroDone] = useState(pageParam === 'main' || pageParam === 'submission')
+  const [darkMode, setDarkMode] = useState(false)
   const [pulseUpload, setPulseUpload] = useState(false)
   const [errorFields, setErrorFields] = useState([])
   const sectionRefs = useRef({})
@@ -332,9 +333,16 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-white font-montserrat overflow-hidden">
+    <div className="flex flex-col h-screen font-montserrat overflow-hidden" style={{ background: darkMode ? '#131629' : 'white' }}>
       {/* Full-width top header */}
-      <header className="flex items-center justify-between bg-white border-b border-gray-100 shrink-0 z-10" style={{ height: '56px' }}>
+      <header
+        className="flex items-center justify-between shrink-0 z-10"
+        style={{
+          height: '56px',
+          background: darkMode ? '#191D35' : 'white',
+          borderBottom: darkMode ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
+        }}
+      >
         {/* Left: logo — same width as sidebar, left-aligned with Commercial Auto below */}
         <div className="w-64 2xl:w-72 shrink-0 px-5 flex items-center h-full">
           <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
@@ -355,10 +363,17 @@ function App() {
           formData={formData}
           onCheckErrors={handleCheckErrors}
           showSubmission={submitted || false}
+          isDark={darkMode}
+          onToggleDark={() => setDarkMode(d => !d)}
         />
 
         {/* Scrollable main content */}
-        <main ref={scrollContainerRef} onScroll={handleMainScroll} className="flex-1 overflow-y-auto custom-scroll bg-white relative">
+        <main
+          ref={scrollContainerRef}
+          onScroll={handleMainScroll}
+          className="flex-1 overflow-y-auto custom-scroll relative"
+          style={{ background: darkMode ? '#131629' : 'white' }}
+        >
 
           <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-10 py-8 space-y-8">
 
@@ -378,9 +393,13 @@ function App() {
                 key={section.id}
                 ref={el => sectionRefs.current[section.id] = el}
                 id={`section-${section.id}`}
-                className="bg-white rounded-2xl overflow-hidden"
+                className="rounded-2xl overflow-hidden"
+                style={{
+                  background: darkMode ? '#1A1E38' : 'white',
+                  border: darkMode ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                }}
               >
-                <SectionHeader title={section.title} />
+                <SectionHeader title={section.title} isDark={darkMode} />
                 <div className="px-10 pt-5 pb-10">
                   {section.el}
                 </div>
@@ -391,18 +410,21 @@ function App() {
           </div>
         </main>
 
-        <RightPanel onFormReview={handleCheckErrors} formData={formData} pulseUpload={pulseUpload} />
+        <RightPanel onFormReview={handleCheckErrors} formData={formData} pulseUpload={pulseUpload} isDark={darkMode} />
       </div>
     </div>
   )
 }
 
 // Section header — sits at top of each card
-function SectionHeader({ title }) {
+function SectionHeader({ title, isDark }) {
   return (
     <div className="px-10 pt-8 pb-0">
-      <div className="flex items-center justify-between pb-4 border-b border-gray-300">
-        <h2 className="text-lg font-bold text-navy">{title}</h2>
+      <div
+        className="flex items-center justify-between pb-4"
+        style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#D1D5DB'}` }}
+      >
+        <h2 className="text-lg font-bold" style={{ color: isDark ? '#F9FAFB' : undefined }} >{title}</h2>
       </div>
     </div>
   )

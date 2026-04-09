@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react'
-import norbieface from '../assets/norbieface.png'
 
 function getSectionCompletion(formData) {
   const results = {}
@@ -21,7 +20,7 @@ function getSectionCompletion(formData) {
   return results
 }
 
-export default function RightPanel({ onFormReview, formData = {}, pulseUpload = false }) {
+export default function RightPanel({ onFormReview, formData = {}, pulseUpload = false, isDark = false }) {
   const [files, setFiles] = useState([])
   const [dragging, setDragging] = useState(false)
   const inputRef = useRef()
@@ -38,11 +37,17 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
   const formatSize = (bytes) => bytes < 1024 ? bytes + ' bytes' : Math.round(bytes / 1024) + ' KB'
 
   return (
-    <aside className="w-80 2xl:w-96 bg-white border-l border-gray-100 flex flex-col h-full sticky top-0 shrink-0">
+    <aside
+      className="w-80 2xl:w-96 flex flex-col h-full sticky top-0 shrink-0"
+      style={{
+        background: isDark ? '#191D35' : 'white',
+        borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
+      }}
+    >
       <div className="p-5 flex-1 overflow-y-auto sidebar-nav">
 
         {/* Title */}
-        <h2 className="text-lg font-bold text-navy mb-3">Submission in Progress</h2>
+        <h2 className="text-lg font-bold mb-3" style={{ color: isDark ? '#F9FAFB' : undefined }}>Submission in Progress</h2>
 
         {/* Auto-saved + % row */}
         <div className="flex items-center justify-between mb-2">
@@ -63,7 +68,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         </div>
 
         {/* Progress bar */}
-        <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden mb-4">
+        <div className="w-full h-1.5 rounded-full overflow-hidden mb-4" style={{ background: isDark ? 'rgba(255,255,255,0.08)' : '#F3F4F6' }}>
           <div
             className="h-full rounded-full transition-all duration-500"
             style={{ width: `${progressPct}%`, background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
@@ -71,7 +76,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-100 mb-5" />
+        <div className="mb-5" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#F3F4F6'}` }} />
 
         {/* Upload & Save Time */}
         <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: '1px solid rgba(92,46,212,0.1)', background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
@@ -138,9 +143,13 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         <button
           onClick={onFormReview}
           className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
-          style={{ color: '#A614C3', border: '1px solid rgba(166,20,195,0.3)', background: 'white' }}
+          style={{
+            color: '#A614C3',
+            border: '1px solid rgba(166,20,195,0.3)',
+            background: isDark ? 'rgba(255,255,255,0.04)' : 'white',
+          }}
           onMouseEnter={e => e.currentTarget.style.background = 'rgba(166,20,195,0.06)'}
-          onMouseLeave={e => e.currentTarget.style.background = 'white'}
+          onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'white'}
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -148,18 +157,6 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
           Form Review
         </button>
 
-      </div>
-
-      {/* Chat with Norbie */}
-      <div className="px-4 py-4 border-t border-gray-100 shrink-0">
-        <p className="text-xs text-gray-400 mb-2">Need assistance?</p>
-        <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-          <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
-          <div>
-            <p className="text-sm font-semibold text-gray-700">Chat with Norbie</p>
-            <p className="text-xs text-gray-400">AI Assistant</p>
-          </div>
-        </div>
       </div>
     </aside>
   )
