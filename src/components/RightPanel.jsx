@@ -144,12 +144,12 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
           onClick={onFormReview}
           className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
           style={{
-            color: '#A614C3',
-            border: '1px solid rgba(166,20,195,0.3)',
-            background: isDark ? 'rgba(255,255,255,0.04)' : 'white',
+            color: isDark ? '#D8B4FE' : '#A614C3',
+            border: isDark ? '1px solid rgba(216,180,254,0.35)' : '1px solid rgba(166,20,195,0.3)',
+            background: isDark ? 'rgba(167,139,250,0.08)' : 'white',
           }}
-          onMouseEnter={e => e.currentTarget.style.background = 'rgba(166,20,195,0.06)'}
-          onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.04)' : 'white'}
+          onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.15)' : 'rgba(166,20,195,0.06)'}
+          onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.08)' : 'white'}
         >
           <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>

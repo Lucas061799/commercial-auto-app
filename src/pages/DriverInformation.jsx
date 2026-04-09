@@ -21,7 +21,7 @@ const defaultDriver = () => ({
   hasViolations: 'No',
 })
 
-export default function DriverInformation({ formData, updateFormData }) {
+export default function DriverInformation({ formData, updateFormData, isDark = false }) {
   const data = formData.drivers || { drivers: [defaultDriver()] }
   const drivers = data.drivers
 
@@ -77,14 +77,14 @@ export default function DriverInformation({ formData, updateFormData }) {
                   onClick={() => hasAddr && applySameAsApplicant(idx, !applied)}
                   className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border transition-all text-left"
                   style={applied
-                    ? { borderColor: '#5C2ED4', background: 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)' }
-                    : { borderColor: '#e5e7eb', background: '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
+                    ? { borderColor: '#7C3AED', background: isDark ? 'rgba(92,46,212,0.18)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)' }
+                    : { borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#e5e7eb', background: isDark ? '#252948' : '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
                 >
                   <div
                     className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
                     style={applied
                       ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
-                      : { borderColor: '#d1d5db', background: 'white' }}
+                      : { borderColor: isDark ? 'rgba(255,255,255,0.2)' : '#d1d5db', background: isDark ? 'rgba(255,255,255,0.05)' : 'white' }}
                   >
                     {applied && (
                       <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
@@ -93,8 +93,8 @@ export default function DriverInformation({ formData, updateFormData }) {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-gray-700">Same as applicant address</p>
-                    <p className="text-[10px] text-gray-400 mt-0.5 truncate">
+                    <p className="text-xs font-semibold" style={{ color: isDark ? '#D1D5DB' : '#374151' }}>Same as applicant address</p>
+                    <p className="text-[10px] mt-0.5 truncate" style={{ color: '#9CA3AF' }}>
                       {hasAddr ? `${app.address}${app.city ? `, ${app.city}` : ''}${app.state ? `, ${app.state}` : ''}` : 'Fill in applicant address first'}
                     </p>
                   </div>

@@ -135,7 +135,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     {/* Badge — checkmark for all */}
                     <span
                       className="w-6 h-6 rounded-md flex items-center justify-center shrink-0"
-                      style={{ background: isLast ? 'linear-gradient(135deg, #5C2ED4 0%, #A614C3 100%)' : (isDark ? 'rgba(166,20,195,0.15)' : 'rgba(166, 20, 195, 0.10)') }}
+                      style={{ background: isLast ? 'rgba(255,255,255,0.2)' : (isDark ? 'rgba(166,20,195,0.28)' : 'rgba(166, 20, 195, 0.10)') }}
                     >
                       <svg className="w-3.5 h-3.5" viewBox="0 0 14 14" fill="none">
                         <defs>
@@ -144,7 +144,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                             <stop offset="100%" stopColor="#A614C3"/>
                           </linearGradient>
                         </defs>
-                        <path d="M2.5 7l3 3 6-6" stroke={`url(#cg${i})`} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M2.5 7l3 3 6-6" stroke={isLast ? '#FFFFFF' : (isDark ? '#D8A8F0' : `url(#cg${i})`)} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                       </svg>
                     </span>
                     {/* Label */}
