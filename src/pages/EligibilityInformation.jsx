@@ -93,15 +93,15 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full flex items-center justify-between px-4 py-3 text-left transition-all"
-        style={{ background: defaultColor + '0D' }}
+        style={{ background: isDark ? defaultColor + '30' : defaultColor + '0D' }}
       >
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold" style={{ color: isDark ? '#FFFFFF' : defaultColor }}>{title}</span>
-          <span className="text-[10px] font-medium" style={{ color: isDark ? '#9CA3AF' : '#9CA3AF' }}>{subtitle}</span>
+          <span className="text-xs font-bold" style={{ color: isDark ? (defaultColor === '#5C2ED4' ? '#A78BFA' : '#F0ABFC') : defaultColor }}>{title}</span>
+          <span className="text-[10px] font-medium" style={{ color: isDark ? '#6B7280' : '#9CA3AF' }}>{subtitle}</span>
         </div>
         <svg
           className="w-4 h-4 transition-transform shrink-0"
-          style={{ color: defaultColor, transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          style={{ color: isDark ? (defaultColor === '#5C2ED4' ? '#A78BFA' : '#F0ABFC') : defaultColor, transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}
           fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
@@ -184,10 +184,10 @@ export default function EligibilityInformation({ formData, updateFormData, isDar
       {quickFilled ? (
         <div className="space-y-3">
           <div className="flex items-center justify-between mb-1">
-            <p className="text-xs text-[#5C2ED4] font-medium">
+            <p className="text-xs font-medium" style={{ color: isDark ? '#C084FC' : '#5C2ED4' }}>
               Standard answers applied — expand each group to review or adjust.
             </p>
-            <button onClick={handleReset} className="text-[10px] text-gray-400 hover:text-gray-600 underline shrink-0">Reset all</button>
+            <button onClick={handleReset} className="text-[10px] underline shrink-0" style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>Reset all</button>
           </div>
           <CollapsibleGroup
             title="Users usually select Yes to these questions"
@@ -247,7 +247,7 @@ export default function EligibilityInformation({ formData, updateFormData, isDar
 
       {allAnswered && (
         <div className="mt-5 p-3 rounded-xl border flex items-center gap-2" style={{ background: isDark ? 'rgba(92,46,212,0.15)' : '#F3F0FF', borderColor: 'rgba(124,58,237,0.2)' }}>
-          <svg className="w-4 h-4 text-[#7C3AED] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 shrink-0" fill="none" stroke={isDark ? '#C084FC' : '#7C3AED'} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
           <p className="text-[11px] text-gradient font-medium">All eligibility questions answered — you're good to continue!</p>

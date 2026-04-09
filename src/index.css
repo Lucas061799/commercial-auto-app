@@ -180,10 +180,23 @@ input, select, textarea, button {
 /* "Add another" dashed button */
 [data-dark="true"] .add-another-btn {
   border-color: rgba(166,20,195,0.55) !important;
-  color: #C084FC !important;
+  color: #E879F9 !important;
+}
+[data-dark="true"] .add-another-btn svg {
+  color: #E879F9 !important;
 }
 [data-dark="true"] .add-another-btn:hover {
-  background: linear-gradient(88.09deg, rgba(92,46,212,0.15) 0.11%, rgba(166,20,195,0.15) 63.8%) !important;
+  background: rgba(167,139,250,0.15) !important;
+  border-color: rgba(216,180,254,0.5) !important;
+}
+
+/* Print Submission / outline action buttons in dark */
+[data-dark="true"] .btn-outline-action {
+  border-color: rgba(216,180,254,0.35) !important;
+  background: rgba(167,139,250,0.08) !important;
+}
+[data-dark="true"] .btn-outline-action:hover {
+  background: rgba(167,139,250,0.15) !important;
 }
 
 /* Warning/info banners */
