@@ -123,7 +123,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   <div
                     className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl"
                     style={isLast ? isDark ? {
-                      background: 'linear-gradient(180deg, rgba(166,20,195,0.68) 0%, rgba(42,28,70,0.28) 100%)',
+                      background: 'linear-gradient(180deg, rgba(42,28,70,0.28) 0%, rgba(166,20,195,0.68) 100%)',
                       border: '1.5px solid rgba(166,20,195,0.65)',
                       boxShadow: '0 4px 24px rgba(166,20,195,0.25)',
                     } : {
