@@ -2,6 +2,11 @@ import { useMemo } from 'react'
 import sidebarBg from '../assets/sidebar-bg.png'
 import norbieface from '../assets/norbieface.png'
 
+// ── Sidebar dark mode controls ──────────────────────────────
+const DARK_JUNGLE_OPACITY = 0.6    // jungle bg opacity in dark mode
+const DARK_BORDER_RIGHT   = '1px solid rgba(255,255,255,0.12)' // sidebar right border in dark mode
+// ────────────────────────────────────────────────────────────
+
 function getSectionCompletion(formData) {
   const results = {}
   const a = formData.applicant || {}
@@ -39,7 +44,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
         background: isDark
           ? '#191D35'
           : 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)',
-        borderRight: 'none',
+        borderRight: isDark ? DARK_BORDER_RIGHT : '1px solid #F3F4F6',
       }}
     >
 
@@ -192,7 +197,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
 
       {/* Background image */}
       <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
-        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.32 : 0.58 }} />
+        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? DARK_JUNGLE_OPACITY : 0.58, clipPath: 'inset(0 1px 0 0)' }} />
       </div>
     </aside>
   )
