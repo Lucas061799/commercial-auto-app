@@ -134,7 +134,10 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
       <div className="px-3 pb-2 relative z-10">
         <div
           className="flex items-center gap-3 rounded-xl px-4 py-3"
-          style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}
+          style={{
+            background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
+            border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+          }}
         >
           <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
           <div>
@@ -148,46 +151,48 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
       <div className="px-3 pb-4 relative z-10">
         <button
           onClick={onToggleDark}
-          className="w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all"
-          style={{ background: isDark ? 'rgba(255,255,255,0.06)' : '#f9fafb' }}
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all"
+          style={{
+            background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
+            border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+          }}
         >
-          {/* Sun / Moon icon */}
-          {isDark ? (
-            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="#F9FAFB" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
-            </svg>
-          ) : (
-            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="#374151" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="5"/>
-              <line x1="12" y1="1" x2="12" y2="3"/>
-              <line x1="12" y1="21" x2="12" y2="23"/>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-              <line x1="1" y1="12" x2="3" y2="12"/>
-              <line x1="21" y1="12" x2="23" y2="12"/>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-          )}
-          {/* Right side: label + toggle pill */}
-          <div className="flex items-center gap-2 ml-auto">
-            <span className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Dark Mode</span>
+          {/* Toggle pill with icon inside the knob */}
+          <div
+            className="w-10 h-5 rounded-full relative transition-all shrink-0"
+            style={{ background: isDark ? '#E8622A' : '#D1D5DB' }}
+          >
             <div
-              className="w-10 h-5 rounded-full relative transition-all"
-              style={{ background: isDark ? '#E8622A' : '#D1D5DB' }}
+              className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all flex items-center justify-center"
+              style={{ left: isDark ? '22px' : '2px' }}
             >
-              <div
-                className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all"
-                style={{ left: isDark ? '22px' : '2px' }}
-              />
+              {isDark ? (
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#E8622A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                </svg>
+              ) : (
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#5C2ED4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              )}
             </div>
           </div>
+          {/* Label */}
+          <span className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Dark Mode</span>
         </button>
       </div>
 
       {/* Background image */}
       <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
-        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.12 : 0.30 }} />
+        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.32 : 0.58 }} />
       </div>
     </aside>
   )
