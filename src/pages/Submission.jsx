@@ -207,11 +207,11 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 style={{ background: isDark ? '#E8622A' : '#D1D5DB' }}
               >
                 <div
-                  className="absolute top-0.5 w-4 h-4 rounded-full bg-white shadow transition-all flex items-center justify-center"
-                  style={{ left: isDark ? '22px' : '2px' }}
+                  className="absolute top-0.5 w-4 h-4 rounded-full shadow transition-all flex items-center justify-center"
+                  style={{ left: isDark ? '22px' : '2px', background: 'white' }}
                 >
                   {isDark ? (
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#E8622A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#4B5563" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                     </svg>
                   ) : (
@@ -230,7 +230,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 </div>
               </div>
               {/* Label */}
-              <span className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Dark Mode</span>
+              <span style={{ fontSize: '14.5px', fontWeight: 400, color: isDark ? '#F9FAFB' : '#6B7280' }}>Dark Mode</span>
             </button>
           </div>
 
