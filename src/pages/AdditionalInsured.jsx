@@ -191,7 +191,14 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
       {data.hasAdditional === 'Yes' && (
         <>
           {/* Blanket coverages */}
-          <div className="rounded-2xl mb-4 overflow-hidden" style={{ background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)', border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)' }}>
+          <div className="rounded-2xl mb-4 overflow-hidden" style={isDark ? {
+              background: 'linear-gradient(#1F2543, #1F2543) padding-box, linear-gradient(135deg, #5C2ED4 0%, #A614C3 60%, #7B1FA2 100%) border-box',
+              border: '1.5px solid transparent',
+              boxShadow: '0 0 28px rgba(166,20,195,0.18), inset 0 0 40px rgba(92,46,212,0.06)',
+            } : {
+              background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
+              border: '1px solid rgba(92,46,212,0.1)',
+            }}>
             <div className="px-5 py-4">
               <p className="text-[13px] font-semibold text-navy mb-1">Do you require any of the following blanket coverages?</p>
               <p className="text-[11px] text-gray-400 mb-3">Select all that apply — both can be chosen simultaneously.</p>
@@ -204,16 +211,24 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
                       type="button"
                       onClick={() => toggleBlanket(key)}
                       className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-medium transition-all text-left"
-                      style={checked ? {
-                        background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
-                        border: '1.5px solid transparent',
-                      } : { border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb'}`, background: isDark ? 'rgba(255,255,255,0.05)' : 'white', color: isDark ? '#9CA3AF' : '#6b7280' }}
+                      style={checked
+                        ? isDark
+                          ? {
+                              background: 'linear-gradient(88.09deg, rgba(92,46,212,0.22) 0%, rgba(166,20,195,0.22) 100%)',
+                              border: '1.5px solid rgba(166,20,195,0.65)',
+                              boxShadow: '0 0 14px rgba(166,20,195,0.18)',
+                            }
+                          : {
+                              background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
+                              border: '1.5px solid transparent',
+                            }
+                        : { border: `1.5px solid ${isDark ? 'rgba(255,255,255,0.12)' : '#e5e7eb'}`, background: isDark ? 'rgba(255,255,255,0.05)' : 'white', color: isDark ? '#9CA3AF' : '#6b7280' }}
                     >
                       <div
                         className="w-3.5 h-3.5 rounded border-2 flex items-center justify-center shrink-0 transition-all"
                         style={checked
                           ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
-                          : { borderColor: '#d1d5db', background: 'white' }}
+                          : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#d1d5db', background: isDark ? 'rgba(255,255,255,0.06)' : 'white' }}
                       >
                         {checked && (
                           <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 10 10">
@@ -222,7 +237,11 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
                         )}
                       </div>
                       <div>
-                        <p style={checked ? { background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' } : {}}>{label}</p>
+                        <p style={checked
+                          ? isDark
+                            ? { color: '#FFFFFF', fontWeight: 600 }
+                            : { background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }
+                          : {}}>{label}</p>
                         <p className="text-[10px] text-gray-400 font-normal mt-0.5">{desc}</p>
                       </div>
                     </button>

@@ -88,12 +88,29 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
       </div>
 
       {/* Comments section */}
-      <div className="rounded-2xl overflow-hidden" style={{
-        background: isDark ? 'rgba(92,46,212,0.10)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
-        border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)',
+      <div className="rounded-2xl overflow-hidden relative" style={isDark ? {
+        background: '#1F2543',
+        border: 'none',
+      } : {
+        background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
+        border: '1px solid rgba(92,46,212,0.1)',
       }}>
+
+        {/* Bottom gradient glow — dark mode only */}
+        {isDark && (
+          <div className="absolute bottom-0 left-0 right-0 pointer-events-none rounded-b-2xl" style={{
+            height: '50%',
+            background: [
+              'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)',
+              'linear-gradient(88.09deg, rgba(92,46,212,0.72) 0%, rgba(166,20,195,0.72) 100%)',
+            ].join(', '),
+            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
+          }} />
+        )}
+
         {/* Header row */}
-        <div className="flex items-center gap-3.5 px-5 pt-5 pb-4">
+        <div className="flex items-center gap-3.5 px-5 pt-5 pb-4 relative z-10">
           <img src={norbieface} alt="Norbie" className="w-10 h-10 rounded-full object-cover shrink-0" />
           <div>
             <p className="text-sm font-bold text-navy leading-tight">Anything else you'd like us to know?</p>
@@ -102,16 +119,17 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
         </div>
 
         {/* Textarea area */}
-        <div className="px-5 pb-5">
-          <div className="rounded-xl overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)', border: '1px solid rgba(92,46,212,0.1)' }}>
+        <div className="px-5 pb-5 relative z-10">
+          <div className="rounded-xl overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)', border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(92,46,212,0.1)'}` }}>
             <textarea
               value={comments}
               onChange={e => setComments(e.target.value)}
               placeholder="e.g. The client prefers email contact. Fleet has seasonal usage April–October. Any additional drivers expected next quarter..."
-              rows={4}
+              rows={6}
               className="w-full px-4 pt-3.5 pb-2 text-sm text-gray-700 placeholder-gray-300 bg-transparent focus:outline-none resize-none transition-all"
+              style={{ display: 'block' }}
             />
-            <div className="flex items-center justify-between px-4 py-2 border-t" style={{ borderColor: 'rgba(92,46,212,0.08)', background: 'rgba(92,46,212,0.02)' }}>
+            <div className="flex items-center justify-between px-4 py-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(92,46,212,0.08)', background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(92,46,212,0.02)' }}>
               <div className="flex items-center gap-3">
                 <span className="text-[10px] text-gray-400">Optional — won't affect your submission</span>
                 <span className="flex items-center gap-1 text-[10px] text-gray-400">

@@ -39,7 +39,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
         background: isDark
           ? '#191D35'
           : 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)',
-        borderRight: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
+        borderRight: isDark ? '1px solid rgba(255,255,255,0.04)' : '1px solid rgba(243,244,246,0.5)',
       }}
     >
 
