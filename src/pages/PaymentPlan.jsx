@@ -83,7 +83,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
           <div className="w-full border-t border-dashed" style={{ borderColor: isDark ? 'rgba(255,255,255,0.1)' : '#e5e7eb' }} />
         </div>
         <div className="relative flex justify-center">
-          <span className="px-4 text-[11px] font-semibold text-gray-400 tracking-widest uppercase" style={{ background: isDark ? '#1A1E38' : 'white' }}>Not related to payment</span>
+          <span className="px-4 text-[11px] font-semibold text-gray-400 tracking-widest uppercase" style={{ background: isDark ? '#131629' : 'white' }}>Not related to payment</span>
         </div>
       </div>
 

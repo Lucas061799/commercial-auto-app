@@ -400,8 +400,8 @@ function App() {
                 id={`section-${section.id}`}
                 className="rounded-2xl overflow-hidden"
                 style={{
-                  background: darkMode ? '#1A1E38' : 'white',
-                  border: darkMode ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                  background: 'transparent',
+                  border: 'none',
                 }}
               >
                 <SectionHeader title={section.title} isDark={darkMode} />

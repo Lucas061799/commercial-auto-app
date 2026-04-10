@@ -180,12 +180,12 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               className="flex items-center gap-3 rounded-xl px-4 py-3"
               style={{
                 background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
-                border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+                border: isDark ? '1.5px solid transparent' : '1.5px solid #E5E7EB',
               }}
             >
               <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
               <div>
-                <p className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
+                <p className="text-sm font-normal" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
                 <p className="text-xs" style={{ color: '#9CA3AF' }}>AI Assistant</p>
               </div>
             </div>
@@ -198,7 +198,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all"
               style={{
                 background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
-                border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+                border: isDark ? '1.5px solid transparent' : '1.5px solid #E5E7EB',
               }}
             >
               {/* Toggle pill with icon inside the knob */}
@@ -211,11 +211,11 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   style={{ left: isDark ? '22px' : '2px', background: 'white' }}
                 >
                   {isDark ? (
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#4B5563" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                     </svg>
                   ) : (
-                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#5C2ED4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <circle cx="12" cy="12" r="5"/>
                       <line x1="12" y1="1" x2="12" y2="3"/>
                       <line x1="12" y1="21" x2="12" y2="23"/>
@@ -394,12 +394,12 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
             <div className="rounded-2xl px-10 py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'rgba(166,20,195,0.10)' }}>
+                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}>
                     <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
                       <defs>
                         <linearGradient id="lgBolt" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor="#5C2ED4"/>
-                          <stop offset="100%" stopColor="#A614C3"/>
+                          <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                          <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
                         </linearGradient>
                       </defs>
                       <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
@@ -409,7 +409,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 </div>
                 <h3 className="text-2xl font-bold text-navy mb-2">We Already Have Your Client's Info—Get Quotes Faster!</h3>
                 <p className="text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
-                  Add essential coverages in minutes. Your business information is already saved, so getting additional quotes is quick and easy.
+                  Add essential coverages in minutes. Your client's information is already saved, so getting additional quotes is quick and easy.
                 </p>
               </div>
 
@@ -422,8 +422,8 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   <div key={item.name} className="flex items-center justify-between px-5 py-4 rounded-2xl hover:shadow-sm transition" style={{ border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
                     <div className="flex items-center gap-4">
                       {/* Icon at 0.5x — w-6 h-6 instead of w-12 h-12 */}
-                      <div className="w-6 h-6 rounded-lg overflow-hidden shrink-0 bg-gray-50">
-                        <img src={item.icon} alt={item.name} className="w-full h-full object-cover" />
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'white' }}>
+                        <img src={item.icon} alt={item.name} className="w-6 h-6 object-cover" />
                       </div>
                       <div>
                         <div className="flex items-center gap-2 mb-0.5 flex-wrap">
@@ -475,8 +475,8 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none">
                   <defs>
                     <linearGradient id="autoGradSub" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#5C2ED4"/>
-                      <stop offset="100%" stopColor="#A614C3"/>
+                      <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                      <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
                     </linearGradient>
                   </defs>
                   <path d="M12 16V9m0 0l-3 3m3-3l3 3" stroke="url(#autoGradSub)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
@@ -503,7 +503,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
               ].map(item => (
                 <div key={item.n} className="flex gap-4">
-                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}><span className="text-gradient">{item.n}</span></span>
+                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}><span className="text-gradient">{item.n}</span></span>
                   <div>
                     <p className="text-sm font-medium text-navy">{item.title}</p>
                     <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>

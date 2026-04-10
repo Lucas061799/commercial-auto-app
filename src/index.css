@@ -141,7 +141,7 @@ input, select, textarea, button {
 }
 [data-dark="true"] input::placeholder,
 [data-dark="true"] textarea::placeholder {
-  color: #4B5563 !important;
+  color: #6B7280 !important;
 }
 [data-dark="true"] select option {
   background-color: #252948;

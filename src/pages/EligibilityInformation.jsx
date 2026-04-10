@@ -67,7 +67,7 @@ function ColoredYesNo({ value, onChange, isDark = false }) {
 function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
   return (
     <div
-      className="rounded-xl p-4 border transition-all"
+      className="rounded-xl p-4 border transition-all question-card cursor-pointer"
       style={autoFilled
         ? { borderColor: 'rgba(92,46,212,0.2)', background: isDark ? 'rgba(92,46,212,0.12)' : 'rgba(243,240,255,0.4)' }
         : { borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#e5e7eb', background: isDark ? '#1F2543' : '#f9fafb' }

@@ -136,12 +136,12 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
           className="flex items-center gap-3 rounded-xl px-4 py-3"
           style={{
             background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
-            border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+            border: isDark ? '1.5px solid transparent' : '1.5px solid #E5E7EB',
           }}
         >
           <img src={norbieface} alt="Norbie" className="w-8 h-8 rounded-full shrink-0 object-cover" />
           <div>
-            <p className="text-sm font-semibold" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
+            <p className="text-sm font-normal" style={{ color: isDark ? '#F9FAFB' : '#374151' }}>Chat with Norbie</p>
             <p className="text-xs" style={{ color: '#9CA3AF' }}>AI Assistant</p>
           </div>
         </div>
@@ -154,7 +154,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all"
           style={{
             background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(255,255,255,0.55)',
-            border: isDark ? 'none' : '1.5px solid rgba(92,46,212,0.18)',
+            border: isDark ? '1.5px solid transparent' : '1.5px solid #E5E7EB',
           }}
         >
           {/* Toggle pill with icon inside the knob */}
@@ -167,11 +167,11 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
               style={{ left: isDark ? '22px' : '2px', background: 'white' }}
             >
               {isDark ? (
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#4B5563" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
                 </svg>
               ) : (
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#5C2ED4" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="#6B7280" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="5"/>
                   <line x1="12" y1="1" x2="12" y2="3"/>
                   <line x1="12" y1="21" x2="12" y2="23"/>
