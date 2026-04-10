@@ -88,29 +88,17 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
       </div>
 
       {/* Comments section */}
-      <div className="rounded-2xl overflow-hidden relative" style={isDark ? {
-        background: '#1F2543',
-        border: 'none',
+      <div className="rounded-2xl overflow-hidden" style={isDark ? {
+        background: 'linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(92,46,212,0.08) 100%)',
+        border: '1px solid rgba(255,255,255,0.08)',
+        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
       } : {
-        background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
-        border: '1px solid rgba(92,46,212,0.1)',
+        background: 'linear-gradient(to right, #F8F6FF, #F2FAF8)',
+        border: '1px solid rgba(124,58,237,0.1)',
       }}>
 
-        {/* Bottom gradient glow — dark mode only */}
-        {isDark && (
-          <div className="absolute bottom-0 left-0 right-0 pointer-events-none rounded-b-2xl" style={{
-            height: '50%',
-            background: [
-              'linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)',
-              'linear-gradient(88.09deg, rgba(92,46,212,0.72) 0%, rgba(166,20,195,0.72) 100%)',
-            ].join(', '),
-            maskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to top, black 0%, transparent 100%)',
-          }} />
-        )}
-
         {/* Header row */}
-        <div className="flex items-center gap-3.5 px-5 pt-5 pb-4 relative z-10">
+        <div className="flex items-center gap-3.5 px-5 pt-5 pb-4">
           <img src={norbieface} alt="Norbie" className="w-10 h-10 rounded-full object-cover shrink-0" />
           <div>
             <p className="text-sm font-bold text-navy leading-tight">Anything else you'd like us to know?</p>
@@ -119,7 +107,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
         </div>
 
         {/* Textarea area */}
-        <div className="px-5 pb-5 relative z-10">
+        <div className="px-5 pb-5">
           <div className="rounded-xl overflow-hidden" style={{ background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.75)', border: `1px solid ${isDark ? 'rgba(255,255,255,0.07)' : 'rgba(92,46,212,0.1)'}` }}>
             <textarea
               value={comments}
