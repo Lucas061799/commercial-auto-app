@@ -192,7 +192,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
 
       {/* Background image */}
       <div className="absolute bottom-0 left-0 right-0 h-full pointer-events-none select-none">
-        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.12 : 0.58 }} />
+        <img src={sidebarBg} alt="" className="absolute bottom-0 left-0 w-full h-full object-cover object-bottom" style={{ opacity: isDark ? 0.32 : 0.58 }} />
       </div>
     </aside>
   )

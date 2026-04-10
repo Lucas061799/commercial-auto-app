@@ -16,22 +16,15 @@ const BLANKET_OPTIONS = [
   { key: 'blanketWOS', label: 'Blanket Waiver of Subrogation', desc: 'Waives subrogation rights across all covered parties' },
 ]
 
-function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onField, onAddressSelect, onRemove, isDark = false }) {
+function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onField, onAddressSelect, onApplyAddress, onRemove, isDark = false }) {
   const [open, setOpen] = useState(!anyBlanket)
 
   const applyApplicantAddress = (checked) => {
     if (checked && applicant) {
-      onField('address')(applicant.address || '')
-      onField('city')(applicant.city || '')
-      onField('state')(applicant.state || '')
-      onField('zip')(applicant.zip || '')
+      onApplyAddress({ address: applicant.address || '', city: applicant.city || '', state: applicant.state || '', zip: applicant.zip || '', sameAsApplicant: true })
     } else {
-      onField('address')('')
-      onField('city')('')
-      onField('state')('')
-      onField('zip')('')
+      onApplyAddress({ address: '', city: '', state: '', zip: '', sameAsApplicant: false })
     }
-    onField('sameAsApplicant')(checked)
   }
 
   return (
@@ -132,8 +125,7 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
           {blanketWOS ? (
             <div className="flex items-center gap-2 px-3 py-2 rounded-lg" style={{ background: 'rgba(92,46,212,0.05)', border: '1px solid rgba(92,46,212,0.1)' }}>
               <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                <path d="M5 13l4 4L19 7" stroke="url(#wosCheck)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                <defs><linearGradient id="wosCheck" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/></linearGradient></defs>
+                <path d="M5 13l4 4L19 7" stroke={isDark ? '#A78BFA' : '#5C2ED4'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <p className="text-[11px] text-gradient font-medium">Waiver of Subrogation covered by blanket selection</p>
             </div>
@@ -167,6 +159,10 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
   }
   const handleAddressSelect = (idx) => ({ address, city, state, zip }) => {
     const updated = data.insureds.map((item, i) => i === idx ? { ...item, address, city, state, zip } : item)
+    setInsureds(updated)
+  }
+  const handleApplyAddress = (idx) => (fields) => {
+    const updated = data.insureds.map((item, i) => i === idx ? { ...item, ...fields } : item)
     setInsureds(updated)
   }
 
@@ -275,6 +271,7 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
               applicant={applicant}
               onField={(key) => setField(idx, key)}
               onAddressSelect={handleAddressSelect(idx)}
+              onApplyAddress={handleApplyAddress(idx)}
               onRemove={() => setInsureds(data.insureds.filter((_, i) => i !== idx))}
               isDark={isDark}
             />
