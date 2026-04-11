@@ -89,9 +89,8 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
 
       {/* Comments section */}
       <div className="rounded-2xl overflow-hidden" style={isDark ? {
-        background: 'linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(92,46,212,0.08) 100%)',
-        border: '1px solid rgba(255,255,255,0.08)',
-        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.07)',
+        background: 'linear-gradient(to top, rgba(166,20,195,0.55) 0%, rgba(92,46,212,0.35) 22%, transparent 58%), #1A1B35',
+        border: 'none',
       } : {
         background: 'linear-gradient(to right, #F8F6FF, #F2FAF8)',
         border: '1px solid rgba(124,58,237,0.1)',
