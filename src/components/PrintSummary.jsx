@@ -163,8 +163,6 @@ export default function PrintSummary({ formData, visible, onClose }) {
               className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
               style={{ objectPosition: 'calc(100% - 300px) center' }}
             />
-            {/* White gradient mask — left side only, protects text */}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, white 52%, rgba(255,255,255,0.6) 68%, transparent 100%)' }} />
             {/* Text */}
             <div className="relative z-10 px-7 py-4">
               <p className="text-[9px] font-bold tracking-widest uppercase mb-1" style={{ color: '#6B7280' }}>Named Insured</p>
