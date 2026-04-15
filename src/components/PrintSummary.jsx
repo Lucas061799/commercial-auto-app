@@ -161,7 +161,7 @@ export default function PrintSummary({ formData, visible, onClose }) {
               src={pdfBg}
               alt=""
               className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-              style={{ objectPosition: 'calc(100% - 300px) center' }}
+              style={{ objectPosition: '100% center' }}
             />
             {/* Text */}
             <div className="relative z-10 px-7 py-4">
