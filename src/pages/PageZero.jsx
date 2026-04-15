@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import page0Img from '../assets/Page0-Final.jpeg'
+import jungleImg from '../assets/jungle.png'
+import carImg from '../assets/car3.png'
+import norbieBodyImg from '../assets/norbie-auto-body.png'
 import bananaImg from '../assets/banana.png'
 
 const ALL_STATES = [
@@ -76,21 +78,8 @@ export default function PageZero({ onStart }) {
 
       <div className="flex flex-1 overflow-hidden">
 
-        {/* Left — exactly 50% */}
-        <div className="relative overflow-hidden" style={{ width: '50%', height: 'calc(100vh - 56px)', flexShrink: 0 }}>
-          {/* Jungle background — left only */}
-          <img
-            src={page0Img}
-            alt="Hero"
-            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '88%', objectFit: 'contain', maskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%), linear-gradient(to bottom, transparent 0%, black 3%, black 97%, transparent 100%)', maskComposite: 'intersect', WebkitMaskComposite: 'destination-in' }}
-          />
-        </div>
-
-        {/* Divider */}
-        <div className="w-px bg-gray-100 shrink-0" />
-
-        {/* Right — exactly 50% */}
-        <div className="overflow-y-auto relative" style={{ width: '50%', height: 'calc(100vh - 56px)' }}>
+        {/* Left — form panel */}
+        <div className="overflow-y-auto relative" style={{ width: '50%', height: 'calc(100vh - 56px)', borderRight: '1px solid #F3F4F6' }}>
           <div className="min-h-full flex flex-col justify-center items-center py-10 px-[10%]">
           <div className="w-full max-w-xl">
 
@@ -193,6 +182,32 @@ export default function PageZero({ onStart }) {
           </div>
           </div>
         </div>
+
+        {/* Right — illustration panel */}
+        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)', background: '#F0EFF5' }}>
+          {/* Jungle background */}
+          <img
+            src={jungleImg}
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
+            style={{ opacity: 0.55 }}
+          />
+          {/* btis van — bottom right */}
+          <img
+            src={carImg}
+            alt="btis van"
+            className="absolute select-none pointer-events-none"
+            style={{ bottom: '6%', right: '-2%', width: '72%', objectFit: 'contain' }}
+          />
+          {/* Norbie gorilla — center-left */}
+          <img
+            src={norbieBodyImg}
+            alt="Norbie"
+            className="absolute select-none pointer-events-none"
+            style={{ bottom: '2%', left: '2%', width: '62%', objectFit: 'contain' }}
+          />
+        </div>
+
       </div>
     </div>
   )
