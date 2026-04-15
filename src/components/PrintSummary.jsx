@@ -148,31 +148,23 @@ export default function PrintSummary({ formData, visible, onClose }) {
         </div>
 
         {/* Hero */}
-        <div className="rounded-2xl mb-6 overflow-hidden" style={{ border: '1px solid #E5E7EB' }}>
-          {/* Gradient top stroke — sits above the image */}
-          <div style={{ height: 4, background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)' }} />
-
-          <div className="relative" style={{ background: 'white' }}>
-            {/* sell-more-bg illustration — right side, starts below gradient bar */}
+        <div className="rounded-2xl mb-6 overflow-hidden flex" style={{ border: '1px solid #E5E7EB', minHeight: 110 }}>
+          {/* Left — text, with gradient left border */}
+          <div className="flex-1 flex flex-col justify-center px-7 py-5" style={{ borderLeft: '4px solid', borderImageSlice: 1, borderImageSource: 'linear-gradient(180deg, #5C2ED4, #A614C3)' }}>
+            <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#6B7280' }}>Named Insured</p>
+            <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
+            <p className="text-xs mt-1 font-medium" style={{ color: '#374151' }}>
+              {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
+            </p>
+            <p className="text-[10px] mt-2" style={{ color: '#9CA3AF' }}>Submission #CA0094894 · {today}</p>
+          </div>
+          {/* Right — illustration */}
+          <div className="w-52 shrink-0 overflow-hidden" style={{ background: '#F8F7FF' }}>
             <img
               src={sellMoreBg}
               alt=""
-              className="absolute right-0 top-0 h-full object-cover object-right pointer-events-none select-none"
-              style={{ opacity: 1 }}
+              className="w-full h-full object-cover object-center select-none pointer-events-none"
             />
-            {/* White gradient mask — covers left 55% fully */}
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, white 45%, rgba(255,255,255,0.85) 58%, transparent 100%)' }} />
-
-            <div className="relative z-10 px-8 py-5">
-              <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#4B5563' }}>Named Insured</p>
-              <h1 className="text-xl font-bold leading-tight" style={{ color: '#000000' }}>{applicant.namedInsured || '—'}</h1>
-              <p className="text-xs mt-1 font-medium" style={{ color: '#374151' }}>
-                {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
-              </p>
-              <p className="text-[10px] mt-2 font-medium" style={{ color: '#6B7280' }}>
-                Submission #CA0094894 · {today}
-              </p>
-            </div>
           </div>
         </div>
 
