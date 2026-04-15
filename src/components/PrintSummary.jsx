@@ -10,7 +10,7 @@ function SectionHeader({ title }) {
         className="flex items-center px-4 py-3"
         style={{ background: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}
       >
-        <h3 className="text-[11px] font-bold tracking-widest uppercase" style={{ color: '#111827' }}>{title}</h3>
+        <h3 className="text-[11px] font-bold tracking-widest uppercase" style={{ background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{title}</h3>
       </div>
     </div>
   )
@@ -55,8 +55,8 @@ function SectionCard({ children }) {
 
 function SubHeader({ label }) {
   return (
-    <div className="px-4 py-2 text-[11px] font-bold uppercase tracking-wider" style={{ color: '#5C2ED4', background: 'rgba(92,46,212,0.04)' }}>
-      {label}
+    <div className="px-4 py-2 text-[11px] font-bold uppercase tracking-wider" style={{ background: 'rgba(92,46,212,0.04)' }}>
+      <span style={{ background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>{label}</span>
     </div>
   )
 }
