@@ -1,6 +1,6 @@
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import sellMoreBg from '../assets/sell-more-bg.png'
+import pdfBg from '../assets/pdfbg.png'
 
 function SectionHeader({ title }) {
   return (
@@ -148,23 +148,37 @@ export default function PrintSummary({ formData, visible, onClose }) {
         </div>
 
         {/* Hero */}
-        <div className="rounded-2xl mb-6 overflow-hidden flex" style={{ border: '1px solid #E5E7EB', minHeight: 110 }}>
-          {/* Left — text, with gradient left border */}
-          <div className="flex-1 flex flex-col justify-center px-7 py-5" style={{ borderLeft: '4px solid', borderImageSlice: 1, borderImageSource: 'linear-gradient(180deg, #5C2ED4, #A614C3)' }}>
-            <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#6B7280' }}>Named Insured</p>
-            <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
-            <p className="text-xs mt-1 font-medium" style={{ color: '#374151' }}>
-              {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
-            </p>
-            <p className="text-[10px] mt-2" style={{ color: '#9CA3AF' }}>Submission #CA0094894 · {today}</p>
-          </div>
-          {/* Right — illustration */}
-          <div className="w-52 shrink-0 overflow-hidden" style={{ background: '#F8F7FF' }}>
-            <img
-              src={sellMoreBg}
-              alt=""
-              className="w-full h-full object-cover object-center select-none pointer-events-none"
-            />
+        <div className="rounded-2xl mb-6 overflow-hidden" style={{ border: '1px solid #E5E7EB' }}>
+          {/* Gradient top stroke — full width */}
+          <div style={{ height: 3, background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)' }} />
+          {/* Two-column row */}
+          <div className="flex" style={{ minHeight: 100 }}>
+            {/* Left — text */}
+            <div className="flex-1 flex flex-col justify-center px-7 py-4">
+              <p className="text-[9px] font-bold tracking-widest uppercase mb-1" style={{ color: '#6B7280' }}>Named Insured</p>
+              <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
+              <div className="flex items-center gap-3 mt-1.5 flex-wrap">
+                {applicant.entity && (
+                  <span className="text-xs font-medium" style={{ color: '#374151' }}>{applicant.entity}</span>
+                )}
+                {applicant.effectiveDate && (
+                  <span className="text-[10px]" style={{ color: '#6B7280' }}>
+                    <span className="font-semibold uppercase tracking-wide text-[9px]" style={{ color: '#9CA3AF' }}>Effective </span>{applicant.effectiveDate}
+                  </span>
+                )}
+              </div>
+              <p className="text-[10px] mt-1" style={{ color: '#9CA3AF' }}>
+                <span className="font-semibold uppercase tracking-wide text-[9px]">Submitted </span>{today} · #CA0094894
+              </p>
+            </div>
+            {/* Right — illustration */}
+            <div className="w-44 shrink-0 overflow-hidden" style={{ background: '#F8F7FF' }}>
+              <img
+                src={pdfBg}
+                alt=""
+                className="w-full h-full object-cover object-center select-none pointer-events-none"
+              />
+            </div>
           </div>
         </div>
 
