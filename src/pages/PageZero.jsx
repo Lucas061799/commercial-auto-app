@@ -204,7 +204,7 @@ export default function PageZero({ onStart }) {
             src={norbieBodyImg}
             alt="Norbie"
             className="absolute select-none pointer-events-none"
-            style={{ bottom: 'calc(2% + 130px)', left: '-2%', width: '57%', objectFit: 'contain' }}
+            style={{ bottom: 'calc(2% + 145px)', left: 'calc(-2% + 10px)', width: '57%', objectFit: 'contain' }}
           />
         </div>
 
