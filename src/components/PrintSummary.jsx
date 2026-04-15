@@ -142,21 +142,35 @@ export default function PrintSummary({ formData, visible, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-6 pb-5" style={{ borderBottom: '2px solid #F3F4F6' }}>
           <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
-          <p className="text-[10px]" style={{ color: '#9CA3AF' }}>Submission #CA0094894 · {today}</p>
           <img src={btisLogo} alt="btis" className="h-9" />
         </div>
 
         {/* Hero */}
         <div
-          className="rounded-2xl overflow-hidden mb-6 relative flex items-center pl-8"
-          style={{ minHeight: 100, background: '#F8F7FF', border: '1px solid #E5E7EB' }}
+          className="rounded-2xl overflow-hidden mb-6 relative"
+          style={{ background: 'white', border: '1px solid #E5E7EB' }}
         >
-          <div className="absolute left-0 top-0 bottom-0 w-1 rounded-l-2xl" style={{ background: 'linear-gradient(180deg, #5C2ED4, #A614C3)' }} />
-          <div className="relative z-10 py-6">
-            <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#9CA3AF' }}>Named Insured</p>
-            <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
-            <p className="text-xs mt-1" style={{ color: '#6B7280' }}>
-              {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
+          {/* Gradient top bar */}
+          <div style={{ height: 4, background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)' }} />
+
+          {/* sell-more-bg illustration — right side */}
+          <img
+            src={sellMoreBg}
+            alt=""
+            className="absolute right-0 top-0 h-full object-cover object-right pointer-events-none select-none"
+            style={{ opacity: 0.12 }}
+          />
+
+          <div className="relative z-10 px-8 py-5 flex items-center justify-between">
+            <div>
+              <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#9CA3AF' }}>Named Insured</p>
+              <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
+              <p className="text-xs mt-1" style={{ color: '#6B7280' }}>
+                {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+            <p className="text-[10px] text-right shrink-0 ml-8" style={{ color: '#9CA3AF' }}>
+              Submission #CA0094894<br />{today}
             </p>
           </div>
         </div>
