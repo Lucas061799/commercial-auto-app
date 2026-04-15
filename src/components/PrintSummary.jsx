@@ -179,7 +179,7 @@ export default function PrintSummary({ formData, visible, onClose }) {
               <img
                 src={pdfBg}
                 alt=""
-                className="w-full h-full object-contain object-center select-none pointer-events-none"
+                className="w-full h-full object-cover object-center select-none pointer-events-none"
               />
             </div>
           </div>
