@@ -160,18 +160,20 @@ export default function PrintSummary({ formData, visible, onClose }) {
             src={sellMoreBg}
             alt=""
             className="absolute right-0 top-0 h-full object-cover object-right pointer-events-none select-none"
-            style={{ opacity: 0.35 }}
+            style={{ opacity: 1 }}
           />
+          {/* White gradient mask so left-side text stays readable */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, white 38%, rgba(255,255,255,0.7) 60%, transparent 100%)' }} />
 
           <div className="relative z-10 px-8 py-5 flex items-center justify-between">
             <div>
-              <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#9CA3AF' }}>Named Insured</p>
-              <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
-              <p className="text-xs mt-1" style={{ color: '#6B7280' }}>
+              <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: '#4B5563' }}>Named Insured</p>
+              <h1 className="text-xl font-bold leading-tight" style={{ color: '#000000' }}>{applicant.namedInsured || '—'}</h1>
+              <p className="text-xs mt-1 font-medium" style={{ color: '#374151' }}>
                 {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
               </p>
             </div>
-            <p className="text-[10px] text-right shrink-0 ml-8" style={{ color: '#9CA3AF' }}>
+            <p className="text-[10px] text-right shrink-0 ml-8 font-medium" style={{ color: '#374151' }}>
               Submission #CA0094894<br />{today}
             </p>
           </div>
