@@ -179,7 +179,8 @@ export default function PrintSummary({ formData, visible, onClose }) {
               <img
                 src={pdfBg}
                 alt=""
-                className="w-full h-full object-cover object-center select-none pointer-events-none"
+                className="w-full h-full object-cover select-none pointer-events-none"
+                style={{ objectPosition: 'calc(50% - 100px) center' }}
               />
             </div>
           </div>
