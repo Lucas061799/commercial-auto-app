@@ -168,15 +168,18 @@ export default function PrintSummary({ formData, visible, onClose }) {
                 )}
               </div>
               <p className="text-[10px] mt-1" style={{ color: '#9CA3AF' }}>
-                <span className="font-semibold uppercase tracking-wide text-[9px]">Submitted </span>{today} · #CA0094894
+                <span className="font-semibold uppercase tracking-wide text-[9px]">Submitted </span>{today}
+              </p>
+              <p className="text-[10px] mt-0.5" style={{ color: '#9CA3AF' }}>
+                <span className="font-semibold uppercase tracking-wide text-[9px]">Submission ID </span>#CA0094894
               </p>
             </div>
             {/* Right — illustration */}
-            <div className="w-44 shrink-0 overflow-hidden" style={{ background: '#F8F7FF' }}>
+            <div className="w-44 shrink-0 overflow-hidden flex items-center justify-center">
               <img
                 src={pdfBg}
                 alt=""
-                className="w-full h-full object-cover object-center select-none pointer-events-none"
+                className="w-full h-full object-contain object-center select-none pointer-events-none"
               />
             </div>
           </div>
