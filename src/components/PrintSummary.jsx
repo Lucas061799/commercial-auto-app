@@ -151,10 +151,19 @@ export default function PrintSummary({ formData, visible, onClose }) {
         <div className="rounded-2xl mb-6 overflow-hidden" style={{ border: '1px solid #E5E7EB' }}>
           {/* Gradient top stroke — full width */}
           <div style={{ height: 3, background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)' }} />
-          {/* Two-column row */}
-          <div className="flex" style={{ minHeight: 100 }}>
-            {/* Left — text */}
-            <div className="flex-1 flex flex-col justify-center px-7 py-4">
+          {/* Hero content — image as full bg */}
+          <div className="relative" style={{ minHeight: 110 }}>
+            {/* Full-width background illustration */}
+            <img
+              src={pdfBg}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
+              style={{ objectPosition: 'calc(100% - 300px) center' }}
+            />
+            {/* White gradient mask — left side only, protects text */}
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(to right, white 52%, rgba(255,255,255,0.6) 68%, transparent 100%)' }} />
+            {/* Text */}
+            <div className="relative z-10 px-7 py-4">
               <p className="text-[9px] font-bold tracking-widest uppercase mb-1" style={{ color: '#6B7280' }}>Named Insured</p>
               <h1 className="text-xl font-bold leading-tight" style={{ color: '#111827' }}>{applicant.namedInsured || '—'}</h1>
               <div className="flex items-center gap-3 mt-1.5 flex-wrap">
@@ -173,15 +182,6 @@ export default function PrintSummary({ formData, visible, onClose }) {
               <p className="text-[10px] mt-0.5" style={{ color: '#9CA3AF' }}>
                 <span className="font-semibold uppercase tracking-wide text-[9px]">Submission ID </span>#CA0094894
               </p>
-            </div>
-            {/* Right — illustration */}
-            <div className="w-44 shrink-0 overflow-hidden flex items-center justify-center">
-              <img
-                src={pdfBg}
-                alt=""
-                className="w-full h-full object-cover select-none pointer-events-none"
-                style={{ objectPosition: 'calc(50% - 200px) center' }}
-              />
             </div>
           </div>
         </div>
