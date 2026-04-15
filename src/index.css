@@ -242,3 +242,9 @@ input, select, textarea, button {
   box-shadow: 0 0 0 2px rgba(166,20,195,0.25) !important;
   border-color: rgba(166,20,195,0.65) !important;
 }
+
+@media print {
+  body > * { display: none !important; }
+  #print-summary { display: block !important; position: static !important; overflow: visible !important; }
+  .no-print { display: none !important; }
+}
