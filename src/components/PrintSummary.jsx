@@ -4,12 +4,14 @@ import sellMoreBg from '../assets/sell-more-bg.png'
 
 function SectionHeader({ title }) {
   return (
-    <div
-      className="flex items-center gap-3 px-4 py-3"
-      style={{ background: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}
-    >
-      <div className="w-0.5 h-3.5 rounded-full shrink-0" style={{ background: 'linear-gradient(180deg, #5C2ED4, #A614C3)' }} />
-      <h3 className="text-[11px] font-bold tracking-widest uppercase" style={{ color: '#374151' }}>{title}</h3>
+    <div>
+      <div style={{ height: 2, background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)' }} />
+      <div
+        className="flex items-center px-4 py-3"
+        style={{ background: '#F9FAFB', borderBottom: '1px solid #E5E7EB' }}
+      >
+        <h3 className="text-[11px] font-bold tracking-widest uppercase" style={{ color: '#111827' }}>{title}</h3>
+      </div>
     </div>
   )
 }
@@ -18,7 +20,7 @@ function Field({ label, value }) {
   if (!value && value !== 0) return null
   return (
     <div className="py-2 px-4 flex gap-3" style={{ borderBottom: '1px solid #F3F4F6' }}>
-      <span className="text-[10px] font-semibold uppercase tracking-wider shrink-0" style={{ color: '#9CA3AF', paddingTop: '1px', width: '9rem' }}>{label}</span>
+      <span className="text-[10px] font-semibold uppercase tracking-wider shrink-0" style={{ color: '#6B7280', paddingTop: '1px', width: '9rem' }}>{label}</span>
       <span className="text-[13px] font-medium" style={{ color: '#111827' }}>{value}</span>
     </div>
   )
@@ -29,7 +31,7 @@ function YesNoField({ label, value }) {
   const isYes = value === 'Yes'
   return (
     <div className="py-2 px-4 flex items-center gap-3" style={{ borderBottom: '1px solid #F3F4F6' }}>
-      <span className="text-[10px] font-semibold uppercase tracking-wider shrink-0" style={{ color: '#9CA3AF', width: '9rem' }}>{label}</span>
+      <span className="text-[10px] font-semibold uppercase tracking-wider shrink-0" style={{ color: '#6B7280', width: '9rem' }}>{label}</span>
       <span
         className="px-2 py-0.5 rounded-full text-[11px] font-semibold"
         style={{
@@ -158,7 +160,7 @@ export default function PrintSummary({ formData, visible, onClose }) {
             src={sellMoreBg}
             alt=""
             className="absolute right-0 top-0 h-full object-cover object-right pointer-events-none select-none"
-            style={{ opacity: 0.12 }}
+            style={{ opacity: 0.35 }}
           />
 
           <div className="relative z-10 px-8 py-5 flex items-center justify-between">
