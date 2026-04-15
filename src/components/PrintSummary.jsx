@@ -144,7 +144,10 @@ export default function PrintSummary({ formData, visible, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between mb-6 pb-5" style={{ borderBottom: '2px solid #F3F4F6' }}>
           <img src={norbielinkLogo} alt="NorbieLink" className="h-8" />
-          <img src={btisLogo} alt="btis" className="h-9" />
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] tracking-wide" style={{ color: '#9CA3AF' }}>POWERED BY</span>
+            <img src={btisLogo} alt="btis" className="h-9" />
+          </div>
         </div>
 
         {/* Hero */}
