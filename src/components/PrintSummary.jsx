@@ -1,6 +1,6 @@
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import norbieCom from '../assets/norbie-commercial.png'
+import sellMoreBg from '../assets/sell-more-bg.png'
 
 function SectionHeader({ title }) {
   return (
@@ -150,17 +150,23 @@ export default function PrintSummary({ formData, visible, onClose }) {
 
         {/* Hero */}
         <div
-          className="rounded-2xl overflow-hidden mb-6 flex items-center justify-between pl-8 pr-4"
-          style={{ background: 'linear-gradient(88deg, #5C2ED4 0%, #A614C3 100%)', minHeight: 110 }}
+          className="rounded-2xl overflow-hidden mb-6 relative flex items-center pl-8"
+          style={{ minHeight: 100, background: 'linear-gradient(100deg, #5C2ED4 0%, #9B27C4 55%, #A614C3 100%)', border: '1px solid rgba(92,46,212,0.15)' }}
         >
-          <div>
-            <p className="text-[10px] font-semibold tracking-widest uppercase mb-1" style={{ color: 'rgba(255,255,255,0.65)' }}>Named Insured</p>
+          {/* Faint bg illustration */}
+          <img
+            src={sellMoreBg}
+            alt=""
+            className="absolute right-0 top-0 h-full object-cover object-right pointer-events-none select-none"
+            style={{ opacity: 0.18, mixBlendMode: 'luminosity' }}
+          />
+          <div className="relative z-10 py-6">
+            <p className="text-[9px] font-bold tracking-widest uppercase mb-1.5" style={{ color: 'rgba(255,255,255,0.55)' }}>Named Insured</p>
             <h1 className="text-xl font-bold text-white leading-tight">{applicant.namedInsured || '—'}</h1>
-            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.65)' }}>
+            <p className="text-xs mt-1" style={{ color: 'rgba(255,255,255,0.55)' }}>
               {[applicant.entity, applicant.effectiveDate ? `Effective ${applicant.effectiveDate}` : null].filter(Boolean).join(' · ')}
             </p>
           </div>
-          <img src={norbieCom} alt="Norbie" className="h-24 object-contain shrink-0" />
         </div>
 
         {/* 1 · Applicant */}

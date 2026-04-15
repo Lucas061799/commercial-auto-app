@@ -292,25 +292,6 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 ))}
               </div>
 
-              {/* Download Summary button */}
-              <div className="px-6 py-3 border-t border-gray-100">
-                <button
-                  onClick={() => setShowPrint(true)}
-                  className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition"
-                  style={{
-                    background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                    color: 'white',
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = '0.9'}
-                  onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-                >
-                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-                  </svg>
-                  Download Summary
-                </button>
-              </div>
-
               {/* Expandable details + print */}
               <button
                 onClick={() => setSummaryOpen(o => !o)}
@@ -351,7 +332,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
                   {/* Print button */}
                   <button
-                    onClick={() => window.print()}
+                    onClick={() => setShowPrint(true)}
                     className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition border"
                     style={{
                       borderColor: isDark ? 'rgba(216,180,254,0.35)' : 'rgba(92,46,212,0.2)',

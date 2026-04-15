@@ -184,7 +184,7 @@ export default function PageZero({ onStart }) {
         </div>
 
         {/* Right — illustration panel */}
-        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)', background: '#F0EFF5' }}>
+        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)', background: 'white' }}>
           {/* Jungle background */}
           <img
             src={jungleImg}
@@ -204,7 +204,7 @@ export default function PageZero({ onStart }) {
             src={norbieBodyImg}
             alt="Norbie"
             className="absolute select-none pointer-events-none"
-            style={{ bottom: '2%', left: '2%', width: '62%', objectFit: 'contain' }}
+            style={{ bottom: 'calc(2% + 30px)', left: '2%', width: '62%', objectFit: 'contain' }}
           />
         </div>
 

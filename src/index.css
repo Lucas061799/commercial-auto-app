@@ -244,7 +244,8 @@ input, select, textarea, button {
 }
 
 @media print {
-  body > * { display: none !important; }
-  #print-summary { display: block !important; position: static !important; overflow: visible !important; }
-  .no-print { display: none !important; }
+  body * { visibility: hidden; }
+  #print-summary, #print-summary * { visibility: visible; }
+  #print-summary { position: fixed !important; inset: 0 !important; overflow: visible !important; }
+  .no-print { display: none !important; visibility: hidden !important; }
 }
