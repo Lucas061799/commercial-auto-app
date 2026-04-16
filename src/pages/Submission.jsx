@@ -349,12 +349,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       </defs>
                       <path stroke="url(#printG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                     </svg>
-                    <span style={{
-                      background: isDark ? 'linear-gradient(88.09deg, #A78BFA 0.11%, #E879F9 63.8%)' : 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                      WebkitBackgroundClip: 'text',
-                      backgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                    }}>Print Submission</span>
+                    <span style={{ color: isDark ? '#E9D5FF' : '#5C2ED4', fontWeight: 600 }}>Print Submission</span>
                   </button>
                 </div>
               )}
