@@ -79,7 +79,7 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
         <div className="mb-5" style={{ borderTop: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#F3F4F6'}` }} />
 
         {/* Upload & Save Time */}
-        <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(92,46,212,0.1)', background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)' }}>
+        <div className={`mb-4 rounded-2xl overflow-hidden transition-all ${pulseUpload ? 'upload-pulse' : ''}`} style={{ border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid #E5E7EB', background: isDark ? 'rgba(92,46,212,0.12)' : 'white' }}>
           <div className="px-4 pt-4 pb-4">
             <h3 className="text-base font-bold text-navy leading-tight mb-0.5">Upload & Save Time!</h3>
             <div className="flex items-center gap-1.5 mb-3">
@@ -104,10 +104,8 @@ export default function RightPanel({ onFormReview, formData = {}, pulseUpload = 
               {/* Upload button */}
               <button
                 onClick={() => inputRef.current?.click()}
-                className="w-full py-2.5 rounded-lg text-sm font-bold transition-all active:scale-[0.98]"
-                style={{ background: '#F3F4F6', color: '#374151', border: '1px solid #E5E7EB' }}
-                onMouseEnter={e => e.currentTarget.style.background = '#E9EAEC'}
-                onMouseLeave={e => e.currentTarget.style.background = '#F3F4F6'}
+                className="w-full py-2.5 rounded-lg text-sm font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+                style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
               >
                 Upload Here
               </button>
