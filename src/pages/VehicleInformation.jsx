@@ -145,7 +145,7 @@ export default function VehicleInformation({ formData, updateFormData }) {
             })()}
             <FormGrid>
               <AddressAutocomplete
-                label="Garaging Address"
+                label="Address"
                 value={v.garagingAddress}
                 onChange={val => { setField(idx, 'garagingSameAsApplicant')(false); setField(idx, 'garagingAddress')(val) }}
                 onSelect={handleGaragingSelect(idx)}
