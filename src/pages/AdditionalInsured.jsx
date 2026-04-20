@@ -187,14 +187,7 @@ export default function AdditionalInsured({ formData, updateFormData, isDark = f
       {data.hasAdditional === 'Yes' && (
         <>
           {/* Blanket coverages */}
-          <div className="rounded-2xl mb-4 overflow-hidden" style={isDark ? {
-              background: 'linear-gradient(#1F2543, #1F2543) padding-box, linear-gradient(135deg, #5C2ED4 0%, #A614C3 60%, #7B1FA2 100%) border-box',
-              border: '1.5px solid transparent',
-              boxShadow: '0 0 28px rgba(166,20,195,0.18), inset 0 0 40px rgba(92,46,212,0.06)',
-            } : {
-              background: 'linear-gradient(135deg, #F8F6FF 0%, #F0F9F7 100%)',
-              border: '1px solid rgba(92,46,212,0.1)',
-            }}>
+          <div className="rounded-2xl mb-4 overflow-hidden bg-gray-50 border border-gray-100">
             <div className="px-5 py-4">
               <p className="text-[13px] font-semibold text-navy mb-1">Do you require any of the following blanket coverages?</p>
               <p className="text-[11px] text-gray-400 mb-3">Select all that apply — both can be chosen simultaneously.</p>

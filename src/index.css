@@ -244,8 +244,14 @@ input, select, textarea, button {
 }
 
 @media print {
+  @page { size: A4 portrait; margin: 0.35in; }
   body * { visibility: hidden; }
   #print-summary, #print-summary * { visibility: visible; }
-  #print-summary { position: fixed !important; inset: 0 !important; overflow: visible !important; }
+  #print-summary {
+    position: absolute !important;
+    inset: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+  }
   .no-print { display: none !important; visibility: hidden !important; }
 }
