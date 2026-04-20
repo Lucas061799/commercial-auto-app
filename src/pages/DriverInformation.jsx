@@ -40,6 +40,7 @@ export default function DriverInformation({ formData, updateFormData, isDark = f
       ...d,
       sameAsApplicant: checked,
       mailingAddress: checked ? (applicant.address || '') : '',
+      mailingSuite:   checked ? (applicant.suite   || '') : '',
       mailingCity:    checked ? (applicant.city    || '') : '',
       mailingState:   checked ? (applicant.state   || '') : '',
       mailingZip:     checked ? (applicant.zip     || '') : '',

@@ -12,12 +12,19 @@ const defaultClaim = () => ({
   sameAsApplicant: false,
 })
 
-const DRIVERS = ['Driver 1', 'Driver 2', 'Driver 3', 'Other']
 const CLAIM_STATUSES = ['Open', 'Closed', 'Pending']
 
 export default function ClaimHistory({ formData, updateFormData, isDark = false }) {
   const data = formData.claims || { hasClaims: undefined, claims: [] }
   const applicant = formData.applicant || null
+
+  // Build driver options from actual driver entries
+  const driverOptions = [
+    ...(formData.drivers?.drivers || []).map((d, i) =>
+      [d.firstName, d.lastName].filter(Boolean).join(' ') || `Driver ${i + 1}`
+    ),
+    'Other',
+  ]
   const setClaims = (list) => updateFormData('claims', { claims: list })
   const setField = (idx, key) => (val) => {
     const updated = data.claims.map((c, i) => i === idx ? { ...c, [key]: val } : c)
@@ -32,6 +39,7 @@ export default function ClaimHistory({ formData, updateFormData, isDark = false 
       ...c,
       sameAsApplicant: checked,
       lossAddress: checked ? (applicant?.address || '') : '',
+      lossSuite:   checked ? (applicant?.suite   || '') : '',
       lossCity:    checked ? (applicant?.city    || '') : '',
       lossState:   checked ? (applicant?.state   || '') : '',
       lossZip:     checked ? (applicant?.zip     || '') : '',
@@ -118,7 +126,7 @@ export default function ClaimHistory({ formData, updateFormData, isDark = false 
             </FormGrid>
             <Input label="Description of loss" value={c.descriptionOfLoss} onChange={setField(idx, 'descriptionOfLoss')} placeholder="" />
             <FormGrid>
-              <Select label="Driver of loss" options={DRIVERS} value={c.driverOfLoss} onChange={setField(idx, 'driverOfLoss')} />
+              <Select label="Driver of loss" options={driverOptions} value={c.driverOfLoss} onChange={setField(idx, 'driverOfLoss')} />
               <Select label="Claim status" options={CLAIM_STATUSES} value={c.claimStatus} onChange={setField(idx, 'claimStatus')} />
             </FormGrid>
             <RadioGroup

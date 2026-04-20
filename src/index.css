@@ -243,11 +243,28 @@ input, select, textarea, button {
   border-color: rgba(166,20,195,0.65) !important;
 }
 
+/* Screen-only / print-only helpers */
+.print-only { display: none !important; }
+
 @media print {
-  @page { size: A4 portrait; margin: 0.4in; }
-  .no-print { display: none !important; }
-  body { overflow: visible !important; background: white !important; }
-  .flex-col.h-screen { height: auto !important; overflow: visible !important; }
-  .flex-1.overflow-y-auto { overflow: visible !important; }
-  main { overflow: visible !important; height: auto !important; }
+  @page { size: A4 portrait; margin: 0.35in; }
+
+  /* Hide everything, then reveal only the print area */
+  body * { visibility: hidden !important; }
+  #submission-print-area,
+  #submission-print-area * { visibility: visible !important; }
+  #submission-print-area {
+    position: fixed !important;
+    inset: 0 !important;
+    overflow: visible !important;
+    background: white !important;
+    padding: 18px 22px !important;
+    font-family: 'Montserrat', sans-serif !important;
+  }
+
+  /* Show print-only elements */
+  #submission-print-area .print-only { display: flex !important; }
+
+  /* Hide screen-only elements inside print area */
+  #submission-print-area .screen-only { display: none !important; }
 }

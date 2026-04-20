@@ -27,6 +27,7 @@ export default function LossPayee({ formData, updateFormData, isDark = false }) 
       ...item,
       sameAsApplicant: checked,
       address: checked ? (applicant?.address || '') : '',
+      suite:   checked ? (applicant?.suite   || '') : '',
       city:    checked ? (applicant?.city    || '') : '',
       state:   checked ? (applicant?.state   || '') : '',
       zip:     checked ? (applicant?.zip     || '') : '',

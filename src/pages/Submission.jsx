@@ -282,6 +282,25 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     Your commercial auto insurance application has been received and is being processed. You'll receive a confirmation email shortly.
                   </p>
                 </div>
+                {/* Quick print button */}
+                <button
+                  onClick={handlePrint}
+                  title="Print / Save as PDF"
+                  className="w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-all"
+                  style={{ border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid #E5E7EB', background: isDark ? 'rgba(255,255,255,0.05)' : 'white' }}
+                  onMouseEnter={e => { e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.15)' : 'rgba(92,46,212,0.06)'; e.currentTarget.style.borderColor = 'rgba(92,46,212,0.3)' }}
+                  onMouseLeave={e => { e.currentTarget.style.background = isDark ? 'rgba(255,255,255,0.05)' : 'white'; e.currentTarget.style.borderColor = isDark ? 'rgba(255,255,255,0.1)' : '#E5E7EB' }}
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24">
+                    <defs>
+                      <linearGradient id="printIconG" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                        <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
+                      </linearGradient>
+                    </defs>
+                    <path stroke="url(#printIconG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                  </svg>
+                </button>
               </div>
 
               {/* Info row — Submission ID · Date · Status */}
@@ -323,19 +342,35 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               </button>
 
               {summaryOpen && (
-                <div className="px-6 pb-6 pt-4" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #f9fafb' }}>
-                  <div className="grid grid-cols-2 gap-4 mb-5">
+                <div id="submission-print-area" className="px-6 pb-6 pt-4" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+
+                  {/* Print-only document header — hidden on screen, shown when printing */}
+                  <div className="print-only items-center justify-between mb-3 pb-2" style={{ borderBottom: '1.5px solid #E5E7EB' }}>
+                    <div>
+                      <p style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>{applicant.namedInsured || '—'}</p>
+                      <p style={{ fontSize: 9, color: '#9CA3AF', marginTop: 2 }}>
+                        {[applicant.entity, applicant.effectiveDate ? `Eff. ${applicant.effectiveDate}` : null, applicant.phone, applicant.email].filter(Boolean).join('  ·  ')}
+                      </p>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <p style={{ fontSize: 9, fontWeight: 700, background: GR, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Commercial Auto Application</p>
+                      <p style={{ fontSize: 8, color: '#9CA3AF', marginTop: 2 }}>#{SUBMISSION_ID} · {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+                    </div>
+                  </div>
+
+                  {/* Section grid */}
+                  <div className="grid grid-cols-2 gap-2.5 mb-3">
 
                     {/* Applicant */}
                     <SummarySection title="Applicant Information" icon="user" isDark={isDark}>
                       <SummaryRow label="Named Insured" value={applicant.namedInsured} isDark={isDark} />
                       <SummaryRow label="Entity Type" value={applicant.entity} isDark={isDark} />
                       <SummaryRow label="Effective Date" value={applicant.effectiveDate} isDark={isDark} />
-                      <SummaryRow label="Email" value={applicant.email} isDark={isDark} />
                       <SummaryRow label="Phone" value={applicant.phone} isDark={isDark} />
+                      <SummaryRow label="Email" value={applicant.email} isDark={isDark} />
                       <SummaryRow label="Address" value={[applicant.address, applicant.suite].filter(Boolean).join(', ')} isDark={isDark} />
                       <SummaryRow label="City / State / Zip" value={[applicant.city, applicant.state, applicant.zip].filter(Boolean).join(', ')} isDark={isDark} />
-                      <SummaryRow label="Years in Business" value={applicant.yearsInBusiness} isDark={isDark} />
+                      <SummaryRow label="Yrs in Business" value={applicant.yearsInBusiness} isDark={isDark} />
                       <SummaryRow label="Business Desc." value={applicant.businessDesc} isDark={isDark} />
                     </SummarySection>
 
@@ -352,106 +387,101 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     {/* Vehicles */}
                     <SummarySection title="Vehicles" icon="truck" isDark={isDark}>
                       {vehicles.length === 0
-                        ? <SummaryRow label="—" value="No vehicles added" isDark={isDark} />
+                        ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No vehicles added.</p>
                         : vehicles.map((v, i) => (
                           <div key={i}>
-                            {i > 0 && <div className="my-1.5 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : '#F3F4F6' }} />}
-                            <p className="text-[9px] font-bold uppercase tracking-wider mb-1" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Vehicle #{i+1}</p>
+                            {i > 0 && <div className="my-1.5" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }} />}
+                            <SummarySubLabel label={`Vehicle #${i+1}`} isDark={isDark} />
                             <SummaryRow label="Year/Make/Model" value={[v.year,v.make,v.model].filter(Boolean).join(' ')} isDark={isDark} />
                             <SummaryRow label="VIN" value={v.vin} isDark={isDark} />
                             <SummaryRow label="Use / Radius" value={[v.use, v.radius ? `${v.radius} mi` : null].filter(Boolean).join(' · ')} isDark={isDark} />
-                            <SummaryRow label="GVW" value={v.gvw} isDark={isDark} />
-                            <SummaryRow label="Garaging Zip" value={v.garagingZip} isDark={isDark} />
+                            <SummaryRow label="GVW / Zip" value={[v.gvw, v.garagingZip].filter(Boolean).join(' / ')} isDark={isDark} />
                           </div>
                         ))
                       }
                     </SummarySection>
 
-                    {/* Prior History + Payment */}
-                    <div className="flex flex-col gap-4">
-                      <SummarySection title="Prior Insurance" icon="building" isDark={isDark}>
-                        <SummaryRow label="Currently Insured?" value={prior.hasCurrent} isDark={isDark} />
-                        <SummaryRow label="Prior Carrier" value={prior.carrier} isDark={isDark} />
-                        <SummaryRow label="Policy #" value={prior.policyNumber} isDark={isDark} />
-                        <SummaryRow label="Expiration" value={prior.expirationDate} isDark={isDark} />
-                        <SummaryRow label="Continuous?" value={prior.continuous} isDark={isDark} />
-                      </SummarySection>
-                      <SummarySection title="Payment Plan" icon="building" isDark={isDark}>
-                        <SummaryRow label="Paperless?" value={payment.paperless} isDark={isDark} />
-                        <SummaryRow label="Reminder?" value={payment.reminder} isDark={isDark} />
-                        <SummaryRow label="Plan Duration" value={payment.planDuration} isDark={isDark} />
-                        <SummaryRow label="Selected Plan" value={payment.planOption} isDark={isDark} />
-                      </SummarySection>
-                    </div>
-
                     {/* Drivers */}
                     <SummarySection title="Drivers" icon="user" isDark={isDark}>
                       {drivers.length === 0
-                        ? <SummaryRow label="—" value="No drivers added" isDark={isDark} />
+                        ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No drivers added.</p>
                         : drivers.map((d, i) => (
                           <div key={i}>
-                            {i > 0 && <div className="my-1.5 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : '#F3F4F6' }} />}
-                            <p className="text-[9px] font-bold uppercase tracking-wider mb-1" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Driver #{i+1}</p>
+                            {i > 0 && <div className="my-1" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }} />}
+                            <SummarySubLabel label={`Driver #${i+1}`} isDark={isDark} />
                             <SummaryRow label="Name" value={[d.firstName,d.lastName].filter(Boolean).join(' ')} isDark={isDark} />
-                            <SummaryRow label="Date of Birth" value={d.dob} isDark={isDark} />
+                            <SummaryRow label="DOB / State" value={[d.dob, d.licenseState].filter(Boolean).join(' / ')} isDark={isDark} />
                             <SummaryRow label="License #" value={d.licenseNumber} isDark={isDark} />
-                            <SummaryRow label="License State" value={d.licenseState} isDark={isDark} />
                             <SummaryRow label="Yrs Licensed" value={d.yearsLicensed} isDark={isDark} />
                           </div>
                         ))
                       }
                     </SummarySection>
 
-                    {/* Additional Insured + Loss Payee */}
-                    <div className="flex flex-col gap-4">
-                      <SummarySection title="Additional Insured" icon="building" isDark={isDark}>
-                        <SummaryRow label="Has Additionals?" value={ai.hasAdditional} isDark={isDark} />
-                        {blanket.blanketAI  && <SummaryRow label="Blanket AI"  value="Selected" isDark={isDark} />}
-                        {blanket.blanketWOS && <SummaryRow label="Blanket WOS" value="Selected" isDark={isDark} />}
-                        {(ai.insureds||[]).map((ins,i) => (
-                          <div key={i}>
-                            <p className="text-[9px] font-bold uppercase tracking-wider mt-1 mb-0.5" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Insured #{i+1}</p>
-                            <SummaryRow label="Name" value={ins.name} isDark={isDark} />
-                            <SummaryRow label="Address" value={[ins.address,ins.city,ins.state,ins.zip].filter(Boolean).join(', ')} isDark={isDark} />
-                            <SummaryRow label="WOS?" value={ins.waiverSubrogation} isDark={isDark} />
-                          </div>
-                        ))}
-                      </SummarySection>
-                      <SummarySection title="Loss Payee" icon="building" isDark={isDark}>
-                        <SummaryRow label="Has Payees?" value={lp.hasPayee} isDark={isDark} />
-                        {(lp.payees||[]).map((p,i) => (
-                          <div key={i}>
-                            <p className="text-[9px] font-bold uppercase tracking-wider mt-1 mb-0.5" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Payee #{i+1}</p>
-                            <SummaryRow label="Name" value={p.name} isDark={isDark} />
-                            <SummaryRow label="Address" value={[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')} isDark={isDark} />
-                            <SummaryRow label="Type" value={p.type} isDark={isDark} />
-                          </div>
-                        ))}
+                    {/* Eligibility — spans both columns, 2-col fields inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Eligibility" icon="shield" isDark={isDark}>
+                        <div className="grid grid-cols-2 gap-x-8">
+                          {[
+                            ['q1','Long-haul trucking (>300 mi)'],['q2','Hazardous materials'],
+                            ['q3','Semi-trucks / trailers'],['q4','Snow plowing'],
+                            ['q5','2+ losses in 3 yrs'],['q6','Rideshare (Uber/Lyft)'],
+                            ['q7','Food/beverage delivery'],['q8','Drivers under 21'],
+                            ['q9','DUI/DWI past 5 yrs'],['q10','Suspended license'],
+                            ['q11','Outside US/Canada'],['q12','Racing / exhibition'],
+                            ['q13','Salvage / rebuilt title'],['q14','Towing / recovery'],
+                            ['q15','Mobile business'],
+                          ].filter(([k]) => eligibility[k]).map(([k, q]) => (
+                            <SummaryYNRow key={k} label={q} value={eligibility[k]} isDark={isDark} />
+                          ))}
+                        </div>
                       </SummarySection>
                     </div>
 
-                    {/* Eligibility */}
-                    <SummarySection title="Eligibility" icon="shield" isDark={isDark}>
-                      {[
-                        ['q1','Long-haul trucking (>300 mi)'],['q2','Hazardous materials'],
-                        ['q3','Semi-trucks / trailers'],['q4','Snow plowing'],
-                        ['q5','2+ losses in 3 yrs'],['q6','Rideshare'],
-                        ['q7','Food/beverage delivery'],['q8','Drivers under 21'],
-                        ['q9','DUI/DWI past 5 yrs'],['q10','Suspended license'],
-                        ['q11','Outside US/Canada'],['q12','Racing / exhibition'],
-                        ['q13','Salvage / rebuilt title'],['q14','Towing / recovery'],
-                        ['q15','Mobile business'],
-                      ].filter(([k]) => eligibility[k]).map(([k, q]) => (
-                        <SummaryRow key={k} label={q} value={eligibility[k]} isDark={isDark} />
+                    {/* Additional Insured */}
+                    <SummarySection title="Additional Insured" icon="users" isDark={isDark}>
+                      <SummaryRow label="Has Additionals?" value={ai.hasAdditional} isDark={isDark} />
+                      {blanket.blanketAI  && <SummaryRow label="Blanket AI"  value="Selected" isDark={isDark} />}
+                      {blanket.blanketWOS && <SummaryRow label="Blanket WOS" value="Selected" isDark={isDark} />}
+                      {(ai.insureds||[]).map((ins,i) => (
+                        <div key={i}>
+                          <SummarySubLabel label={`Insured #${i+1}`} isDark={isDark} />
+                          <SummaryRow label="Name" value={ins.name} isDark={isDark} />
+                          <SummaryRow label="Address" value={[ins.address,ins.city,ins.state,ins.zip].filter(Boolean).join(', ')} isDark={isDark} />
+                          <SummaryRow label="WOS?" value={ins.waiverSubrogation} isDark={isDark} />
+                        </div>
                       ))}
                     </SummarySection>
 
+                    {/* Loss Payee */}
+                    <SummarySection title="Loss Payee" icon="building" isDark={isDark}>
+                      <SummaryRow label="Has Payees?" value={lp.hasPayee} isDark={isDark} />
+                      {(lp.payees||[]).map((p,i) => (
+                        <div key={i}>
+                          <SummarySubLabel label={`Payee #${i+1}`} isDark={isDark} />
+                          <SummaryRow label="Name" value={p.name} isDark={isDark} />
+                          <SummaryRow label="Address" value={[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')} isDark={isDark} />
+                          <SummaryRow label="Type" value={p.type} isDark={isDark} />
+                        </div>
+                      ))}
+                    </SummarySection>
+
+                    {/* Prior Insurance */}
+                    <SummarySection title="Prior Insurance" icon="doc" isDark={isDark}>
+                      <SummaryRow label="Currently Insured?" value={prior.hasCurrent} isDark={isDark} />
+                      <SummaryRow label="Prior Carrier" value={prior.carrier} isDark={isDark} />
+                      <SummaryRow label="Policy #" value={prior.policyNumber} isDark={isDark} />
+                      <SummaryRow label="Expiration" value={prior.expirationDate} isDark={isDark} />
+                      <SummaryRow label="Continuous?" value={prior.continuous} isDark={isDark} />
+                      <SummaryRow label="Lapse Reason" value={prior.lapseReason} isDark={isDark} />
+                    </SummarySection>
+
                     {/* Claims */}
-                    <SummarySection title="Claims History" icon="shield" isDark={isDark}>
+                    <SummarySection title="Claims History" icon="warning" isDark={isDark}>
                       <SummaryRow label="Claims (3 yrs)?" value={claims.hasClaims} isDark={isDark} />
                       {(claims.claims||[]).map((c,i) => (
                         <div key={i}>
-                          <p className="text-[9px] font-bold uppercase tracking-wider mt-1 mb-0.5" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Claim #{i+1}</p>
+                          <SummarySubLabel label={`Claim #${i+1}`} isDark={isDark} />
                           <SummaryRow label="Date / Type" value={[c.date,c.type].filter(Boolean).join(' · ')} isDark={isDark} />
                           <SummaryRow label="Description" value={c.description} isDark={isDark} />
                           <SummaryRow label="Amount Paid" value={c.amount} isDark={isDark} />
@@ -459,35 +489,68 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       ))}
                     </SummarySection>
 
+                    {/* Payment Plan — spans both columns, 4-col fields inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Payment Plan" icon="card" isDark={isDark}>
+                        <div className="grid grid-cols-4 gap-x-8">
+                          <SummaryRow label="Paperless?" value={payment.paperless} isDark={isDark} />
+                          <SummaryRow label="Reminder?" value={payment.reminder} isDark={isDark} />
+                          <SummaryRow label="Plan Duration" value={payment.planDuration} isDark={isDark} />
+                          <SummaryRow label="Selected Plan" value={payment.planOption} isDark={isDark} />
+                        </div>
+                      </SummarySection>
+                    </div>
+
                   </div>
 
                   {/* Comments */}
                   {comments && (
-                    <div className="mb-4 rounded-xl p-4" style={{ background: isDark ? '#252948' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F3F4F6' }}>
-                      <p className="text-[9px] font-bold uppercase tracking-wider mb-2" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>Comments / Special Instructions</p>
-                      <p className="text-xs leading-relaxed" style={{ color: isDark ? '#D1D5DB' : '#374151' }}>{comments}</p>
+                    <div className="mb-3">
+                      <SummarySection title="Comments / Special Instructions" icon="doc" isDark={isDark}>
+                        <p className="text-[10px] leading-relaxed py-0.5" style={{ color: isDark ? '#D1D5DB' : '#374151' }}>{comments}</p>
+                      </SummarySection>
                     </div>
                   )}
 
-                  {/* Print button */}
-                  <button
-                    onClick={handlePrint}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl text-xs font-semibold transition border"
-                    style={{
-                      borderColor: isDark ? 'rgba(216,180,254,0.35)' : 'rgba(92,46,212,0.2)',
-                      background: isDark ? 'rgba(167,139,250,0.08)' : 'white',
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.15)' : 'rgba(92,46,212,0.04)'}
-                    onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.08)' : 'white'}
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
-                      <defs><linearGradient id="printG" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/><stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
-                      </linearGradient></defs>
-                      <path stroke="url(#printG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                    </svg>
-                    <span style={{ color: isDark ? '#E9D5FF' : '#5C2ED4', fontWeight: 600 }}>Print Submission</span>
-                  </button>
+                  {/* Print-only footer */}
+                  <div className="print-only items-center justify-between mt-3 pt-2" style={{ borderTop: '1px solid #E5E7EB' }}>
+                    <p style={{ fontSize: 8, color: '#9CA3AF' }}>Generated by NorbieLink · Powered by btis · Confidential</p>
+                    <p style={{ fontSize: 8, color: '#9CA3AF' }}>#{SUBMISSION_ID}</p>
+                  </div>
+
+                  {/* Print button — screen only */}
+                  <div className="screen-only">
+                    <button
+                      onClick={handlePrint}
+                      className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition"
+                      style={{
+                        border: '1px solid rgba(166,20,195,0.3)',
+                        background: isDark ? 'rgba(167,139,250,0.08)' : 'white',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.15)' : 'rgba(92,46,212,0.04)'}
+                      onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.08)' : 'white'}
+                    >
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                        <defs>
+                          <linearGradient id="btnPrintG" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                            <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
+                          </linearGradient>
+                        </defs>
+                        <path stroke="url(#btnPrintG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                      </svg>
+                      <span style={{
+                        background: isDark
+                          ? 'linear-gradient(88.09deg, #A78BFA 0.11%, #E879F9 63.8%)'
+                          : 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}>
+                        Print / Save as PDF
+                      </span>
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -655,33 +718,61 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
   )
 }
 
-function SummarySection({ title, icon, children, isDark = false }) {
-  const icons = {
-    user:     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>,
-    truck:    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1M13 16l2 1m0-11l3 5h2a1 1 0 011 1v4"/>,
-    shield:   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
-    building: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>,
-  }
+const GR = 'linear-gradient(88deg,#5C2ED4 0%,#A614C3 100%)'
+
+const SECTION_ICONS = {
+  user:    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>,
+  truck:   <path strokeLinecap="round" strokeLinejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1M13 16l2 1m0-11l3 5h2a1 1 0 011 1v4"/>,
+  shield:  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+  users:   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>,
+  building:<path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>,
+  doc:     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>,
+  card:    <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>,
+  warning: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>,
+}
+
+function SummarySection({ title, icon = 'shield', children, isDark = false }) {
   return (
-    <div className="rounded-xl p-4" style={{ background: isDark ? '#252948' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #F3F4F6' }}>
+    <div className="rounded-xl p-4" style={{
+      background: isDark ? '#252948' : 'white',
+      border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid #E5E7EB',
+    }}>
       <div className="flex items-center gap-2 mb-3">
-        <div className="w-6 h-6 rounded-lg flex items-center justify-center" style={{ background: isDark ? 'rgba(92,46,212,0.2)' : '#e6f7f4' }}>
-          <svg className="w-3.5 h-3.5" fill="none" stroke={isDark ? '#73C9B7' : '#73C9B7'} viewBox="0 0 24 24">
-            {icons[icon]}
+        <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(115,201,183,0.12)' }}>
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#73C9B7" strokeWidth={1.5} viewBox="0 0 24 24">
+            {SECTION_ICONS[icon]}
           </svg>
         </div>
-        <h3 className="text-xs font-bold" style={{ color: isDark ? '#F9FAFB' : '#1f2937' }}>{title}</h3>
+        <h3 className="text-xs font-bold" style={{ color: isDark ? '#F9FAFB' : '#111827' }}>{title}</h3>
       </div>
-      <div className="space-y-2">{children}</div>
+      <div>{children}</div>
     </div>
   )
 }
 
-function SummaryRow({ label, value, bold, isDark = false }) {
+function SummaryRow({ label, value, isDark = false }) {
+  if (!value && value !== 0) return null
   return (
-    <div className="flex justify-between">
-      <span className="text-[10px] text-gray-400">{label}</span>
-      <span className="text-[10px] font-semibold" style={{ color: isDark ? (bold ? '#F9FAFB' : '#D1D5DB') : (bold ? '#1f2937' : '#374151') }}>{value}</span>
+    <div className="flex items-center justify-between py-1.5" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #F3F4F6' }}>
+      <span className="text-[10px]" style={{ color: '#9CA3AF' }}>{label}</span>
+      <span className="text-[10px] font-semibold text-right" style={{ color: isDark ? '#F9FAFB' : '#111827' }}>{value}</span>
     </div>
+  )
+}
+
+function SummaryYNRow({ label, value, isDark = false }) {
+  if (!value) return null
+  const yes = value === 'Yes'
+  return (
+    <div className="flex items-center justify-between py-1.5" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #F3F4F6' }}>
+      <span className="text-[10px]" style={{ color: '#9CA3AF' }}>{label}</span>
+      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full" style={{ background: yes ? 'rgba(52,211,153,0.12)' : 'rgba(156,163,175,0.1)', color: yes ? '#059669' : '#6B7280' }}>{value}</span>
+    </div>
+  )
+}
+
+function SummarySubLabel({ label, isDark = false }) {
+  return (
+    <p className="text-[9px] font-bold uppercase tracking-wider pt-2 pb-0.5" style={{ color: isDark ? '#A78BFA' : '#5C2ED4' }}>{label}</p>
   )
 }

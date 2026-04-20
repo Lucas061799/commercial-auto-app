@@ -35,7 +35,7 @@ const YES_NO_STYLES = {
   No:  { activeBorder: '#A614C3', activeText: '#A614C3', activeBg: 'rgba(166,20,195,0.08)', dotBg: 'linear-gradient(88.09deg, #A614C3 0%, #D946EF 100%)', dotBorder: '#A614C3' },
 }
 
-function ColoredYesNo({ value, onChange, isDark = false }) {
+function ColoredYesNo({ value, onChange, isDark = false, autoFilled = false }) {
   return (
     <div className="flex gap-4">
       {['Yes', 'No'].map(opt => {
@@ -49,7 +49,11 @@ function ColoredYesNo({ value, onChange, isDark = false }) {
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium"
             style={active
               ? { borderColor: s.activeBorder, color: isDark ? '#FFFFFF' : s.activeText, background: isDark ? 'rgba(255,255,255,0.08)' : s.activeBg }
-              : { borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#e5e7eb', color: isDark ? '#FFFFFF' : '#6b7280', background: 'transparent' }
+              : {
+                  borderColor: isDark ? 'rgba(255,255,255,0.22)' : '#E5E7EB',
+                  color: isDark ? '#FFFFFF' : '#6b7280',
+                  background: autoFilled && !isDark ? '#F9FAFB' : 'transparent',
+                }
             }
           >
             <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
@@ -69,7 +73,7 @@ function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
     <div
       className="rounded-xl p-4 border transition-all question-card cursor-pointer"
       style={autoFilled
-        ? { borderColor: 'rgba(92,46,212,0.2)', background: isDark ? 'rgba(92,46,212,0.12)' : 'rgba(243,240,255,0.4)' }
+        ? { borderColor: isDark ? 'rgba(92,46,212,0.2)' : '#E5E7EB', background: isDark ? 'rgba(92,46,212,0.12)' : '#F9FAFB' }
         : { borderColor: isDark ? 'rgba(255,255,255,0.08)' : '#e5e7eb', background: isDark ? '#1F2543' : '#f9fafb' }
       }
     >
@@ -80,7 +84,7 @@ function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
         )}
       </div>
       <div className="mt-3">
-        <ColoredYesNo value={value} onChange={onChange} isDark={isDark} />
+        <ColoredYesNo value={value} onChange={onChange} isDark={isDark} autoFilled={autoFilled} />
       </div>
     </div>
   )
@@ -89,11 +93,11 @@ function QuestionCard({ q, value, onChange, autoFilled, isDark = false }) {
 function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor, defaultOpen = false, isDark = false }) {
   const [open, setOpen] = useState(defaultOpen)
   return (
-    <div className="rounded-xl border overflow-hidden" style={{ borderColor: defaultColor + '33' }}>
+    <div>
       <button
         onClick={() => setOpen(o => !o)}
-        className="w-full flex items-center justify-between px-4 py-3 text-left transition-all"
-        style={{ background: isDark ? defaultColor + '30' : defaultColor + '0D' }}
+        className="w-full flex items-center justify-between px-4 py-3 rounded-xl text-left transition-all"
+        style={{ background: isDark ? defaultColor + '22' : '#F9FAFB', border: `1px solid ${isDark ? defaultColor + '44' : '#E5E7EB'}` }}
       >
         <div className="flex items-center gap-2">
           <span className="text-xs font-bold" style={{ color: isDark ? (defaultColor === '#5C2ED4' ? '#A78BFA' : '#F0ABFC') : defaultColor }}>{title}</span>
@@ -108,7 +112,7 @@ function CollapsibleGroup({ title, subtitle, keys, data, onChange, defaultColor,
         </svg>
       </button>
       {open && (
-        <div className="p-3 space-y-2" style={{ background: isDark ? '#1A1E38' : 'white' }}>
+        <div className="pt-2 space-y-2">
           {keys.map(key => (
             <QuestionCard
               key={key}
@@ -246,7 +250,7 @@ export default function EligibilityInformation({ formData, updateFormData, isDar
       )}
 
       {allAnswered && (
-        <div className="mt-5 p-3 rounded-xl border flex items-center gap-2" style={{ background: isDark ? 'rgba(92,46,212,0.15)' : '#F3F0FF', borderColor: 'rgba(124,58,237,0.2)' }}>
+        <div className="mt-5 flex items-center gap-2">
           <svg className="w-4 h-4 shrink-0" fill="none" stroke={isDark ? '#C084FC' : '#7C3AED'} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>

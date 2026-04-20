@@ -21,9 +21,9 @@ function InsuredCard({ ins, idx, total, anyBlanket, blanketWOS, applicant, onFie
 
   const applyApplicantAddress = (checked) => {
     if (checked && applicant) {
-      onApplyAddress({ address: applicant.address || '', city: applicant.city || '', state: applicant.state || '', zip: applicant.zip || '', sameAsApplicant: true })
+      onApplyAddress({ address: applicant.address || '', suite: applicant.suite || '', city: applicant.city || '', state: applicant.state || '', zip: applicant.zip || '', sameAsApplicant: true })
     } else {
-      onApplyAddress({ address: '', city: '', state: '', zip: '', sameAsApplicant: false })
+      onApplyAddress({ address: '', suite: '', city: '', state: '', zip: '', sameAsApplicant: false })
     }
   }
 
