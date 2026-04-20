@@ -326,18 +326,39 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               {/* Expandable details + print */}
               <button
                 onClick={() => setSummaryOpen(o => !o)}
-                className="w-full flex items-center justify-between px-6 py-3 border-t border-gray-100 transition text-xs font-medium text-gray-500"
-                onMouseEnter={e => e.currentTarget.style.background = 'rgba(92,46,212,0.04)'}
-                onMouseLeave={e => e.currentTarget.style.background = ''}
+                className="w-full flex items-center justify-between px-6 py-3.5 border-t transition-all"
+                style={{
+                  borderColor: isDark ? 'rgba(255,255,255,0.06)' : '#F3F4F6',
+                  background: summaryOpen
+                    ? isDark ? 'rgba(92,46,212,0.18)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)'
+                    : isDark ? 'rgba(92,46,212,0.08)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.03) 0%, rgba(166,20,195,0.03) 100%)',
+                }}
+                onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(92,46,212,0.22)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)'}
+                onMouseLeave={e => e.currentTarget.style.background = summaryOpen
+                  ? isDark ? 'rgba(92,46,212,0.18)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.06) 0%, rgba(166,20,195,0.06) 100%)'
+                  : isDark ? 'rgba(92,46,212,0.08)' : 'linear-gradient(88.09deg, rgba(92,46,212,0.03) 0%, rgba(166,20,195,0.03) 100%)'}
               >
                 <span className="flex items-center gap-2">
-                  <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                    <defs>
+                      <linearGradient id="expandPrintG" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                        <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
+                      </linearGradient>
+                    </defs>
+                    <path stroke="url(#expandPrintG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                   </svg>
-                  Print &amp; View Full Submission
+                  <span className="text-xs font-semibold" style={{
+                    background: isDark ? 'linear-gradient(88.09deg, #A78BFA 0%, #E879F9 100%)' : 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }}>
+                    Print &amp; View Full Submission
+                  </span>
                 </span>
-                <svg className={`w-4 h-4 text-gray-400 transition-transform ${summaryOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+                <svg className={`w-4 h-4 shrink-0 transition-transform ${summaryOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24">
+                  <path stroke="url(#expandPrintG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
                 </svg>
               </button>
 
@@ -587,26 +608,26 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               </div>
             )}
 
-            {/* Complete Your Coverage */}
+            {/* CROSS-SELL OPPORTUNITIES */}
             <div className="rounded-2xl px-10 py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-              <div className="text-center mb-6">
-                <div className="flex items-center justify-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full flex items-center justify-center" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}>
-                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}>
+              <div className="flex items-center justify-between mb-5">
+                <div>
+                  <div className="flex items-center gap-1.5 mb-1.5">
+                    <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt2)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}>
                       <defs>
-                        <linearGradient id="lgBolt" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <linearGradient id="lgBolt2" x1="0%" y1="0%" x2="100%" y2="0%">
                           <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
                           <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
                         </linearGradient>
                       </defs>
                       <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
+                    <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">CROSS-SELL OPPORTUNITIES</span>
                   </div>
-                  <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">Complete Your Coverage</span>
+                  <h3 className="text-xl font-bold text-navy">One Form, Multiple Quotes</h3>
                 </div>
-                <h3 className="text-2xl font-bold text-navy mb-2">We Already Have Your Client's Info—Get Quotes Faster!</h3>
-                <p className="text-sm text-gray-500 max-w-lg mx-auto leading-relaxed">
-                  Add essential coverages in minutes. Your client's information is already saved, so getting additional quotes is quick and easy.
+                <p className="text-xs text-gray-400 max-w-[240px] text-right leading-relaxed hidden sm:block">
+                  Client info already saved — adding coverages takes minutes.
                 </p>
               </div>
 
