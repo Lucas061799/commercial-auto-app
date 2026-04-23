@@ -303,8 +303,12 @@ html .btn-gradient {
   -webkit-text-fill-color: white !important;
 }
 
-/* ── Print button light mode: force white text on the label span ── */
-button#print-pdf-btn span {
+/* ── Print button: force white text in both light and dark mode ── */
+button#print-pdf-btn span,
+[data-dark="true"] button#print-pdf-btn span {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
 }

@@ -563,50 +563,21 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
                   {/* Print button — screen only */}
                   <div className="screen-only">
-                    {isDark ? (
-                      /* Dark mode — no background fill, gradient text only */
-                      <button
-                        id="print-pdf-btn"
-                        onClick={handlePrint}
-                        className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition"
-                        style={{
-                          background: 'transparent',
-                          border: '1.5px solid rgba(166,20,195,0.45)',
-                        }}
-                      >
-                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                          <defs>
-                            <linearGradient id="printBtnGr" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#A78BFA"/>
-                              <stop offset="100%" stopColor="#E879F9"/>
-                            </linearGradient>
-                          </defs>
-                          <path stroke="url(#printBtnGr)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                        </svg>
-                        <span style={{
-                          background: 'linear-gradient(88.09deg, #A78BFA 0%, #E879F9 100%)',
-                          WebkitBackgroundClip: 'text',
-                          WebkitTextFillColor: 'transparent',
-                          backgroundClip: 'text',
-                        }}>Print / Save as PDF</span>
-                      </button>
-                    ) : (
-                      /* Light mode — gradient background, white text */
-                      <button
-                        id="print-pdf-btn"
-                        onClick={handlePrint}
-                        className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition hover:opacity-90"
-                        style={{
-                          background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                          boxShadow: '0 2px 12px rgba(92,46,212,0.3)',
-                        }}
-                      >
-                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="#ffffff" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-                        </svg>
-                        <span style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}>Print / Save as PDF</span>
-                      </button>
-                    )}
+                    {/* Both light & dark: gradient background, white text */}
+                    <button
+                      id="print-pdf-btn"
+                      onClick={handlePrint}
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition hover:opacity-90"
+                      style={{
+                        background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                        boxShadow: '0 2px 12px rgba(92,46,212,0.3)',
+                      }}
+                    >
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="#ffffff" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                      </svg>
+                      <span>Print / Save as PDF</span>
+                    </button>
                   </div>
                 </div>
               )}
