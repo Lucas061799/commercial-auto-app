@@ -266,14 +266,12 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               {/* Header row */}
               <div className="flex items-start gap-4 px-6 pt-5 pb-4">
                 <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                  style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.1) 0%, rgba(166,20,195,0.1) 100%)' }}>
+                  style={{
+                    background: 'linear-gradient(135deg, #A614C3 0%, #EC4899 100%)',
+                    boxShadow: '0 0 16px rgba(236,72,153,0.5)',
+                  }}>
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
-                    <path d="M5 13l4 4L19 7" stroke="url(#checkG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <defs>
-                      <linearGradient id="checkG" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                      </linearGradient>
-                    </defs>
+                    <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
                 <div className="flex-1">
