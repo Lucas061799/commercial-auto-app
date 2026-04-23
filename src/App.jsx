@@ -246,6 +246,7 @@ function App() {
   const [submitted, setSubmitted] = useState(pageParam === 'submission')
   const [pageZeroDone, setPageZeroDone] = useState(pageParam === 'main' || pageParam === 'submission')
   const [darkMode, setDarkMode] = useState(false)
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
   useEffect(() => {
     document.documentElement.setAttribute('data-dark', darkMode ? 'true' : 'false')
   }, [darkMode])
@@ -349,7 +350,16 @@ function App() {
         }}
       >
         {/* Left: logo — same width as sidebar, left-aligned with Commercial Auto below */}
-        <div className="w-64 2xl:w-72 shrink-0 px-5 flex items-center h-full">
+        <div className="flex items-center h-full px-3 md:px-5 w-auto md:w-64 2xl:md:w-72 md:shrink-0">
+          <button
+            className="md:hidden mr-3 p-1.5 rounded-lg"
+            style={{ color: darkMode ? '#9CA3AF' : '#6B7280' }}
+            onClick={() => setMobileSidebarOpen(true)}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
           <img src={darkMode ? norbielinkLogoDark : norbielinkLogo} alt="NorbieLink" className="h-8" />
         </div>
         {/* Right: powered by btis — pushed to far right */}
@@ -361,16 +371,28 @@ function App() {
 
       {/* Three-column layout */}
       <div className="flex flex-1 overflow-hidden">
-        <Sidebar
-          steps={STEPS}
-          activeStep={activeStep}
-          onStepClick={goToStep}
-          formData={formData}
-          onCheckErrors={handleCheckErrors}
-          showSubmission={submitted || false}
-          isDark={darkMode}
-          onToggleDark={() => setDarkMode(d => !d)}
-        />
+        {/* Mobile backdrop */}
+        {mobileSidebarOpen && (
+          <div
+            className="fixed inset-0 z-30 md:hidden"
+            style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(2px)' }}
+            onClick={() => setMobileSidebarOpen(false)}
+          />
+        )}
+        {/* Sidebar — drawer on mobile, normal on desktop */}
+        <div className={`fixed md:relative inset-y-0 left-0 z-40 h-full shrink-0 transition-transform duration-300 ease-in-out ${mobileSidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}
+          style={{ top: 0 }}>
+          <Sidebar
+            steps={STEPS}
+            activeStep={activeStep}
+            onStepClick={(id) => { goToStep(id); setMobileSidebarOpen(false) }}
+            formData={formData}
+            onCheckErrors={handleCheckErrors}
+            showSubmission={submitted || false}
+            isDark={darkMode}
+            onToggleDark={() => setDarkMode(d => !d)}
+          />
+        </div>
 
         {/* Scrollable main content */}
         <main
@@ -380,7 +402,7 @@ function App() {
           style={{ background: darkMode ? '#131629' : 'white' }}
         >
 
-          <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-10 py-8 space-y-8">
+          <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-4 md:px-10 py-6 md:py-8 space-y-6 md:space-y-8">
 
             {[
               { id: 1, title: 'Applicant Information',  el: <ApplicantInformation formData={formData} updateFormData={updateFormData} errorFields={errorFields} /> },
@@ -405,7 +427,7 @@ function App() {
                 }}
               >
                 <SectionHeader title={section.title} isDark={darkMode} />
-                <div className="px-10 pt-5 pb-10">
+                <div className="px-4 md:px-10 pt-4 md:pt-5 pb-8 md:pb-10">
                   {section.el}
                 </div>
               </section>
@@ -415,7 +437,9 @@ function App() {
           </div>
         </main>
 
-        <RightPanel onFormReview={handleCheckErrors} formData={formData} pulseUpload={pulseUpload} isDark={darkMode} />
+        <div className="hidden lg:block">
+          <RightPanel onFormReview={handleCheckErrors} formData={formData} pulseUpload={pulseUpload} isDark={darkMode} />
+        </div>
       </div>
     </div>
   )
@@ -424,12 +448,12 @@ function App() {
 // Section header — sits at top of each card
 function SectionHeader({ title, isDark }) {
   return (
-    <div className="px-10 pt-8 pb-0">
+    <div className="px-4 md:px-10 pt-6 md:pt-8 pb-0">
       <div
-        className="flex items-center justify-between pb-4"
+        className="flex items-center justify-between pb-3 md:pb-4"
         style={{ borderBottom: `1px solid ${isDark ? 'rgba(255,255,255,0.08)' : '#D1D5DB'}` }}
       >
-        <h2 className="text-lg font-bold" style={{ color: isDark ? '#F9FAFB' : undefined }} >{title}</h2>
+        <h2 className="text-base md:text-lg font-bold" style={{ color: isDark ? '#F9FAFB' : undefined }} >{title}</h2>
       </div>
     </div>
   )
