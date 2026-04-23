@@ -408,8 +408,8 @@ function App() {
 
           <div className="max-w-5xl 2xl:max-w-6xl mx-auto px-4 md:px-10 py-6 md:py-8 space-y-6 md:space-y-8">
 
-            {/* Mobile-only upload card — matches RightPanel style exactly */}
-            <div className="lg:hidden">
+            {/* Mobile-only upload + form review — matches RightPanel style exactly */}
+            <div className="lg:hidden space-y-3">
               <div
                 className="rounded-2xl overflow-hidden"
                 style={{
@@ -441,6 +441,22 @@ function App() {
                   </div>
                 </div>
               </div>
+
+              {/* Form Review button — same style as RightPanel */}
+              <button
+                onClick={handleCheckErrors}
+                className="w-full flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition"
+                style={{
+                  color: darkMode ? '#D8B4FE' : '#A614C3',
+                  border: darkMode ? '1px solid rgba(216,180,254,0.35)' : '1px solid rgba(166,20,195,0.3)',
+                  background: darkMode ? 'rgba(167,139,250,0.08)' : 'white',
+                }}
+              >
+                <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Form Review
+              </button>
             </div>
 
             {[
