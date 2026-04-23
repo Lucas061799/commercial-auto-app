@@ -303,9 +303,3 @@ html .btn-gradient {
   -webkit-text-fill-color: white !important;
 }
 
-/* ── Print button: force white text in both light and dark mode ── */
-button#print-pdf-btn,
-[data-dark="true"] button#print-pdf-btn {
-  color: #ffffff !important;
-  -webkit-text-fill-color: #ffffff !important;
-}
