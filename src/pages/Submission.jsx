@@ -593,12 +593,8 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                         <path stroke="url(#printIconGrad)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
                       <span style={{
-                        background: isDark
-                          ? 'linear-gradient(88.09deg, #A78BFA 0%, #E879F9 100%)'
-                          : 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
+                        color: isDark ? '#E879F9' : '#7C3AED',
+                        WebkitTextFillColor: isDark ? '#E879F9' : '#7C3AED',
                       }}>Print / Save as PDF</span>
                     </button>
                   </div>
