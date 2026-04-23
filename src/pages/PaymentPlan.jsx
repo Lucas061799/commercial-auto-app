@@ -20,73 +20,62 @@ const PLAN_OPTIONS_MAP = {
   ],
 }
 
-/* ── Preview Modal ──────────────────────────────────────────── */
-function YesNoBadge({ value }) {
-  if (!value) return null
-  const isYes = value === 'Yes'
+/* ── Preview Modal — matches Submission page SummarySection style ── */
+
+const P_ICONS = {
+  user:    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>,
+  truck:   <path strokeLinecap="round" strokeLinejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10l2 1M13 16l2 1m0-11l3 5h2a1 1 0 011 1v4"/>,
+  shield:  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>,
+  users:   <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>,
+  building:<path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>,
+  doc:     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>,
+  card:    <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>,
+  warning: <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>,
+  check:   <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>,
+}
+
+function PSection({ title, icon = 'shield', children }) {
   return (
-    <span
-      className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold"
-      style={isYes
-        ? { background: 'rgba(92,46,212,0.1)', color: '#5C2ED4' }
-        : { background: 'rgba(107,114,128,0.1)', color: '#6B7280' }
-      }
-    >
-      {isYes ? '✓ Yes' : '✕ No'}
-    </span>
+    <div className="rounded-xl p-4" style={{ background: 'white', border: '1px solid #E5E7EB' }}>
+      <div className="flex items-center gap-2 mb-3">
+        <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0" style={{ background: 'rgba(115,201,183,0.12)' }}>
+          <svg className="w-3.5 h-3.5" fill="none" stroke="#73C9B7" strokeWidth={1.5} viewBox="0 0 24 24">
+            {P_ICONS[icon]}
+          </svg>
+        </div>
+        <h3 className="text-xs font-bold text-gray-900">{title}</h3>
+      </div>
+      <div>{children}</div>
+    </div>
   )
 }
 
-function PreviewField({ label, value, yesno = false }) {
+function PRow({ label, value }) {
   if (!value && value !== 0) return null
   return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">{label}</span>
-      {yesno
-        ? <YesNoBadge value={value} />
-        : <span className="text-[12px] font-semibold text-gray-800 leading-snug">{value}</span>
-      }
+    <div className="flex items-center justify-between py-1.5" style={{ borderBottom: '1px solid #F3F4F6' }}>
+      <span className="text-[10px] text-gray-400">{label}</span>
+      <span className="text-[10px] font-semibold text-right text-gray-900">{value}</span>
     </div>
   )
 }
 
-function PreviewCard({ children, accent }) {
+function PYNRow({ label, value }) {
+  if (!value) return null
+  const yes = value === 'Yes'
   return (
-    <div
-      className="rounded-xl p-4 space-y-3"
-      style={{
-        background: 'white',
-        border: '1px solid #F0EDFF',
-        borderLeft: `3px solid ${accent || '#5C2ED4'}`,
-        boxShadow: '0 1px 4px rgba(92,46,212,0.06)',
-      }}
-    >
-      {children}
+    <div className="flex items-center justify-between py-1.5" style={{ borderBottom: '1px solid #F3F4F6' }}>
+      <span className="text-[10px] text-gray-400">{label}</span>
+      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full"
+        style={{ background: yes ? 'rgba(52,211,153,0.12)' : 'rgba(156,163,175,0.1)', color: yes ? '#059669' : '#6B7280' }}>
+        {value}
+      </span>
     </div>
   )
 }
 
-function PreviewGrid({ children }) {
-  return <div className="grid grid-cols-2 gap-x-6 gap-y-3">{children}</div>
-}
-
-function SectionHeader({ icon, title, count }) {
-  return (
-    <div className="flex items-center gap-2 mb-2.5">
-      <div
-        className="w-6 h-6 rounded-lg flex items-center justify-center text-white text-[10px] shrink-0"
-        style={{ background: 'linear-gradient(135deg,#5C2ED4,#A614C3)' }}
-      >
-        {icon}
-      </div>
-      <span className="text-xs font-bold text-gray-700 tracking-wide">{title}</span>
-      {count != null && (
-        <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>
-          {count}
-        </span>
-      )}
-    </div>
-  )
+function PSubLabel({ label }) {
+  return <p className="text-[9px] font-bold uppercase tracking-wider pt-2 pb-0.5" style={{ color: '#5C2ED4' }}>{label}</p>
 }
 
 function PreviewModal({ formData, onClose, onSubmit }) {
@@ -104,13 +93,13 @@ function PreviewModal({ formData, onClose, onSubmit }) {
   const comments = formData.comments?.text || ''
 
   const ELIG_LABELS = {
-    q1: 'Subsidiary?', q2: 'Leased to others?',
-    q3: 'All autos owned?', q4: 'Records checked?',
-    q5: 'Employees under 18?', q6: 'Family drivers?',
-    q7: 'Non-business use?', q8: 'Own autos in business?',
-    q9: 'Safety program?', q10: 'Regular maintenance?',
-    q11: 'Mileage > 40k?', q12: 'Hazmat exposure?',
-    q13: 'Policy declined in 3yr?', q14: 'Bankruptcies in 5yr?',
+    q1: 'Subsidiary of another entity?', q2: 'Vehicles leased to others?',
+    q3: 'All autos owned by applicant?', q4: 'Auto records checked before driving?',
+    q5: 'Employees under 18 with access?', q6: 'Family driver exposures?',
+    q7: 'Non-business use allowed?', q8: 'Employees use own autos?',
+    q9: 'Active auto safety program?', q10: 'Regular scheduled maintenance?',
+    q11: 'Annual mileage > 40,000?', q12: 'Exposure to flammables/hazmat?',
+    q13: 'Policy declined/cancelled in 3 yrs?', q14: 'Bankruptcies/liens in 5 yrs?',
     q15: 'Crosses state lines?',
   }
 
@@ -124,314 +113,219 @@ function PreviewModal({ formData, onClose, onSubmit }) {
     >
       <div
         className="relative w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-        style={{ maxHeight: '92vh', background: '#FAFAFA', border: '1px solid rgba(92,46,212,0.15)' }}
+        style={{ maxHeight: '92vh', background: '#F9FAFB', border: '1px solid rgba(92,46,212,0.15)' }}
         onClick={ev => ev.stopPropagation()}
       >
         {/* Header */}
-        <div className="shrink-0 px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)' }}>
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.18)' }}>
-              <svg className="w-4.5 h-4.5 text-white w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-              </svg>
-            </div>
-            <div>
-              <p className="text-white font-bold text-sm leading-tight">Application Preview</p>
-              <p className="text-white/65 text-[11px] mt-0.5">Review all details before submitting</p>
-            </div>
+        <div className="shrink-0 px-5 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)' }}>
+          <div>
+            <p className="text-white font-bold text-sm leading-tight">Application Preview</p>
+            <p className="text-white/65 text-[11px] mt-0.5">Review all details before submitting</p>
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full flex items-center justify-center transition"
-            style={{ background: 'rgba(255,255,255,0.15)' }}
-            onMouseEnter={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.28)'}
-            onMouseLeave={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+            className="w-7 h-7 rounded-full flex items-center justify-center transition"
+            style={{ background: 'rgba(255,255,255,0.18)' }}
+            onMouseEnter={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.3)'}
+            onMouseLeave={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
           >
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
             </svg>
           </button>
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5 custom-scroll" style={{ background: '#F7F6FB' }}>
+        <div className="flex-1 overflow-y-auto custom-scroll px-4 py-4" style={{ background: '#F9FAFB' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
 
-          {/* Applicant */}
-          {a.namedInsured && (
-            <div>
-              <SectionHeader icon="👤" title="Applicant Information" />
-              <PreviewCard>
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Named Insured</p>
-                    <p className="text-[15px] font-bold text-gray-900">{a.namedInsured}</p>
-                    {a.entity && <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>{a.entity}</span>}
-                  </div>
-                  {a.effectiveDate && (
-                    <div className="text-right shrink-0">
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Effective</p>
-                      <p className="text-[12px] font-bold text-gray-800">{a.effectiveDate}</p>
-                    </div>
-                  )}
-                </div>
-                <div className="border-t border-gray-100 pt-3">
-                  <PreviewGrid>
-                    <PreviewField label="Email" value={a.email} />
-                    <PreviewField label="Phone" value={a.phone} />
-                    <div className="col-span-2">
-                      <PreviewField label="Address" value={[a.address, a.city, a.state, a.zip].filter(Boolean).join(', ')} />
-                    </div>
-                  </PreviewGrid>
-                </div>
-              </PreviewCard>
-            </div>
-          )}
+            {/* Applicant */}
+            {(a.namedInsured || a.email) && (
+              <PSection title="Applicant Information" icon="user">
+                <PRow label="Named Insured" value={a.namedInsured} />
+                <PRow label="Entity Type" value={a.entity} />
+                <PRow label="Effective Date" value={a.effectiveDate} />
+                <PRow label="Phone" value={a.phone} />
+                <PRow label="Email" value={a.email} />
+                <PRow label="Address" value={[a.address, a.city, a.state, a.zip].filter(Boolean).join(', ')} />
+              </PSection>
+            )}
 
-          {/* Vehicles */}
-          {vs.length > 0 && (
-            <div>
-              <SectionHeader icon="🚗" title="Vehicles" count={vs.length} />
-              <div className="space-y-2">
-                {vs.map((v, i) => (
-                  <PreviewCard key={i} accent="#7C3AED">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(88deg,#5C2ED4,#A614C3)' }}>Vehicle {i + 1}</span>
-                      {v.year && v.make && <span className="text-[12px] font-bold text-gray-800">{[v.year, v.make, v.model].filter(Boolean).join(' ')}</span>}
-                    </div>
-                    <PreviewGrid>
-                      <PreviewField label="VIN" value={v.vin} />
-                      <PreviewField label="Use" value={v.use} />
-                      <PreviewField label="Garaging State" value={v.garagingState} />
-                    </PreviewGrid>
-                  </PreviewCard>
-                ))}
-              </div>
-            </div>
-          )}
+            {/* Coverage */}
+            {(cov.liabilityLimit || cov.anyAuto) && (
+              <PSection title="Coverage" icon="shield">
+                <PRow label="BI/PD" value={cov.liabilityLimit} />
+                <PRow label="UMBI" value={cov.umbi} />
+                <PRow label="Med Pay" value={cov.medPay} />
+                <PRow label="PIP" value={cov.pip} />
+                <PRow label="DOT #" value={cov.dot} />
+                <PYNRow label="Any Auto (sym 1)" value={cov.anyAuto} />
+                <PYNRow label="Hired Auto (sym 8)" value={cov.hiredAuto} />
+                <PYNRow label="Non-Owned (sym 9)" value={cov.nonOwnedAuto} />
+                <PYNRow label="Cargo Coverage" value={cov.cargoCoverage} />
+                {cov.cargoCoverage === 'Yes' && <PRow label="Cargo Limit" value={cov.cargoLimit} />}
+                <PYNRow label="Rental Reimb." value={cov.rentalReimbursement} />
+                {cov.rentalReimbursement === 'Yes' && <PRow label="Rental Limit" value={cov.rentalLimit} />}
+                <PYNRow label="State Filing" value={cov.stateFiling} />
+                {cov.stateFiling === 'Yes' && <PRow label="State Filing #" value={cov.stateFilingNumber} />}
+                <PYNRow label="Federal Filing" value={cov.federalFiling} />
+                <PYNRow label="SR 22" value={cov.sr22} />
+                {cov.sr22 === 'Yes' && <PRow label="SR 22 Driver" value={cov.sr22Driver} />}
+                <PYNRow label="Add. Driver Endorsement" value={cov.additionalDriverEndorsement} />
+                <PYNRow label="Roadside Assistance" value={cov.roadside} />
+              </PSection>
+            )}
 
-          {/* Drivers */}
-          {ds.length > 0 && (
-            <div>
-              <SectionHeader icon="🪪" title="Drivers" count={ds.length} />
-              <div className="space-y-2">
-                {ds.map((d, i) => (
-                  <PreviewCard key={i} accent="#A614C3">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(88deg,#5C2ED4,#A614C3)' }}>Driver {i + 1}</span>
-                      {(d.firstName || d.lastName) && <span className="text-[12px] font-bold text-gray-800">{[d.firstName, d.lastName].filter(Boolean).join(' ')}</span>}
-                    </div>
-                    <PreviewGrid>
-                      <PreviewField label="License #" value={d.licenseNumber} />
-                      <PreviewField label="Date of Birth" value={d.dob} />
-                      <PreviewField label="Years Licensed" value={d.yearsLicensed} />
-                    </PreviewGrid>
-                  </PreviewCard>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Coverage */}
-          {cov.liabilityLimit && (
-            <div>
-              <SectionHeader icon="🛡" title="Coverage" />
-              <PreviewCard>
-                <PreviewGrid>
-                  <PreviewField label="BI/PD Limit" value={cov.liabilityLimit} />
-                  <PreviewField label="UMBI" value={cov.umbi} />
-                  <PreviewField label="Med Pay" value={cov.medPay} />
-                  <PreviewField label="PIP" value={cov.pip} />
-                  <PreviewField label="DOT #" value={cov.dot} />
-                  <PreviewField label="Cargo Limit" value={cov.cargoLimit} />
-                  <PreviewField label="Rental Limit" value={cov.rentalLimit} />
-                  <PreviewField label="State Filing #" value={cov.stateFilingNumber} />
-                  <PreviewField label="Any Auto (sym 1)" value={cov.anyAuto} yesno />
-                  <PreviewField label="Hired Auto (sym 8)" value={cov.hiredAuto} yesno />
-                  <PreviewField label="Non-Owned (sym 9)" value={cov.nonOwnedAuto} yesno />
-                  <PreviewField label="Cargo Coverage" value={cov.cargoCoverage} yesno />
-                  <PreviewField label="Rental Reimb." value={cov.rentalReimbursement} yesno />
-                  <PreviewField label="State Filing" value={cov.stateFiling} yesno />
-                  <PreviewField label="Federal Filing" value={cov.federalFiling} yesno />
-                  <PreviewField label="SR 22" value={cov.sr22} yesno />
-                </PreviewGrid>
-                {cov.sr22 === 'Yes' && cov.sr22Driver && (
-                  <div className="border-t border-gray-100 pt-3">
-                    <PreviewField label="SR 22 Driver" value={cov.sr22Driver} />
-                  </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Eligibility */}
-          {eligEntries.length > 0 && (
-            <div>
-              <SectionHeader icon="✅" title="Eligibility Questions" count={`${eligEntries.length}/15`} />
-              <PreviewCard>
-                <div className="space-y-1.5">
-                  {eligEntries.map(([key, label]) => (
-                    <div key={key} className="flex items-center justify-between gap-3 py-1 border-b border-gray-50 last:border-0">
-                      <span className="text-[11px] text-gray-600 flex-1 leading-snug">{label}</span>
-                      <YesNoBadge value={e[key]} />
-                    </div>
-                  ))}
-                </div>
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Prior History */}
-          {ph.hasCurrent && (
-            <div>
-              <SectionHeader icon="📋" title="Prior Insurance History" />
-              <PreviewCard>
-                <PreviewField label="Has Prior History" value={ph.hasCurrent} yesno />
-                {histories.length > 0 && (
-                  <div className="border-t border-gray-100 pt-3 space-y-3">
-                    {histories.map((h, i) => (
-                      <div key={i} className="space-y-2">
-                        {histories.length > 1 && <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Policy {i + 1}</p>}
-                        <PreviewGrid>
-                          <PreviewField label="Carrier" value={h.carrierName} />
-                          <PreviewField label="Policy #" value={h.policyNumber} />
-                          <PreviewField label="BI Limits" value={h.biLimits} />
-                          <PreviewField label="Premium" value={h.premium} />
-                          <PreviewField label="Effective" value={h.effectiveDate} />
-                          <PreviewField label="Expiration" value={h.expirationDate} />
-                          <PreviewField label="Type" value={h.policyType} />
-                        </PreviewGrid>
+            {/* Vehicles — full width */}
+            {vs.length > 0 && (
+              <div className="col-span-1 md:col-span-2">
+                <PSection title="Vehicles" icon="truck">
+                  <div className="grid grid-cols-2 gap-x-6">
+                    {vs.map((v, i) => (
+                      <div key={i} className="py-1" style={{ borderBottom: '1px solid #F3F4F6' }}>
+                        <PSubLabel label={`Vehicle #${i + 1}`} />
+                        <PRow label="Year / Make / Model" value={[v.year, v.make, v.model].filter(Boolean).join(' ')} />
+                        <PRow label="VIN" value={v.vin} />
+                        <PRow label="Use" value={v.use} />
+                        <PRow label="Garaging State" value={v.garagingState} />
                       </div>
                     ))}
                   </div>
-                )}
-                {ph.hasOtherPolicy && (
-                  <div className="border-t border-gray-100 pt-3">
-                    <PreviewField label="Has GL/WC/BOP?" value={ph.hasOtherPolicy} yesno />
-                  </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
+                </PSection>
+              </div>
+            )}
 
-          {/* Claims */}
-          {cl.hasClaims && (
-            <div>
-              <SectionHeader icon="📁" title="Claim History" />
-              <PreviewCard>
-                <PreviewField label="Has Claims" value={cl.hasClaims} yesno />
-                {(cl.claims || []).length > 0 && (
-                  <div className="border-t border-gray-100 pt-3 space-y-2">
-                    {(cl.claims || []).map((c, i) => (
-                      <div key={i} className="flex items-center gap-3 py-1">
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: '#F3F0FF', color: '#5C2ED4' }}>#{i + 1}</span>
-                        <span className="text-[11px] text-gray-700 flex-1">{[c.date, c.type, c.amount ? `$${c.amount}` : ''].filter(Boolean).join(' · ')}</span>
+            {/* Drivers — full width */}
+            {ds.length > 0 && (
+              <div className="col-span-1 md:col-span-2">
+                <PSection title="Drivers" icon="user">
+                  <div className="grid grid-cols-2 gap-x-6">
+                    {ds.map((d, i) => (
+                      <div key={i} className="py-1" style={{ borderBottom: '1px solid #F3F4F6' }}>
+                        <PSubLabel label={`Driver #${i + 1}`} />
+                        <PRow label="Name" value={[d.firstName, d.lastName].filter(Boolean).join(' ')} />
+                        <PRow label="Date of Birth" value={d.dob} />
+                        <PRow label="License #" value={d.licenseNumber} />
+                        <PRow label="Yrs Licensed" value={d.yearsLicensed} />
                       </div>
                     ))}
                   </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Additional Insured */}
-          {ai.hasAdditional && (
-            <div>
-              <SectionHeader icon="➕" title="Additional Insured" />
-              <PreviewCard>
-                <PreviewField label="Has Additional Insured" value={ai.hasAdditional} yesno />
-                {ai.hasAdditional === 'Yes' && (
-                  <div className="border-t border-gray-100 pt-3">
-                    <PreviewGrid>
-                      <PreviewField label="Name" value={ai.name} />
-                      <PreviewField label="Address" value={ai.address} />
-                    </PreviewGrid>
-                  </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Loss Payee */}
-          {lp.hasPayee && (
-            <div>
-              <SectionHeader icon="🏦" title="Loss Payee" />
-              <PreviewCard>
-                <PreviewField label="Has Loss Payee" value={lp.hasPayee} yesno />
-                {lp.hasPayee === 'Yes' && (
-                  <div className="border-t border-gray-100 pt-3">
-                    <PreviewGrid>
-                      <PreviewField label="Name" value={lp.name} />
-                      <PreviewField label="Address" value={lp.address} />
-                    </PreviewGrid>
-                  </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Payment Plan */}
-          {pay.planDuration && (
-            <div>
-              <SectionHeader icon="💳" title="Payment Plan" />
-              <PreviewCard>
-                <div className="flex items-start gap-4">
-                  <div>
-                    <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Duration</p>
-                    <p className="text-[13px] font-bold text-gray-800">{pay.planDuration}</p>
-                  </div>
-                  {pay.planOption && (
-                    <div className="flex-1">
-                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Option</p>
-                      <p className="text-[12px] font-semibold text-gray-700 leading-snug">{pay.planOption}</p>
-                    </div>
-                  )}
-                </div>
-                {(pay.paperless || pay.reminder) && (
-                  <div className="border-t border-gray-100 pt-3 flex gap-4">
-                    <PreviewField label="Paperless" value={pay.paperless} yesno />
-                    <PreviewField label="Payment Reminder" value={pay.reminder} yesno />
-                  </div>
-                )}
-              </PreviewCard>
-            </div>
-          )}
-
-          {/* Comments */}
-          {comments && (
-            <div>
-              <SectionHeader icon="💬" title="Additional Comments" />
-              <div className="rounded-xl p-4" style={{ background: 'white', border: '1px solid #F0EDFF', borderLeft: '3px solid #E879F9', boxShadow: '0 1px 4px rgba(92,46,212,0.06)' }}>
-                <p className="text-[12px] text-gray-600 leading-relaxed whitespace-pre-wrap">{comments}</p>
+                </PSection>
               </div>
-            </div>
-          )}
+            )}
 
-          <div className="h-1" />
+            {/* Eligibility — full width */}
+            {eligEntries.length > 0 && (
+              <div className="col-span-1 md:col-span-2">
+                <PSection title="Eligibility" icon="check">
+                  <div className="grid grid-cols-2 gap-x-8">
+                    {eligEntries.map(([key, label]) => (
+                      <PYNRow key={key} label={label} value={e[key]} />
+                    ))}
+                  </div>
+                </PSection>
+              </div>
+            )}
+
+            {/* Additional Insured */}
+            {ai.hasAdditional && (
+              <PSection title="Additional Insured" icon="users">
+                <PYNRow label="Has Additional Insured" value={ai.hasAdditional} />
+                {ai.hasAdditional === 'Yes' && <>
+                  <PRow label="Name" value={ai.name} />
+                  <PRow label="Address" value={ai.address} />
+                </>}
+              </PSection>
+            )}
+
+            {/* Loss Payee */}
+            {lp.hasPayee && (
+              <PSection title="Loss Payee" icon="building">
+                <PYNRow label="Has Loss Payee" value={lp.hasPayee} />
+                {lp.hasPayee === 'Yes' && <>
+                  <PRow label="Name" value={lp.name} />
+                  <PRow label="Address" value={lp.address} />
+                </>}
+              </PSection>
+            )}
+
+            {/* Prior History */}
+            {ph.hasCurrent && (
+              <PSection title="Prior Insurance" icon="doc">
+                <PYNRow label="Has Prior History" value={ph.hasCurrent} />
+                {histories.map((h, i) => (
+                  <div key={i}>
+                    {histories.length > 1 && <PSubLabel label={`Policy #${i + 1}`} />}
+                    <PRow label="Carrier" value={h.carrierName} />
+                    <PRow label="Policy #" value={h.policyNumber} />
+                    <PRow label="BI Limits" value={h.biLimits} />
+                    <PRow label="Premium" value={h.premium} />
+                    <PRow label="Effective" value={h.effectiveDate} />
+                    <PRow label="Expiration" value={h.expirationDate} />
+                    <PRow label="Type" value={h.policyType} />
+                  </div>
+                ))}
+                <PYNRow label="Has GL / WC / BOP?" value={ph.hasOtherPolicy} />
+              </PSection>
+            )}
+
+            {/* Claim History */}
+            {cl.hasClaims && (
+              <PSection title="Claim History" icon="warning">
+                <PYNRow label="Has Claims" value={cl.hasClaims} />
+                {(cl.claims || []).map((c, i) => (
+                  <div key={i}>
+                    <PSubLabel label={`Claim #${i + 1}`} />
+                    <PRow label="Date / Type" value={[c.date, c.type].filter(Boolean).join(' · ')} />
+                    <PRow label="Amount" value={c.amount ? `$${c.amount}` : ''} />
+                  </div>
+                ))}
+              </PSection>
+            )}
+
+            {/* Payment Plan */}
+            {(pay.planDuration || pay.paperless) && (
+              <div className="col-span-1 md:col-span-2">
+                <PSection title="Payment Plan" icon="card">
+                  <div className="grid grid-cols-4 gap-x-8">
+                    <PYNRow label="Paperless?" value={pay.paperless} />
+                    <PYNRow label="Reminder?" value={pay.reminder} />
+                    <PRow label="Duration" value={pay.planDuration} />
+                    <PRow label="Selected Plan" value={pay.planOption} />
+                  </div>
+                </PSection>
+              </div>
+            )}
+
+            {/* Comments */}
+            {comments && (
+              <div className="col-span-1 md:col-span-2">
+                <PSection title="Comments / Special Instructions" icon="doc">
+                  <p className="text-[10px] leading-relaxed py-0.5 text-gray-700">{comments}</p>
+                </PSection>
+              </div>
+            )}
+
+          </div>
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 px-6 py-4 flex items-center justify-between gap-3" style={{ borderTop: '1px solid #EEEBFF', background: 'white' }}>
+        <div className="shrink-0 px-5 py-3.5 flex items-center justify-between gap-3" style={{ borderTop: '1px solid #E5E7EB', background: 'white' }}>
           <button
             onClick={onClose}
-            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold transition"
             style={{ color: '#6B7280', border: '1px solid #E5E7EB', background: 'white' }}
             onMouseEnter={ev => ev.currentTarget.style.background = '#F9FAFB'}
             onMouseLeave={ev => ev.currentTarget.style.background = 'white'}
           >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
-            </svg>
-            Back to Edit
+            ← Back to Edit
           </button>
           <button
             onClick={() => { onClose(); onSubmit() }}
-            className="flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-bold text-white transition hover:opacity-90"
+            className="flex items-center gap-2 px-7 py-2.5 rounded-xl text-sm font-bold text-white transition hover:opacity-90"
             style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
           >
-            Submit Application
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-            </svg>
+            Submit Application →
           </button>
         </div>
       </div>
