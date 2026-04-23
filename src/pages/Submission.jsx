@@ -92,12 +92,18 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
           borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6',
         }}
       >
-        <div className="w-64 shrink-0 px-5 flex items-center h-full">
+        <div className="flex items-center h-full px-4 md:px-5 md:w-64 md:shrink-0 gap-2">
+          {/* Mobile back button */}
+          <button onClick={onBack} className="md:hidden p-1.5 rounded-lg focus:outline-none" style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
           <button onClick={onBack} className="focus:outline-none">
-            <img src={isDark ? norbielinkLogoDark : norbielinkLogo} alt="NorbieLink" className="h-8" />
+            <img src={isDark ? norbielinkLogoDark : norbielinkLogo} alt="NorbieLink" className="h-7 md:h-8" />
           </button>
         </div>
-        <div className="flex items-center gap-2 px-8">
+        <div className="flex items-center gap-2 px-4 md:px-8">
           <span className="text-xs text-gray-400 tracking-wide">POWERED BY</span>
           <img src={isDark ? btisLogoDark : btisLogo} alt="btis" className="h-7" />
         </div>
@@ -106,9 +112,9 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
       {/* Three-column layout */}
       <div className="flex flex-1 overflow-hidden">
 
-        {/* Left Sidebar */}
+        {/* Left Sidebar — hidden on mobile */}
         <aside
-          className="no-print w-64 2xl:w-72 flex flex-col h-full shrink-0 relative overflow-hidden"
+          className="no-print hidden md:flex w-64 2xl:w-72 flex-col h-full shrink-0 relative overflow-hidden"
           style={{
             background: isDark
               ? '#191D35'
@@ -143,9 +149,9 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       border: '1.5px solid rgba(166,20,195,0.65)',
                       boxShadow: '0 4px 24px rgba(166,20,195,0.25)',
                     } : {
-                      background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
-                      border: '1.5px solid transparent',
-                      boxShadow: '0 2px 12px rgba(92,46,212,0.15)',
+                      background: '#ffffff',
+                      border: '1.5px solid #7C3AED',
+                      boxShadow: '0 2px 12px rgba(92,46,212,0.12)',
                     } : { border: '1.5px solid transparent' }}
                   >
                     {/* Badge — checkmark for all */}
@@ -256,7 +262,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto custom-scroll" style={{ background: isDark ? '#131629' : 'white' }}>
-          <div className="max-w-4xl 2xl:max-w-5xl mx-auto px-10 py-8 space-y-6">
+          <div className="max-w-4xl 2xl:max-w-5xl mx-auto px-4 md:px-10 py-5 md:py-8 space-y-5 md:space-y-6">
 
             {/* Submission Complete Card */}
             <div className="rounded-2xl overflow-hidden" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
@@ -302,7 +308,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               </div>
 
               {/* Info row — Submission ID · Date · Status */}
-              <div className="grid grid-cols-3 divide-x divide-gray-100 border-t border-gray-100">
+              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 border-t border-gray-100">
                 {[
                   { label: 'Submission ID', value: SUBMISSION_ID },
                   { label: 'Date Submitted', value: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },

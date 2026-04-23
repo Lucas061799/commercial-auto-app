@@ -79,9 +79,9 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
                   border: '1.5px solid rgba(166,20,195,0.65)',
                   boxShadow: '0 4px 24px rgba(166,20,195,0.25)',
                 } : {
-                  background: 'linear-gradient(white, white) padding-box, linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%) border-box',
-                  border: '1.5px solid transparent',
-                  boxShadow: '0 2px 12px rgba(92,46,212,0.15)',
+                  background: '#ffffff',
+                  border: '1.5px solid #7C3AED',
+                  boxShadow: '0 2px 12px rgba(92,46,212,0.12)',
                 } : {
                   border: '1.5px solid transparent',
                   background: 'transparent'
