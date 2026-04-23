@@ -303,3 +303,21 @@ html .btn-gradient {
   -webkit-text-fill-color: white !important;
 }
 
+/* ── Print button text — absolute last word in the cascade ─────────────────
+   No background-clip trick. Just a solid color that nothing can override.
+   ──────────────────────────────────────────────────────────────────────── */
+html body .print-btn-text {
+  color: #7C3AED !important;
+  -webkit-text-fill-color: #7C3AED !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+html[data-dark="true"] body .print-btn-text {
+  color: #E879F9 !important;
+  -webkit-text-fill-color: #E879F9 !important;
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+}
+

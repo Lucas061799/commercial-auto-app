@@ -41,9 +41,7 @@ export default function Sidebar({ steps, activeStep, onStepClick, formData = {},
     <aside
       className="w-64 2xl:w-72 flex flex-col h-full sticky top-0 shrink-0 relative overflow-hidden"
       style={{
-        background: isDark
-          ? '#191D35'
-          : 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)',
+        background: isDark ? '#191D35' : '#ffffff',
         borderRight: isDark ? DARK_BORDER_RIGHT : '1px solid #F3F4F6',
       }}
     >

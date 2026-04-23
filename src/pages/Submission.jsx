@@ -116,9 +116,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
         <aside
           className="no-print hidden md:flex w-64 2xl:w-72 flex-col h-full shrink-0 relative overflow-hidden"
           style={{
-            background: isDark
-              ? '#191D35'
-              : 'linear-gradient(to bottom, #ffffff 55%, rgba(255,255,255,0.6) 75%, rgba(255,255,255,0) 100%)',
+            background: isDark ? '#191D35' : '#ffffff',
             borderRight: isDark ? '1px solid rgba(255,255,255,0.12)' : '1px solid #F3F4F6',
           }}
         >
@@ -592,10 +590,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                         </defs>
                         <path stroke="url(#printIconGrad)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
-                      <span style={{
-                        color: isDark ? '#E879F9' : '#7C3AED',
-                        WebkitTextFillColor: isDark ? '#E879F9' : '#7C3AED',
-                      }}>Print / Save as PDF</span>
+                      <span className="print-btn-text">Print / Save as PDF</span>
                     </button>
                   </div>
                 </div>
@@ -635,7 +630,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
             )}
 
             {/* CROSS-SELL OPPORTUNITIES */}
-            <div className="rounded-2xl px-10 py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+            <div className="rounded-2xl px-4 md:px-10 py-6 md:py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center gap-1.5 mb-2">
                   <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt2)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}>
@@ -649,10 +644,11 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   </svg>
                   <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">CROSS-SELL OPPORTUNITIES</span>
                 </div>
-                <h3 className="text-2xl font-bold text-navy mb-2">
-                  We prefill your information to save you time.<br />Why wait? Get it done now.
+                <h3 className="text-lg md:text-2xl font-bold text-navy mb-2 leading-snug">
+                  We prefill your information<br className="hidden md:block" /> to save you time.{' '}
+                  <span className="text-gradient">Why wait?</span>
                 </h3>
-                <p className="text-sm text-gray-400">Client info is already saved — adding coverages takes minutes.</p>
+                <p className="text-xs md:text-sm text-gray-400">Client info is already saved — adding coverages takes minutes.</p>
               </div>
 
               <div className="space-y-3 mb-5">
@@ -661,29 +657,47 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   { name: 'General Liability',      desc: 'Protect against third-party claims',    price: '$450/year',   badge: 'RECOMMENDED', badgeClass: 'bg-teal',      icon: iconGL },
                   { name: 'Business Owners',        desc: 'Bundle and save on multiple coverages', price: '$850/year',   badge: 'BEST VALUE',  badgeClass: 'bg-teal',      icon: iconBO },
                 ].map((item) => (
-                  <div key={item.name} className="flex items-center justify-between px-5 py-4 rounded-2xl hover:shadow-sm transition" style={{ border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-                    <div className="flex items-center gap-4">
-                      {/* Icon at 0.5x — w-6 h-6 instead of w-12 h-12 */}
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'white' }}>
-                        <img src={item.icon} alt={item.name} className="w-6 h-6 object-cover" />
+                  <div key={item.name} className="rounded-2xl overflow-hidden hover:shadow-sm transition" style={{ border: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid #F3F4F6' }}>
+
+                    {/* Main row: icon + info + price+btn (desktop) */}
+                    <div className="flex items-center gap-3 px-4 py-4">
+                      {/* Icon */}
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: isDark ? 'rgba(92,46,212,0.15)' : 'rgba(92,46,212,0.06)' }}>
+                        <img src={item.icon} alt={item.name} className="w-6 h-6 object-contain" />
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
-                          <p className="text-sm font-bold text-navy">{item.name}</p>
-                          <span className={`text-[9px] font-bold px-2 py-0.5 rounded text-white ${item.badgeClass}`}>{item.badge}</span>
+
+                      {/* Name + badge + desc */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-1.5 flex-wrap mb-0.5">
+                          <p className="text-sm font-bold text-navy leading-tight">{item.name}</p>
+                          <span className={`text-[8px] font-bold px-1.5 py-0.5 rounded-md text-white shrink-0 ${item.badgeClass}`}>{item.badge}</span>
                         </div>
-                        <p className="text-xs text-gray-400">{item.desc}</p>
+                        <p className="text-[11px] text-gray-400 leading-snug">{item.desc}</p>
+                      </div>
+
+                      {/* Price + button — desktop only, inline */}
+                      <div className="hidden md:flex items-center gap-4 shrink-0 ml-2">
+                        <div className="text-right">
+                          <p className="text-base font-bold text-gradient leading-tight">{item.price}</p>
+                          <p className="text-[10px] text-gray-400">estimated</p>
+                        </div>
+                        <button className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl transition btn-gradient whitespace-nowrap">
+                          Get Quote Now →
+                        </button>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4 shrink-0 ml-4">
-                      <div className="text-right">
-                        <p className="text-base font-bold text-gradient">{item.price}</p>
+
+                    {/* Mobile footer: price + button */}
+                    <div className="md:hidden flex items-center justify-between px-4 py-3" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6', background: isDark ? 'rgba(255,255,255,0.02)' : '#FAFAFA' }}>
+                      <div>
+                        <p className="text-sm font-bold text-gradient leading-tight">{item.price}</p>
                         <p className="text-[10px] text-gray-400">estimated</p>
                       </div>
-                      <button className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-white rounded-xl transition btn-gradient">
+                      <button className="flex items-center gap-1 px-3 py-2 text-xs font-bold text-white rounded-xl transition btn-gradient whitespace-nowrap">
                         Get Quote Now →
                       </button>
                     </div>
+
                   </div>
                 ))}
               </div>
@@ -704,8 +718,8 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
           </div>
         </main>
 
-        {/* Right Panel */}
-        <aside className="no-print w-80 2xl:w-96 flex flex-col shrink-0" style={{ background: isDark ? '#191D35' : 'white', borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+        {/* Right Panel — hidden on mobile */}
+        <aside className="no-print hidden md:flex w-80 2xl:w-96 flex-col shrink-0" style={{ background: isDark ? '#191D35' : 'white', borderLeft: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
           <div className="p-5 flex-1 overflow-y-auto custom-scroll">
 
             {/* Title */}
