@@ -113,7 +113,7 @@ function PreviewModal({ formData, onClose, onSubmit }) {
     >
       <div
         className="relative w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-        style={{ maxHeight: '92vh', background: '#F9FAFB', border: '1px solid rgba(92,46,212,0.15)' }}
+        style={{ maxHeight: '92vh', background: '#F9FAFB' }}
         onClick={ev => ev.stopPropagation()}
       >
         {/* Header — matches Submission Complete card style */}
