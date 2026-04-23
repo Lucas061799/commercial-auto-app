@@ -156,25 +156,29 @@ export default function EligibilityInformation({ formData, updateFormData, isDar
       {/* Norbie Quick-Fill Banner */}
       {!quickFilled && (
         <div
-          className="mb-5 flex items-center justify-between rounded-2xl px-5 py-3.5 gap-4"
+          className="mb-5 rounded-2xl px-5 py-4"
           style={{
-            background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(to right, #F8F6FF, #F2FAF8)',
-            border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(124,58,237,0.1)',
+            background: isDark ? 'rgba(92,46,212,0.12)' : 'linear-gradient(135deg, #F8F6FF 0%, #F2FAF8 100%)',
+            border: isDark ? '1px solid rgba(92,46,212,0.25)' : '1px solid rgba(124,58,237,0.12)',
           }}
         >
-          <div className="flex items-center gap-3 min-w-0">
+          {/* Icon + text */}
+          <div className="flex items-center gap-3 mb-3">
             <img src={norbieface} alt="Norbie" className="w-9 h-9 rounded-full shrink-0" />
             <div>
-              <p className="text-sm font-bold text-navy leading-tight">Let Norbie pre-fill standard answers.</p>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-sm font-bold leading-snug" style={{ color: isDark ? '#F9FAFB' : '#1B0750' }}>
+                Let Norbie pre-fill standard answers.
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: isDark ? '#9CA3AF' : '#6B7280' }}>
                 Apply <span className="font-semibold text-gradient">recommended answers</span> instantly
               </p>
             </div>
           </div>
+          {/* Full-width CTA */}
           <button
             onClick={handleQuickFill}
-            className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-white rounded-full transition-all hover:opacity-90 shrink-0"
-            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
+            className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-bold text-white rounded-xl transition-all hover:opacity-90"
+            style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.25)' }}
           >
             <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
