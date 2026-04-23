@@ -357,12 +357,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </defs>
                     <path stroke="url(#expandPrintG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                   </svg>
-                  <span className="text-xs font-semibold" style={{
-                    background: isDark ? 'linear-gradient(88.09deg, #A78BFA 0%, #E879F9 100%)' : 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}>
+                  <span className="text-xs font-semibold text-gradient">
                     Print &amp; View Full Submission
                   </span>
                 </span>
