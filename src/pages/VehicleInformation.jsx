@@ -1,7 +1,7 @@
 import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
 import AddressAutocomplete from '../components/AddressAutocomplete'
 
-const BODY_TYPES = ['Box/Straight', 'Private Passenger', 'Pick Up', 'Flatbed', 'Dump', 'Van', 'SUV', 'Trailer', 'Other']
+const BODY_TYPES = ['Box/Straight', 'Private Passenger', 'Pick Up', 'Flatbed', 'Dump', 'Utility Vehicle', 'Bucket', 'Stake Bed', 'Cargo Van', 'Water Truck']
 const USE_OPTIONS = ['Business & Personal', 'Business Only', 'Personal Only']
 const COMP_OPTIONS = ['$250', '$100', '$500', '$1,000', '$2,500']
 const COLL_OPTIONS = ['$500', '$100', '$250', '$1,000', '$2,500']

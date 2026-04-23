@@ -1,5 +1,23 @@
+// Phone formatter — produces (555) 000-0000
+function formatPhone(raw) {
+  const digits = raw.replace(/\D/g, '').slice(0, 10)
+  if (digits.length === 0) return ''
+  if (digits.length <= 3) return `(${digits}`
+  if (digits.length <= 6) return `(${digits.slice(0,3)}) ${digits.slice(3)}`
+  return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`
+}
+
 // Reusable input
 export function Input({ label, required, placeholder, type = 'text', value, onChange, className = '', error = false }) {
+  const handleChange = (e) => {
+    if (!onChange) return
+    if (type === 'tel') {
+      onChange(formatPhone(e.target.value))
+    } else {
+      onChange(e.target.value)
+    }
+  }
+
   return (
     <div className={className}>
       {label && (
@@ -8,9 +26,10 @@ export function Input({ label, required, placeholder, type = 'text', value, onCh
         </label>
       )}
       <input
-        type={type}
+        type={type === 'tel' ? 'text' : type}
+        inputMode={type === 'tel' ? 'numeric' : undefined}
         value={value || ''}
-        onChange={e => onChange && onChange(e.target.value)}
+        onChange={handleChange}
         placeholder={placeholder}
         className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all ${
           error
