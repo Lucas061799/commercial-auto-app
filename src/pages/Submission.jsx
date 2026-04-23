@@ -572,25 +572,14 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
                   {/* Print button — screen only */}
                   <div className="screen-only">
-                    {/* Outlined button, gradient text — visible in both light & dark */}
                     <button
                       onClick={handlePrint}
-                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition hover:opacity-75"
-                      style={{
-                        background: 'transparent',
-                        border: '1.5px solid rgba(166,20,195,0.35)',
-                      }}
+                      className="w-full flex items-center justify-center gap-1.5 py-2.5 rounded-lg text-xs font-bold text-white btn-gradient transition hover:opacity-90"
                     >
-                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                        <defs>
-                          <linearGradient id="printIconGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
-                            <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
-                          </linearGradient>
-                        </defs>
-                        <path stroke="url(#printIconGrad)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}>
+                        <path d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
-                      <span className="print-btn-text">Print / Save as PDF</span>
+                      Print / Save as PDF
                     </button>
                   </div>
                 </div>
