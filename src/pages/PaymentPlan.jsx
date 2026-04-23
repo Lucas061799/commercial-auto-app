@@ -118,8 +118,6 @@ function PreviewModal({ formData, onClose, onSubmit }) {
       >
         {/* Header — matches Submission Complete card style */}
         <div className="shrink-0" style={{ background: 'white', borderBottom: '1px solid #F3F4F6' }}>
-          {/* Thin gradient top bar */}
-          <div className="h-1" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)' }} />
           <div className="flex items-start gap-4 px-5 pt-4 pb-4">
             {/* Icon circle */}
             <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
@@ -201,10 +199,10 @@ function PreviewModal({ formData, onClose, onSubmit }) {
             {vs.length > 0 && (
               <div className="col-span-1 md:col-span-2">
                 <PSection title="Vehicles" icon="truck">
-                  <div className="grid grid-cols-2 gap-x-6">
+                  <div className={`grid gap-x-6 ${vs.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                     {vs.map((v, i) => (
-                      <div key={i} className="py-1" style={{ borderBottom: '1px solid #F3F4F6' }}>
-                        <PSubLabel label={`Vehicle #${i + 1}`} />
+                      <div key={i} className="py-1" style={{ borderBottom: vs.length > 1 ? '1px solid #F3F4F6' : 'none' }}>
+                        {vs.length > 1 && <PSubLabel label={`Vehicle #${i + 1}`} />}
                         <PRow label="Year / Make / Model" value={[v.year, v.make, v.model].filter(Boolean).join(' ')} />
                         <PRow label="VIN" value={v.vin} />
                         <PRow label="Use" value={v.use} />
@@ -220,10 +218,10 @@ function PreviewModal({ formData, onClose, onSubmit }) {
             {ds.length > 0 && (
               <div className="col-span-1 md:col-span-2">
                 <PSection title="Drivers" icon="user">
-                  <div className="grid grid-cols-2 gap-x-6">
+                  <div className={`grid gap-x-6 ${ds.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                     {ds.map((d, i) => (
-                      <div key={i} className="py-1" style={{ borderBottom: '1px solid #F3F4F6' }}>
-                        <PSubLabel label={`Driver #${i + 1}`} />
+                      <div key={i} className="py-1" style={{ borderBottom: ds.length > 1 ? '1px solid #F3F4F6' : 'none' }}>
+                        {ds.length > 1 && <PSubLabel label={`Driver #${i + 1}`} />}
                         <PRow label="Name" value={[d.firstName, d.lastName].filter(Boolean).join(' ')} />
                         <PRow label="Date of Birth" value={d.dob} />
                         <PRow label="License #" value={d.licenseNumber} />
@@ -308,12 +306,10 @@ function PreviewModal({ formData, onClose, onSubmit }) {
             {(pay.planDuration || pay.paperless) && (
               <div className="col-span-1 md:col-span-2">
                 <PSection title="Payment Plan" icon="card">
-                  <div className="grid grid-cols-4 gap-x-8">
-                    <PYNRow label="Paperless?" value={pay.paperless} />
-                    <PYNRow label="Reminder?" value={pay.reminder} />
-                    <PRow label="Duration" value={pay.planDuration} />
-                    <PRow label="Selected Plan" value={pay.planOption} />
-                  </div>
+                  <PYNRow label="Paperless?" value={pay.paperless} />
+                  <PYNRow label="Reminder?" value={pay.reminder} />
+                  <PRow label="Duration" value={pay.planDuration} />
+                  <PRow label="Selected Plan" value={pay.planOption} />
                 </PSection>
               </div>
             )}
@@ -483,43 +479,42 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
         </div>
       </div>
 
-      {/* Action buttons */}
-      <div className="pt-6 flex items-center justify-end gap-3">
-        {/* Preview — outline gradient */}
-        <button
-          onClick={() => setShowPreview(true)}
-          className="flex items-center gap-1.5 px-6 py-3 rounded-xl text-sm font-semibold transition hover:opacity-80"
-          style={{
-            border: '1.5px solid transparent',
-            backgroundImage: 'linear-gradient(white, white), linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-            backgroundOrigin: 'border-box',
-            backgroundClip: 'padding-box, border-box',
-          }}
-        >
-          <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="url(#previewG)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
-            <defs>
-              <linearGradient id="previewG" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#5C2ED4"/>
-                <stop offset="100%" stopColor="#A614C3"/>
-              </linearGradient>
-            </defs>
-            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-          </svg>
-          <span className="text-gradient">Preview</span>
-        </button>
+      {/* Action buttons — merged split button, left-aligned */}
+      <div className="pt-6 flex items-center justify-start">
+        <div className="flex items-stretch rounded-xl overflow-hidden" style={{ border: '1.5px solid transparent', backgroundImage: 'linear-gradient(white,white), linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)', backgroundOrigin: 'border-box', backgroundClip: 'padding-box, border-box' }}>
+          {/* Preview half */}
+          <button
+            onClick={() => setShowPreview(true)}
+            className="flex items-center gap-1.5 px-5 py-2.5 text-sm font-semibold transition hover:bg-gray-50"
+          >
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round">
+              <defs>
+                <linearGradient id="previewG" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#5C2ED4"/>
+                  <stop offset="100%" stopColor="#A614C3"/>
+                </linearGradient>
+              </defs>
+              <path stroke="url(#previewG)" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke="url(#previewG)" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+            <span className="text-gradient">Preview</span>
+          </button>
 
-        {/* Submit — solid gradient */}
-        <button
-          onClick={onSubmit}
-          className="flex items-center gap-1.5 px-8 py-3 text-sm font-semibold text-white rounded-xl transition hover:opacity-90"
-          style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
-        >
-          Submit Application
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
-          </svg>
-        </button>
+          {/* Divider */}
+          <div className="w-px my-1.5" style={{ background: 'linear-gradient(180deg,#5C2ED4,#A614C3)', opacity: 0.25 }} />
+
+          {/* Submit half */}
+          <button
+            onClick={onSubmit}
+            className="flex items-center gap-1.5 px-6 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)' }}
+          >
+            Submit Application
+            <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   )
