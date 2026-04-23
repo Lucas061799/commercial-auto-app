@@ -1,73 +1,65 @@
 import { useRef } from 'react'
 
-// ─── Helpers ────────────────────────────────────────────────
+// Phone formatter — produces (555) 000-0000
 function formatPhone(raw) {
   const digits = raw.replace(/\D/g, '').slice(0, 10)
-  if (!digits.length) return ''
+  if (digits.length === 0) return ''
   if (digits.length <= 3) return `(${digits}`
   if (digits.length <= 6) return `(${digits.slice(0,3)}) ${digits.slice(3)}`
   return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`
 }
 
-function formatDateInput(raw) {
-  const digits = raw.replace(/\D/g, '').slice(0, 8)
-  if (digits.length <= 2) return digits
-  if (digits.length <= 4) return `${digits.slice(0,2)}/${digits.slice(2)}`
-  return `${digits.slice(0,2)}/${digits.slice(2,4)}/${digits.slice(4)}`
-}
-
-// Shared field classes
-const base = `w-full rounded-xl border bg-white px-4 py-3 text-sm text-gray-800 placeholder-gray-300
-  transition-all duration-150 focus:outline-none`
-const normal = `border-gray-200 hover:border-gray-300
-  focus:border-[#A614C3]/50 focus:shadow-[0_0_0_3px_rgba(166,20,195,0.10)]`
-const err    = `border-red-300 bg-red-50/40
-  focus:border-red-400 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.10)]`
-
-function Label({ text, required }) {
-  if (!text) return null
-  return (
-    <label className="block text-[11px] font-bold text-gray-400 mb-1.5 tracking-widest uppercase">
-      {text}{required && <span className="text-red-400 ml-0.5">*</span>}
-    </label>
-  )
-}
-function ErrorMsg() {
-  return (
-    <p className="text-[10px] text-red-500 mt-1.5 flex items-center gap-1">
-      <svg className="w-3 h-3 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
-      </svg>
-      Required
-    </p>
-  )
-}
-
-// ─── Input ──────────────────────────────────────────────────
+// Reusable input
 export function Input({ label, required, placeholder, type = 'text', value, onChange, className = '', error = false }) {
   const handleChange = (e) => {
     if (!onChange) return
-    onChange(type === 'tel' ? formatPhone(e.target.value) : e.target.value)
+    if (type === 'tel') {
+      onChange(formatPhone(e.target.value))
+    } else {
+      onChange(e.target.value)
+    }
   }
+
   return (
     <div className={className}>
-      <Label text={label} required={required} />
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
       <input
         type={type === 'tel' ? 'text' : type}
         inputMode={type === 'tel' ? 'numeric' : undefined}
         value={value || ''}
         onChange={handleChange}
         placeholder={placeholder}
-        className={`${base} ${error ? err : normal}`}
+        className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all ${
+          error
+            ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+            : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
+        }`}
       />
-      {error && <ErrorMsg />}
+      {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )
 }
 
-// ─── DateInput ──────────────────────────────────────────────
+// Date formatter — produces MM/DD/YYYY as user types
+function formatDateInput(raw) {
+  const digits = raw.replace(/\D/g, '').slice(0, 8)
+  if (digits.length <= 2) return digits
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+}
+
+// Date input with auto-format + calendar icon picker
 export function DateInput({ label, required, value, onChange, className = '', error = false }) {
   const pickerRef = useRef()
+
+  const handleTextChange = (e) => {
+    if (!onChange) return
+    onChange(formatDateInput(e.target.value))
+  }
 
   const handlePickerChange = (e) => {
     if (!onChange || !e.target.value) return
@@ -75,6 +67,7 @@ export function DateInput({ label, required, value, onChange, className = '', er
     onChange(`${m}/${d}/${y}`)
   }
 
+  // Convert stored MM/DD/YYYY → YYYY-MM-DD for the native picker value
   const pickerValue = (() => {
     if (!value || value.length < 10) return ''
     const [m, d, y] = value.split('/')
@@ -84,65 +77,100 @@ export function DateInput({ label, required, value, onChange, className = '', er
 
   return (
     <div className={className}>
-      <Label text={label} required={required} />
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
       <div className="relative">
         <input
           type="text"
           inputMode="numeric"
           value={value || ''}
-          onChange={e => onChange && onChange(formatDateInput(e.target.value))}
+          onChange={handleTextChange}
           placeholder="MM / DD / YYYY"
           maxLength={10}
-          className={`${base} pr-10 ${error ? err : normal}`}
+          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all pr-10 ${
+            error
+              ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+              : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
+          }`}
         />
+        {/* Calendar icon — clicks the hidden native picker */}
         <button
           type="button"
           onClick={() => pickerRef.current?.showPicker?.() ?? pickerRef.current?.click()}
           className="absolute inset-y-0 right-0 flex items-center px-3 transition-colors"
-          style={{ color: value ? '#A614C3' : '#CBD5E1' }}
-          onMouseEnter={e => e.currentTarget.style.color = '#A614C3'}
-          onMouseLeave={e => e.currentTarget.style.color = value ? '#A614C3' : '#CBD5E1'}
+          style={{ color: value ? '#7C3AED' : '#9CA3AF' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#7C3AED'}
+          onMouseLeave={e => e.currentTarget.style.color = value ? '#7C3AED' : '#9CA3AF'}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 2v4M8 2v4M3 10h18"/>
           </svg>
         </button>
-        <input ref={pickerRef} type="date" value={pickerValue} onChange={handlePickerChange}
-          className="absolute opacity-0 pointer-events-none" style={{ top:0,right:0,width:1,height:1 }} tabIndex={-1} />
+        {/* Hidden native date picker */}
+        <input
+          ref={pickerRef}
+          type="date"
+          value={pickerValue}
+          onChange={handlePickerChange}
+          className="absolute opacity-0 pointer-events-none"
+          style={{ top: 0, right: 0, width: 1, height: 1 }}
+          tabIndex={-1}
+        />
       </div>
-      {error && <ErrorMsg />}
+      {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )
 }
 
-// ─── Textarea ───────────────────────────────────────────────
+// Textarea
 export function Textarea({ label, required, placeholder, rows = 4, value, onChange, className = '', error = false }) {
   return (
     <div className={className}>
-      <Label text={label} required={required} />
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
       <textarea
         value={value || ''}
         onChange={e => onChange && onChange(e.target.value)}
         placeholder={placeholder}
         rows={rows}
-        className={`${base} resize-none ${error ? err : normal}`}
+        className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all resize-none ${
+          error
+            ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+            : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
+        }`}
       />
-      {error && <ErrorMsg />}
+      {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )
 }
 
-// ─── Select ─────────────────────────────────────────────────
+// Select / Dropdown
 export function Select({ label, required, options = [], value, onChange, placeholder = 'Select...', className = '', error = false }) {
   return (
     <div className={className}>
-      <Label text={label} required={required} />
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
       <div className="relative">
         <select
           value={value || ''}
           onChange={e => onChange && onChange(e.target.value)}
-          className={`${base} appearance-none pr-9 cursor-pointer ${value ? 'text-gray-800' : 'text-gray-400'} ${error ? err : normal}`}
+          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 transition-all appearance-none bg-white pr-9 cursor-pointer ${
+            value ? 'text-gray-800' : 'text-gray-400'
+          } ${
+            error
+              ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+              : 'border-gray-200 focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
+          }`}
         >
           <option value="">{placeholder}</option>
           {options.map(opt => (
@@ -150,64 +178,60 @@ export function Select({ label, required, options = [], value, onChange, placeho
           ))}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-          <svg className="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7"/>
+          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
           </svg>
         </div>
       </div>
-      {error && <ErrorMsg />}
+      {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )
 }
 
-// ─── RadioGroup ─────────────────────────────────────────────
+// Radio Group
 export function RadioGroup({ label, required, options = [], value, onChange, className = '' }) {
   return (
     <div className={className}>
-      <Label text={label} required={required} />
-      <div className="flex gap-2.5 flex-wrap">
-        {options.map(opt => {
-          const active = value === opt
-          return (
-            <button
-              key={opt}
-              type="button"
-              onClick={() => onChange && onChange(opt)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl border text-xs font-semibold transition-all duration-150"
-              style={active ? {
-                background: 'linear-gradient(88.09deg,rgba(92,46,212,0.08) 0%,rgba(166,20,195,0.08) 100%)',
-                borderColor: '#A614C3',
-                color: '#5C2ED4',
-                boxShadow: '0 0 0 3px rgba(166,20,195,0.08)',
-              } : {
-                background: 'white',
-                borderColor: '#E5E7EB',
-                color: '#9CA3AF',
-              }}
-            >
-              <div className="w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0"
-                style={{ borderColor: active ? '#A614C3' : '#D1D5DB' }}>
-                {active && <div className="w-1.5 h-1.5 rounded-full"
-                  style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)' }} />}
-              </div>
-              {opt}
-            </button>
-          )
-        })}
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-2.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
+      <div className="flex gap-4">
+        {options.map(opt => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange && onChange(opt)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-xs font-medium ${
+              value === opt
+                ? 'border-[#5C2ED4] text-[#5C2ED4]'
+                : 'border-gray-200 text-gray-500 hover:border-gray-300 hover:bg-gray-50'
+            }`}
+            style={value === opt ? { background: 'linear-gradient(88.09deg, rgba(92,46,212,0.08) 0%, rgba(166,20,195,0.08) 100%)' } : {}}
+          >
+            <div className={`w-3.5 h-3.5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+              value === opt ? 'border-[#A614C3]' : 'border-gray-300'
+            }`}>
+              {value === opt && <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' }} />}
+            </div>
+            {opt}
+          </button>
+        ))}
       </div>
     </div>
   )
 }
 
-// ─── Checkbox ───────────────────────────────────────────────
+// Checkbox
 export function Checkbox({ label, checked, onChange, className = '' }) {
   return (
     <label className={`flex items-start gap-2.5 cursor-pointer group ${className}`}>
       <div
-        className="w-4 h-4 rounded border-2 flex items-center justify-center mt-0.5 shrink-0 transition-all"
-        style={checked
-          ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', borderColor: '#A614C3' }
-          : { borderColor: '#D1D5DB' }}
+        className={`w-4 h-4 rounded border-2 flex items-center justify-center mt-0.5 shrink-0 transition-all ${
+          checked ? 'border-[#A614C3]' : 'border-gray-300 group-hover:border-[#5C2ED4]/40'
+        }`}
+        style={checked ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' } : {}}
         onClick={() => onChange && onChange(!checked)}
       >
         {checked && (
@@ -221,20 +245,11 @@ export function Checkbox({ label, checked, onChange, className = '' }) {
   )
 }
 
-// ─── FormGrid ───────────────────────────────────────────────
+// Two-column grid
 export function FormGrid({ children, cols = 2, className = '' }) {
-  const colClass = cols === 3 ? 'grid-cols-1 sm:grid-cols-3' : cols === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'
+  const colClass = cols === 3 ? 'grid-cols-3' : cols === 1 ? 'grid-cols-1' : 'grid-cols-2'
   return (
-    <div className={`grid ${colClass} gap-x-5 gap-y-4 ${className}`}>
-      {children}
-    </div>
-  )
-}
-
-// ─── FieldCard — clean container for radio/toggle groups ────
-export function FieldCard({ children, className = '' }) {
-  return (
-    <div className={`space-y-3 ${className}`}>
+    <div className={`grid ${colClass} gap-x-6 gap-y-5 ${className}`}>
       {children}
     </div>
   )

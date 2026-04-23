@@ -21,27 +21,70 @@ const PLAN_OPTIONS_MAP = {
 }
 
 /* ── Preview Modal ──────────────────────────────────────────── */
-function PreviewRow({ label, value }) {
+function YesNoBadge({ value }) {
+  if (!value) return null
+  const isYes = value === 'Yes'
+  return (
+    <span
+      className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold"
+      style={isYes
+        ? { background: 'rgba(92,46,212,0.1)', color: '#5C2ED4' }
+        : { background: 'rgba(107,114,128,0.1)', color: '#6B7280' }
+      }
+    >
+      {isYes ? '✓ Yes' : '✕ No'}
+    </span>
+  )
+}
+
+function PreviewField({ label, value, yesno = false }) {
   if (!value && value !== 0) return null
   return (
-    <div className="flex gap-2 py-1.5 border-b border-gray-100 last:border-0">
-      <span className="text-[11px] text-gray-400 w-36 shrink-0">{label}</span>
-      <span className="text-[11px] font-semibold text-gray-700 flex-1">{value}</span>
+    <div className="flex flex-col gap-0.5">
+      <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">{label}</span>
+      {yesno
+        ? <YesNoBadge value={value} />
+        : <span className="text-[12px] font-semibold text-gray-800 leading-snug">{value}</span>
+      }
     </div>
   )
 }
 
-function PreviewSection({ title, children, isEmpty }) {
-  if (isEmpty) return null
+function PreviewCard({ children, accent }) {
   return (
-    <div className="mb-5">
-      <div className="flex items-center gap-2 mb-2">
-        <div className="h-3.5 w-[3px] rounded-full" style={{ background: 'linear-gradient(180deg,#5C2ED4,#A614C3)' }} />
-        <p className="text-xs font-bold tracking-wide uppercase" style={{ color: '#5C2ED4' }}>{title}</p>
+    <div
+      className="rounded-xl p-4 space-y-3"
+      style={{
+        background: 'white',
+        border: '1px solid #F0EDFF',
+        borderLeft: `3px solid ${accent || '#5C2ED4'}`,
+        boxShadow: '0 1px 4px rgba(92,46,212,0.06)',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
+
+function PreviewGrid({ children }) {
+  return <div className="grid grid-cols-2 gap-x-6 gap-y-3">{children}</div>
+}
+
+function SectionHeader({ icon, title, count }) {
+  return (
+    <div className="flex items-center gap-2 mb-2.5">
+      <div
+        className="w-6 h-6 rounded-lg flex items-center justify-center text-white text-[10px] shrink-0"
+        style={{ background: 'linear-gradient(135deg,#5C2ED4,#A614C3)' }}
+      >
+        {icon}
       </div>
-      <div className="rounded-xl px-3 py-1" style={{ background: '#F9FAFB', border: '1px solid #F3F4F6' }}>
-        {children}
-      </div>
+      <span className="text-xs font-bold text-gray-700 tracking-wide">{title}</span>
+      {count != null && (
+        <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>
+          {count}
+        </span>
+      )}
     </div>
   )
 }
@@ -55,44 +98,54 @@ function PreviewModal({ formData, onClose, onSubmit }) {
   const ai  = formData.additionalInsured || {}
   const lp  = formData.lossPayee || {}
   const ph  = formData.priorHistory || {}
+  const histories = ph.histories || []
   const cl  = formData.claims || {}
   const pay = formData.payment || {}
   const comments = formData.comments?.text || ''
 
   const ELIG_LABELS = {
-    q1: 'Subsidiary of another entity?', q2: 'Vehicles leased to others?',
-    q3: 'All autos owned by applicant?', q4: 'Auto records checked before driving?',
-    q5: 'Employees under 18 with access?', q6: 'Family driver exposures?',
-    q7: 'Non-business use allowed?', q8: 'Employees use own autos?',
-    q9: 'Active auto safety program?', q10: 'Regular scheduled maintenance?',
-    q11: 'Annual mileage > 40,000?', q12: 'Exposure to flammables/hazmat?',
-    q13: 'Policy declined/cancelled in 3 yrs?', q14: 'Bankruptcies/liens in 5 yrs?',
+    q1: 'Subsidiary?', q2: 'Leased to others?',
+    q3: 'All autos owned?', q4: 'Records checked?',
+    q5: 'Employees under 18?', q6: 'Family drivers?',
+    q7: 'Non-business use?', q8: 'Own autos in business?',
+    q9: 'Safety program?', q10: 'Regular maintenance?',
+    q11: 'Mileage > 40k?', q12: 'Hazmat exposure?',
+    q13: 'Policy declined in 3yr?', q14: 'Bankruptcies in 5yr?',
     q15: 'Crosses state lines?',
   }
+
+  const eligEntries = Object.entries(ELIG_LABELS).filter(([k]) => e[k])
 
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ background: 'rgba(15,10,40,0.55)', backdropFilter: 'blur(6px)' }}
+      style={{ background: 'rgba(15,10,40,0.6)', backdropFilter: 'blur(8px)' }}
       onClick={onClose}
     >
       <div
         className="relative w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl flex flex-col"
-        style={{ maxHeight: '90vh', background: 'white', border: '1px solid rgba(92,46,212,0.12)' }}
-        onClick={e => e.stopPropagation()}
+        style={{ maxHeight: '92vh', background: '#FAFAFA', border: '1px solid rgba(92,46,212,0.15)' }}
+        onClick={ev => ev.stopPropagation()}
       >
         {/* Header */}
         <div className="shrink-0 px-6 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)' }}>
-          <div>
-            <p className="text-white font-bold text-base leading-tight">Application Preview</p>
-            <p className="text-white/70 text-xs mt-0.5">Review everything before submitting</p>
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(255,255,255,0.18)' }}>
+              <svg className="w-4.5 h-4.5 text-white w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p className="text-white font-bold text-sm leading-tight">Application Preview</p>
+              <p className="text-white/65 text-[11px] mt-0.5">Review all details before submitting</p>
+            </div>
           </div>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full flex items-center justify-center transition"
             style={{ background: 'rgba(255,255,255,0.15)' }}
-            onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,0.25)'}
-            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
+            onMouseEnter={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.28)'}
+            onMouseLeave={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.15)'}
           >
             <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
@@ -101,34 +154,56 @@ function PreviewModal({ formData, onClose, onSubmit }) {
         </div>
 
         {/* Scrollable body */}
-        <div className="flex-1 overflow-y-auto px-6 py-5 custom-scroll">
+        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5 custom-scroll" style={{ background: '#F7F6FB' }}>
 
           {/* Applicant */}
-          <PreviewSection title="Applicant Information" isEmpty={!a.namedInsured}>
-            <PreviewRow label="Named Insured" value={a.namedInsured} />
-            <PreviewRow label="Entity Type" value={a.entity} />
-            <PreviewRow label="Effective Date" value={a.effectiveDate} />
-            <PreviewRow label="Email" value={a.email} />
-            <PreviewRow label="Phone" value={a.phone} />
-            <PreviewRow label="Address" value={[a.address, a.city, a.state, a.zip].filter(Boolean).join(', ')} />
-          </PreviewSection>
+          {a.namedInsured && (
+            <div>
+              <SectionHeader icon="👤" title="Applicant Information" />
+              <PreviewCard>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Named Insured</p>
+                    <p className="text-[15px] font-bold text-gray-900">{a.namedInsured}</p>
+                    {a.entity && <span className="inline-block mt-1 text-[10px] font-bold px-2 py-0.5 rounded-full" style={{ background: 'rgba(92,46,212,0.08)', color: '#5C2ED4' }}>{a.entity}</span>}
+                  </div>
+                  {a.effectiveDate && (
+                    <div className="text-right shrink-0">
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Effective</p>
+                      <p className="text-[12px] font-bold text-gray-800">{a.effectiveDate}</p>
+                    </div>
+                  )}
+                </div>
+                <div className="border-t border-gray-100 pt-3">
+                  <PreviewGrid>
+                    <PreviewField label="Email" value={a.email} />
+                    <PreviewField label="Phone" value={a.phone} />
+                    <div className="col-span-2">
+                      <PreviewField label="Address" value={[a.address, a.city, a.state, a.zip].filter(Boolean).join(', ')} />
+                    </div>
+                  </PreviewGrid>
+                </div>
+              </PreviewCard>
+            </div>
+          )}
 
           {/* Vehicles */}
           {vs.length > 0 && (
-            <div className="mb-5">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="h-3.5 w-[3px] rounded-full" style={{ background: 'linear-gradient(180deg,#5C2ED4,#A614C3)' }} />
-                <p className="text-xs font-bold tracking-wide uppercase" style={{ color: '#5C2ED4' }}>Vehicles ({vs.length})</p>
-              </div>
+            <div>
+              <SectionHeader icon="🚗" title="Vehicles" count={vs.length} />
               <div className="space-y-2">
                 {vs.map((v, i) => (
-                  <div key={i} className="rounded-xl px-3 py-1" style={{ background: '#F9FAFB', border: '1px solid #F3F4F6' }}>
-                    <p className="text-[11px] font-bold text-gray-600 py-1.5 border-b border-gray-100">Vehicle {i + 1}</p>
-                    <PreviewRow label="Year / Make / Model" value={[v.year, v.make, v.model].filter(Boolean).join(' ')} />
-                    <PreviewRow label="VIN" value={v.vin} />
-                    <PreviewRow label="Use" value={v.use} />
-                    <PreviewRow label="Garaging State" value={v.garagingState} />
-                  </div>
+                  <PreviewCard key={i} accent="#7C3AED">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(88deg,#5C2ED4,#A614C3)' }}>Vehicle {i + 1}</span>
+                      {v.year && v.make && <span className="text-[12px] font-bold text-gray-800">{[v.year, v.make, v.model].filter(Boolean).join(' ')}</span>}
+                    </div>
+                    <PreviewGrid>
+                      <PreviewField label="VIN" value={v.vin} />
+                      <PreviewField label="Use" value={v.use} />
+                      <PreviewField label="Garaging State" value={v.garagingState} />
+                    </PreviewGrid>
+                  </PreviewCard>
                 ))}
               </div>
             </div>
@@ -136,108 +211,227 @@ function PreviewModal({ formData, onClose, onSubmit }) {
 
           {/* Drivers */}
           {ds.length > 0 && (
-            <div className="mb-5">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="h-3.5 w-[3px] rounded-full" style={{ background: 'linear-gradient(180deg,#5C2ED4,#A614C3)' }} />
-                <p className="text-xs font-bold tracking-wide uppercase" style={{ color: '#5C2ED4' }}>Drivers ({ds.length})</p>
-              </div>
+            <div>
+              <SectionHeader icon="🪪" title="Drivers" count={ds.length} />
               <div className="space-y-2">
                 {ds.map((d, i) => (
-                  <div key={i} className="rounded-xl px-3 py-1" style={{ background: '#F9FAFB', border: '1px solid #F3F4F6' }}>
-                    <p className="text-[11px] font-bold text-gray-600 py-1.5 border-b border-gray-100">Driver {i + 1}</p>
-                    <PreviewRow label="Name" value={[d.firstName, d.lastName].filter(Boolean).join(' ')} />
-                    <PreviewRow label="License #" value={d.licenseNumber} />
-                    <PreviewRow label="Date of Birth" value={d.dob} />
-                    <PreviewRow label="Years Licensed" value={d.yearsLicensed} />
-                  </div>
+                  <PreviewCard key={i} accent="#A614C3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white" style={{ background: 'linear-gradient(88deg,#5C2ED4,#A614C3)' }}>Driver {i + 1}</span>
+                      {(d.firstName || d.lastName) && <span className="text-[12px] font-bold text-gray-800">{[d.firstName, d.lastName].filter(Boolean).join(' ')}</span>}
+                    </div>
+                    <PreviewGrid>
+                      <PreviewField label="License #" value={d.licenseNumber} />
+                      <PreviewField label="Date of Birth" value={d.dob} />
+                      <PreviewField label="Years Licensed" value={d.yearsLicensed} />
+                    </PreviewGrid>
+                  </PreviewCard>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Eligibility */}
-          {Object.keys(e).length > 0 && (
-            <PreviewSection title="Eligibility">
-              {Object.entries(ELIG_LABELS).map(([key, label]) =>
-                e[key] ? <PreviewRow key={key} label={label} value={e[key]} /> : null
-              )}
-            </PreviewSection>
+          {/* Coverage */}
+          {cov.liabilityLimit && (
+            <div>
+              <SectionHeader icon="🛡" title="Coverage" />
+              <PreviewCard>
+                <PreviewGrid>
+                  <PreviewField label="BI/PD Limit" value={cov.liabilityLimit} />
+                  <PreviewField label="UMBI" value={cov.umbi} />
+                  <PreviewField label="Med Pay" value={cov.medPay} />
+                  <PreviewField label="PIP" value={cov.pip} />
+                  <PreviewField label="DOT #" value={cov.dot} />
+                  <PreviewField label="Cargo Limit" value={cov.cargoLimit} />
+                  <PreviewField label="Rental Limit" value={cov.rentalLimit} />
+                  <PreviewField label="State Filing #" value={cov.stateFilingNumber} />
+                  <PreviewField label="Any Auto (sym 1)" value={cov.anyAuto} yesno />
+                  <PreviewField label="Hired Auto (sym 8)" value={cov.hiredAuto} yesno />
+                  <PreviewField label="Non-Owned (sym 9)" value={cov.nonOwnedAuto} yesno />
+                  <PreviewField label="Cargo Coverage" value={cov.cargoCoverage} yesno />
+                  <PreviewField label="Rental Reimb." value={cov.rentalReimbursement} yesno />
+                  <PreviewField label="State Filing" value={cov.stateFiling} yesno />
+                  <PreviewField label="Federal Filing" value={cov.federalFiling} yesno />
+                  <PreviewField label="SR 22" value={cov.sr22} yesno />
+                </PreviewGrid>
+                {cov.sr22 === 'Yes' && cov.sr22Driver && (
+                  <div className="border-t border-gray-100 pt-3">
+                    <PreviewField label="SR 22 Driver" value={cov.sr22Driver} />
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
           )}
 
-          {/* Coverage */}
-          <PreviewSection title="Coverage" isEmpty={!cov.liabilityLimit}>
-            <PreviewRow label="Liability Limit" value={cov.liabilityLimit} />
-            <PreviewRow label="Medical Payments" value={cov.medicalPayments} />
-            <PreviewRow label="Uninsured Motorist" value={cov.uninsuredMotorist} />
-            <PreviewRow label="Comprehensive Ded." value={cov.comprehensiveDeductible} />
-            <PreviewRow label="Collision Ded." value={cov.collisionDeductible} />
-            <PreviewRow label="Hired Auto" value={cov.hiredAuto} />
-            <PreviewRow label="Non-Owned Auto" value={cov.nonOwnedAuto} />
-          </PreviewSection>
-
-          {/* Additional Insured */}
-          <PreviewSection title="Additional Insured" isEmpty={ai.hasAdditional === undefined}>
-            <PreviewRow label="Has Additional Insured?" value={ai.hasAdditional} />
-            {ai.hasAdditional === 'Yes' && <PreviewRow label="Name" value={ai.name} />}
-          </PreviewSection>
-
-          {/* Loss Payee */}
-          <PreviewSection title="Loss Payee" isEmpty={lp.hasPayee === undefined}>
-            <PreviewRow label="Has Loss Payee?" value={lp.hasPayee} />
-            {lp.hasPayee === 'Yes' && <PreviewRow label="Name" value={lp.name} />}
-          </PreviewSection>
+          {/* Eligibility */}
+          {eligEntries.length > 0 && (
+            <div>
+              <SectionHeader icon="✅" title="Eligibility Questions" count={`${eligEntries.length}/15`} />
+              <PreviewCard>
+                <div className="space-y-1.5">
+                  {eligEntries.map(([key, label]) => (
+                    <div key={key} className="flex items-center justify-between gap-3 py-1 border-b border-gray-50 last:border-0">
+                      <span className="text-[11px] text-gray-600 flex-1 leading-snug">{label}</span>
+                      <YesNoBadge value={e[key]} />
+                    </div>
+                  ))}
+                </div>
+              </PreviewCard>
+            </div>
+          )}
 
           {/* Prior History */}
-          <PreviewSection title="Prior History" isEmpty={ph.hasCurrent === undefined}>
-            <PreviewRow label="Has Current Policy?" value={ph.hasCurrent} />
-            <PreviewRow label="Carrier" value={ph.carrier} />
-            <PreviewRow label="Expiration Date" value={ph.expirationDate} />
-            <PreviewRow label="Years with Carrier" value={ph.yearsWithCarrier} />
-          </PreviewSection>
+          {ph.hasCurrent && (
+            <div>
+              <SectionHeader icon="📋" title="Prior Insurance History" />
+              <PreviewCard>
+                <PreviewField label="Has Prior History" value={ph.hasCurrent} yesno />
+                {histories.length > 0 && (
+                  <div className="border-t border-gray-100 pt-3 space-y-3">
+                    {histories.map((h, i) => (
+                      <div key={i} className="space-y-2">
+                        {histories.length > 1 && <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">Policy {i + 1}</p>}
+                        <PreviewGrid>
+                          <PreviewField label="Carrier" value={h.carrierName} />
+                          <PreviewField label="Policy #" value={h.policyNumber} />
+                          <PreviewField label="BI Limits" value={h.biLimits} />
+                          <PreviewField label="Premium" value={h.premium} />
+                          <PreviewField label="Effective" value={h.effectiveDate} />
+                          <PreviewField label="Expiration" value={h.expirationDate} />
+                          <PreviewField label="Type" value={h.policyType} />
+                        </PreviewGrid>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {ph.hasOtherPolicy && (
+                  <div className="border-t border-gray-100 pt-3">
+                    <PreviewField label="Has GL/WC/BOP?" value={ph.hasOtherPolicy} yesno />
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
+          )}
 
           {/* Claims */}
-          <PreviewSection title="Claim History" isEmpty={cl.hasClaims === undefined}>
-            <PreviewRow label="Has Claims?" value={cl.hasClaims} />
-            {(cl.claims || []).map((c, i) => (
-              <PreviewRow key={i} label={`Claim ${i + 1}`} value={[c.date, c.type, c.amount ? `$${c.amount}` : ''].filter(Boolean).join(' · ')} />
-            ))}
-          </PreviewSection>
+          {cl.hasClaims && (
+            <div>
+              <SectionHeader icon="📁" title="Claim History" />
+              <PreviewCard>
+                <PreviewField label="Has Claims" value={cl.hasClaims} yesno />
+                {(cl.claims || []).length > 0 && (
+                  <div className="border-t border-gray-100 pt-3 space-y-2">
+                    {(cl.claims || []).map((c, i) => (
+                      <div key={i} className="flex items-center gap-3 py-1">
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded" style={{ background: '#F3F0FF', color: '#5C2ED4' }}>#{i + 1}</span>
+                        <span className="text-[11px] text-gray-700 flex-1">{[c.date, c.type, c.amount ? `$${c.amount}` : ''].filter(Boolean).join(' · ')}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
+          )}
+
+          {/* Additional Insured */}
+          {ai.hasAdditional && (
+            <div>
+              <SectionHeader icon="➕" title="Additional Insured" />
+              <PreviewCard>
+                <PreviewField label="Has Additional Insured" value={ai.hasAdditional} yesno />
+                {ai.hasAdditional === 'Yes' && (
+                  <div className="border-t border-gray-100 pt-3">
+                    <PreviewGrid>
+                      <PreviewField label="Name" value={ai.name} />
+                      <PreviewField label="Address" value={ai.address} />
+                    </PreviewGrid>
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
+          )}
+
+          {/* Loss Payee */}
+          {lp.hasPayee && (
+            <div>
+              <SectionHeader icon="🏦" title="Loss Payee" />
+              <PreviewCard>
+                <PreviewField label="Has Loss Payee" value={lp.hasPayee} yesno />
+                {lp.hasPayee === 'Yes' && (
+                  <div className="border-t border-gray-100 pt-3">
+                    <PreviewGrid>
+                      <PreviewField label="Name" value={lp.name} />
+                      <PreviewField label="Address" value={lp.address} />
+                    </PreviewGrid>
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
+          )}
 
           {/* Payment Plan */}
-          <PreviewSection title="Payment Plan" isEmpty={!pay.planDuration}>
-            <PreviewRow label="Plan Duration" value={pay.planDuration} />
-            <PreviewRow label="Payment Option" value={pay.planOption} />
-            <PreviewRow label="Paperless" value={pay.paperless} />
-            <PreviewRow label="Payment Reminder" value={pay.reminder} />
-          </PreviewSection>
+          {pay.planDuration && (
+            <div>
+              <SectionHeader icon="💳" title="Payment Plan" />
+              <PreviewCard>
+                <div className="flex items-start gap-4">
+                  <div>
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Duration</p>
+                    <p className="text-[13px] font-bold text-gray-800">{pay.planDuration}</p>
+                  </div>
+                  {pay.planOption && (
+                    <div className="flex-1">
+                      <p className="text-[10px] font-semibold uppercase tracking-wider text-gray-400 mb-0.5">Option</p>
+                      <p className="text-[12px] font-semibold text-gray-700 leading-snug">{pay.planOption}</p>
+                    </div>
+                  )}
+                </div>
+                {(pay.paperless || pay.reminder) && (
+                  <div className="border-t border-gray-100 pt-3 flex gap-4">
+                    <PreviewField label="Paperless" value={pay.paperless} yesno />
+                    <PreviewField label="Payment Reminder" value={pay.reminder} yesno />
+                  </div>
+                )}
+              </PreviewCard>
+            </div>
+          )}
 
           {/* Comments */}
           {comments && (
-            <PreviewSection title="Additional Comments">
-              <div className="py-2">
-                <p className="text-[11px] text-gray-600 leading-relaxed whitespace-pre-wrap">{comments}</p>
+            <div>
+              <SectionHeader icon="💬" title="Additional Comments" />
+              <div className="rounded-xl p-4" style={{ background: 'white', border: '1px solid #F0EDFF', borderLeft: '3px solid #E879F9', boxShadow: '0 1px 4px rgba(92,46,212,0.06)' }}>
+                <p className="text-[12px] text-gray-600 leading-relaxed whitespace-pre-wrap">{comments}</p>
               </div>
-            </PreviewSection>
+            </div>
           )}
+
+          <div className="h-1" />
         </div>
 
         {/* Footer */}
-        <div className="shrink-0 px-6 py-4 flex items-center justify-between gap-3" style={{ borderTop: '1px solid #F3F4F6', background: 'white' }}>
+        <div className="shrink-0 px-6 py-4 flex items-center justify-between gap-3" style={{ borderTop: '1px solid #EEEBFF', background: 'white' }}>
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-xl text-sm font-semibold transition"
+            className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-semibold transition"
             style={{ color: '#6B7280', border: '1px solid #E5E7EB', background: 'white' }}
-            onMouseEnter={e => e.currentTarget.style.background = '#F9FAFB'}
-            onMouseLeave={e => e.currentTarget.style.background = 'white'}
+            onMouseEnter={ev => ev.currentTarget.style.background = '#F9FAFB'}
+            onMouseLeave={ev => ev.currentTarget.style.background = 'white'}
           >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M11 17l-5-5m0 0l5-5m-5 5h12"/>
+            </svg>
             Back to Edit
           </button>
           <button
             onClick={() => { onClose(); onSubmit() }}
-            className="px-8 py-2.5 rounded-xl text-sm font-bold text-white transition hover:opacity-90"
+            className="flex items-center gap-2 px-8 py-2.5 rounded-xl text-sm font-bold text-white transition hover:opacity-90"
             style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
           >
-            Submit Application →
+            Submit Application
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
           </button>
         </div>
       </div>
