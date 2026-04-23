@@ -101,7 +101,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
           <img src={norbieface} alt="Norbie" className="w-10 h-10 rounded-full object-cover shrink-0" />
           <div>
             <p className="text-sm font-bold text-navy leading-tight">Anything else you'd like us to know?</p>
-            <p className="text-xs text-gray-500 mt-0.5">Comments, special instructions, or questions — we read every one.</p>
+            <p className="text-xs text-gray-500 mt-0.5">Comments, special instructions, or questions —<br />we read every one.</p>
           </div>
         </div>
 
