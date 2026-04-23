@@ -375,7 +375,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
       </div>
 
       {/* Action buttons */}
-      <div className="pt-6 flex items-center gap-3">
+      <div className="pt-6 flex items-center justify-end gap-3">
         {/* Preview — outline gradient */}
         <button
           onClick={() => setShowPreview(true)}
@@ -404,7 +404,7 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
         <button
           onClick={onSubmit}
           className="flex items-center gap-1.5 px-8 py-3 text-sm font-semibold text-white rounded-xl transition hover:opacity-90"
-          style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)', boxShadow: '0 4px 14px rgba(92,46,212,0.3)' }}
+          style={{ background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)' }}
         >
           Submit Application
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
