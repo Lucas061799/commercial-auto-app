@@ -24,8 +24,12 @@ input, select, textarea, button {
 }
 
 /* Custom thin scrollbar for main content */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #e2e8f0 transparent;
+}
 .custom-scroll::-webkit-scrollbar {
-  width: 4px;
+  width: 3px;
 }
 .custom-scroll::-webkit-scrollbar-track {
   background: transparent;
@@ -35,15 +39,23 @@ input, select, textarea, button {
   border-radius: 99px;
 }
 .custom-scroll::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
+  background: #c7cfd8;
 }
 
 /* Gradient button */
 .btn-gradient {
   background: linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%);
   color: white;
+  -webkit-text-fill-color: white !important;
 }
 .btn-gradient:hover { opacity: 0.9; }
+
+/* Force white text — overrides any dark-mode -webkit-text-fill-color cascade */
+button.force-white-text,
+[data-dark="true"] button.force-white-text {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
 
 /* Gradient text */
 .text-gradient {
@@ -83,6 +95,13 @@ input, select, textarea, button {
 }
 
 /* Sidebar nav thin scrollbar */
+.sidebar-nav {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+.sidebar-nav:hover {
+  scrollbar-color: #e2e8f0 transparent;
+}
 .sidebar-nav::-webkit-scrollbar {
   width: 3px;
 }
@@ -90,8 +109,11 @@ input, select, textarea, button {
   background: transparent;
 }
 .sidebar-nav::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
+  background: transparent;
   border-radius: 99px;
+}
+.sidebar-nav:hover::-webkit-scrollbar-thumb {
+  background: #e2e8f0;
 }
 [data-dark="true"] .sidebar-nav::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.08);
@@ -267,4 +289,27 @@ input, select, textarea, button {
 
   /* Hide screen-only elements inside print area */
   #submission-print-area .screen-only { display: none !important; }
+}
+
+/* ── Gradient button white text — highest-priority fix ─────────────────────
+   Must come last in the file to beat all [data-dark] .text-gradient rules.
+   Uses html element + attribute + element + class for max specificity (0,2,2).
+   ──────────────────────────────────────────────────────────────────────── */
+html[data-dark="true"] button.btn-gradient,
+html[data-dark="true"] .btn-gradient,
+html button.btn-gradient,
+html .btn-gradient {
+  color: white !important;
+  -webkit-text-fill-color: white !important;
+}
+
+/* ── Print button: ID selector (1,0,0) beats ALL class rules in any mode ── */
+button#print-pdf-btn,
+button#print-pdf-btn span,
+[data-dark="true"] button#print-pdf-btn,
+[data-dark="true"] button#print-pdf-btn span {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
 }

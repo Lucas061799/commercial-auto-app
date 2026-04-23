@@ -564,9 +564,15 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   {/* Print button — screen only */}
                   <div className="screen-only">
                     <button
+                      id="print-pdf-btn"
                       onClick={handlePrint}
                       className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition hover:opacity-90"
-                      style={{
+                      style={isDark ? {
+                        background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                        color: '#ffffff',
+                        WebkitTextFillColor: '#ffffff',
+                        boxShadow: '0 2px 12px rgba(92,46,212,0.3)',
+                      } : {
                         background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
                         color: '#ffffff',
                         WebkitTextFillColor: '#ffffff',
@@ -576,7 +582,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="#ffffff" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
-                      Print / Save as PDF
+                      <span style={{ color: '#ffffff', WebkitTextFillColor: '#ffffff' }}>Print / Save as PDF</span>
                     </button>
                   </div>
                 </div>
