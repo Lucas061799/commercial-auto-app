@@ -391,7 +391,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   </div>
 
                   {/* Section grid */}
-                  <div className="grid grid-cols-2 gap-2.5 mb-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 mb-3">
 
                     {/* Applicant */}
                     <SummarySection title="Applicant Information" icon="user" isDark={isDark}>
@@ -417,7 +417,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </SummarySection>
 
                     {/* Vehicles — full row, items in 2-col grid inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Vehicles" icon="truck" isDark={isDark}>
                         {vehicles.length === 0
                           ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No vehicles added.</p>
@@ -437,7 +437,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </div>
 
                     {/* Drivers — full row, items in 2-col grid inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Drivers" icon="user" isDark={isDark}>
                         {drivers.length === 0
                           ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No drivers added.</p>
@@ -457,7 +457,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </div>
 
                     {/* Eligibility — full row, 2-col fields inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Eligibility" icon="shield" isDark={isDark}>
                         <div className="grid grid-cols-2 gap-x-8">
                           {[
@@ -477,7 +477,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </div>
 
                     {/* Additional Insured — full row, items in 2-col grid inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Additional Insured" icon="users" isDark={isDark}>
                         <SummaryRow label="Has Additionals?" value={ai.hasAdditional} isDark={isDark} />
                         {(blanket.blanketAI || blanket.blanketWOS) && (
@@ -502,7 +502,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </div>
 
                     {/* Loss Payee — full row, items in 2-col grid inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Loss Payee" icon="building" isDark={isDark}>
                         <SummaryRow label="Has Payees?" value={lp.hasPayee} isDark={isDark} />
                         {(lp.payees||[]).length > 0 && (
@@ -544,7 +544,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                     </SummarySection>
 
                     {/* Payment Plan — full row, 4-col fields inside */}
-                    <div className="col-span-2">
+                    <div className="col-span-1 md:col-span-2">
                       <SummarySection title="Payment Plan" icon="card" isDark={isDark}>
                         <div className="grid grid-cols-4 gap-x-8">
                           <SummaryRow label="Paperless?" value={payment.paperless} isDark={isDark} />
@@ -592,7 +592,14 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                         </defs>
                         <path stroke="url(#printIconGrad)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
-                      <span className="text-gradient">Print / Save as PDF</span>
+                      <span style={{
+                        background: isDark
+                          ? 'linear-gradient(88.09deg, #A78BFA 0%, #E879F9 100%)'
+                          : 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text',
+                      }}>Print / Save as PDF</span>
                     </button>
                   </div>
                 </div>
