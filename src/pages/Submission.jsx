@@ -414,10 +414,10 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       <SummarySection title="Vehicles" icon="truck" isDark={isDark}>
                         {vehicles.length === 0
                           ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No vehicles added.</p>
-                          : <div className="grid grid-cols-2 gap-x-6">
+                          : <div className={`grid gap-x-6 ${vehicles.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                               {vehicles.map((v, i) => (
-                                <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-                                  <SummarySubLabel label={`Vehicle #${i+1}`} isDark={isDark} />
+                                <div key={i} className="py-1" style={{ borderBottom: vehicles.length > 1 ? (isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6') : 'none' }}>
+                                  {vehicles.length > 1 && <SummarySubLabel label={`Vehicle #${i+1}`} isDark={isDark} />}
                                   <SummaryRow label="Year/Make/Model" value={[v.year,v.make,v.model].filter(Boolean).join(' ')} isDark={isDark} />
                                   <SummaryRow label="VIN" value={v.vin} isDark={isDark} />
                                   <SummaryRow label="Use / Radius" value={[v.use, v.radius ? `${v.radius} mi` : null].filter(Boolean).join(' · ')} isDark={isDark} />
@@ -434,10 +434,10 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       <SummarySection title="Drivers" icon="user" isDark={isDark}>
                         {drivers.length === 0
                           ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No drivers added.</p>
-                          : <div className="grid grid-cols-2 gap-x-6">
+                          : <div className={`grid gap-x-6 ${drivers.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                               {drivers.map((d, i) => (
-                                <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-                                  <SummarySubLabel label={`Driver #${i+1}`} isDark={isDark} />
+                                <div key={i} className="py-1" style={{ borderBottom: drivers.length > 1 ? (isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6') : 'none' }}>
+                                  {drivers.length > 1 && <SummarySubLabel label={`Driver #${i+1}`} isDark={isDark} />}
                                   <SummaryRow label="Name" value={[d.firstName,d.lastName].filter(Boolean).join(' ')} isDark={isDark} />
                                   <SummaryRow label="DOB / State" value={[d.dob, d.licenseState].filter(Boolean).join(' / ')} isDark={isDark} />
                                   <SummaryRow label="License #" value={d.licenseNumber} isDark={isDark} />
