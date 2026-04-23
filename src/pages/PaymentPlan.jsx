@@ -116,23 +116,44 @@ function PreviewModal({ formData, onClose, onSubmit }) {
         style={{ maxHeight: '92vh', background: '#F9FAFB', border: '1px solid rgba(92,46,212,0.15)' }}
         onClick={ev => ev.stopPropagation()}
       >
-        {/* Header */}
-        <div className="shrink-0 px-5 py-4 flex items-center justify-between" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)' }}>
-          <div>
-            <p className="text-white font-bold text-sm leading-tight">Application Preview</p>
-            <p className="text-white/65 text-[11px] mt-0.5">Review all details before submitting</p>
+        {/* Header — matches Submission Complete card style */}
+        <div className="shrink-0" style={{ background: 'white', borderBottom: '1px solid #F3F4F6' }}>
+          {/* Thin gradient top bar */}
+          <div className="h-1" style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0.11%,#A614C3 63.8%)' }} />
+          <div className="flex items-start gap-4 px-5 pt-4 pb-4">
+            {/* Icon circle */}
+            <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: 'linear-gradient(88.09deg,rgba(92,46,212,0.12) 0%,rgba(166,20,195,0.12) 100%)' }}>
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24">
+                <defs>
+                  <linearGradient id="prevHdrG" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#5C2ED4"/>
+                    <stop offset="100%" stopColor="#A614C3"/>
+                  </linearGradient>
+                </defs>
+                <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  stroke="url(#prevHdrG)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            {/* Title */}
+            <div className="flex-1">
+              <h1 className="text-xl font-bold text-navy leading-tight">Application Preview</h1>
+              <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">Review all details before submitting your application.</p>
+            </div>
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              title="Close"
+              className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all"
+              style={{ border: '1px solid #E5E7EB', background: 'white' }}
+              onMouseEnter={ev => { ev.currentTarget.style.background = 'rgba(92,46,212,0.06)'; ev.currentTarget.style.borderColor = 'rgba(92,46,212,0.3)' }}
+              onMouseLeave={ev => { ev.currentTarget.style.background = 'white'; ev.currentTarget.style.borderColor = '#E5E7EB' }}
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24">
+                <path stroke="url(#prevHdrG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
           </div>
-          <button
-            onClick={onClose}
-            className="w-7 h-7 rounded-full flex items-center justify-center transition"
-            style={{ background: 'rgba(255,255,255,0.18)' }}
-            onMouseEnter={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.3)'}
-            onMouseLeave={ev => ev.currentTarget.style.background = 'rgba(255,255,255,0.18)'}
-          >
-            <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
-            </svg>
-          </button>
         </div>
 
         {/* Scrollable body */}
