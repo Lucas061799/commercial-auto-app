@@ -1,4 +1,4 @@
-import { Input, Select, RadioGroup, FormGrid } from '../components/FormField'
+import { Input, Select, RadioGroup, FormGrid, DateInput } from '../components/FormField'
 
 const US_STATES = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY']
 import AddressAutocomplete from '../components/AddressAutocomplete'
@@ -123,7 +123,7 @@ export default function DriverInformation({ formData, updateFormData, isDark = f
               <Select label="Marital status" options={MARITAL_STATUS} value={d.maritalStatus} onChange={setField(idx, 'maritalStatus')} />
               <Select label="Gender" options={GENDER} value={d.gender} onChange={setField(idx, 'gender')} />
             </FormGrid>
-            <Input label="Date of birth" placeholder="MM/DD/YYYY" value={d.dob} onChange={setField(idx, 'dob')} />
+            <DateInput label="Date of birth" value={d.dob} onChange={setField(idx, 'dob')} />
             <RadioGroup
               label="Exclude driver"
               options={['Yes', 'No']}

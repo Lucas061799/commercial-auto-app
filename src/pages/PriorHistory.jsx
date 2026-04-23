@@ -1,4 +1,4 @@
-import { RadioGroup, Input, Select, FormGrid } from '../components/FormField'
+import { RadioGroup, Input, Select, FormGrid, DateInput } from '../components/FormField'
 
 const defaultHistory = () => ({
   id: Date.now(),
@@ -63,8 +63,8 @@ export default function PriorHistory({ formData, updateFormData, isDark = false 
           </FormGrid>
           <FormGrid cols={3}>
             <Input label="Premium" value={h.premium} onChange={setField(idx, 'premium')} placeholder="$0.00" />
-            <Input label="Effective Date" value={h.effectiveDate} onChange={setField(idx, 'effectiveDate')} placeholder="MM/DD/YYYY" />
-            <Input label="Expiration Date" value={h.expirationDate} onChange={setField(idx, 'expirationDate')} placeholder="MM/DD/YYYY" />
+            <DateInput label="Effective Date" value={h.effectiveDate} onChange={setField(idx, 'effectiveDate')} />
+            <DateInput label="Expiration Date" value={h.expirationDate} onChange={setField(idx, 'expirationDate')} />
           </FormGrid>
           <Select
             label="Personal or commercial"

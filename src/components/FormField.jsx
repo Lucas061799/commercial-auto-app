@@ -1,3 +1,5 @@
+import { useRef } from 'react'
+
 // Phone formatter — produces (555) 000-0000
 function formatPhone(raw) {
   const digits = raw.replace(/\D/g, '').slice(0, 10)
@@ -37,6 +39,88 @@ export function Input({ label, required, placeholder, type = 'text', value, onCh
             : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
         }`}
       />
+      {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
+    </div>
+  )
+}
+
+// Date formatter — produces MM/DD/YYYY as user types
+function formatDateInput(raw) {
+  const digits = raw.replace(/\D/g, '').slice(0, 8)
+  if (digits.length <= 2) return digits
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
+}
+
+// Date input with auto-format + calendar icon picker
+export function DateInput({ label, required, value, onChange, className = '', error = false }) {
+  const pickerRef = useRef()
+
+  const handleTextChange = (e) => {
+    if (!onChange) return
+    onChange(formatDateInput(e.target.value))
+  }
+
+  const handlePickerChange = (e) => {
+    if (!onChange || !e.target.value) return
+    const [y, m, d] = e.target.value.split('-')
+    onChange(`${m}/${d}/${y}`)
+  }
+
+  // Convert stored MM/DD/YYYY → YYYY-MM-DD for the native picker value
+  const pickerValue = (() => {
+    if (!value || value.length < 10) return ''
+    const [m, d, y] = value.split('/')
+    if (!m || !d || !y || y.length !== 4) return ''
+    return `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`
+  })()
+
+  return (
+    <div className={className}>
+      {label && (
+        <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
+          {label}{required && <span className="text-red-400 ml-0.5">*</span>}
+        </label>
+      )}
+      <div className="relative">
+        <input
+          type="text"
+          inputMode="numeric"
+          value={value || ''}
+          onChange={handleTextChange}
+          placeholder="MM / DD / YYYY"
+          maxLength={10}
+          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm text-gray-800 placeholder-gray-300 focus:outline-none focus:ring-2 transition-all pr-10 ${
+            error
+              ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
+              : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
+          }`}
+        />
+        {/* Calendar icon — clicks the hidden native picker */}
+        <button
+          type="button"
+          onClick={() => pickerRef.current?.showPicker?.() ?? pickerRef.current?.click()}
+          className="absolute inset-y-0 right-0 flex items-center px-3 transition-colors"
+          style={{ color: value ? '#7C3AED' : '#9CA3AF' }}
+          onMouseEnter={e => e.currentTarget.style.color = '#7C3AED'}
+          onMouseLeave={e => e.currentTarget.style.color = value ? '#7C3AED' : '#9CA3AF'}
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+        </button>
+        {/* Hidden native date picker */}
+        <input
+          ref={pickerRef}
+          type="date"
+          value={pickerValue}
+          onChange={handlePickerChange}
+          className="absolute opacity-0 pointer-events-none"
+          style={{ top: 0, right: 0, width: 1, height: 1 }}
+          tabIndex={-1}
+        />
+      </div>
       {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )

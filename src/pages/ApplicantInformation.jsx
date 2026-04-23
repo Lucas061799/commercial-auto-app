@@ -1,4 +1,4 @@
-import { Input, Textarea, Select, FormGrid } from '../components/FormField'
+import { Input, Textarea, Select, FormGrid, DateInput } from '../components/FormField'
 import AddressAutocomplete from '../components/AddressAutocomplete'
 
 const ENTITY_OPTIONS = ['Individual', 'Corporation', 'Limit Liability Company', 'Partnership']
@@ -22,7 +22,7 @@ export default function ApplicantInformation({ formData, updateFormData, errorFi
 
         <FormGrid>
           <Select label="Entity" required options={ENTITY_OPTIONS} value={data.entity} onChange={set('entity')} error={hasError('entity')} />
-          <Input label="Effective Date" required type="text" placeholder="MM / DD / YYYY" value={data.effectiveDate} onChange={set('effectiveDate')} error={hasError('effectiveDate')} />
+          <DateInput label="Effective Date" required value={data.effectiveDate} onChange={set('effectiveDate')} error={hasError('effectiveDate')} />
         </FormGrid>
 
         <FormGrid>
