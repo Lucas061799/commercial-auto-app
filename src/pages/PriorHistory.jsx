@@ -89,7 +89,7 @@ export default function PriorHistory({ formData, updateFormData, isDark = false 
       )}
 
       {/* GL/WC/BOP question */}
-      <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+      <div className="py-1">
         <p className="text-xs font-semibold text-gray-800 mb-3 leading-relaxed">
           Does the insured have one of the following general liability, worker's compensation or business owners policy?
         </p>
