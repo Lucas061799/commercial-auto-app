@@ -405,41 +405,47 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       <SummaryRow label="Towing & Labor" value={coverage.towingLabor} isDark={isDark} />
                     </SummarySection>
 
-                    {/* Vehicles */}
-                    <SummarySection title="Vehicles" icon="truck" isDark={isDark}>
-                      {vehicles.length === 0
-                        ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No vehicles added.</p>
-                        : vehicles.map((v, i) => (
-                          <div key={i}>
-                            {i > 0 && <div className="my-1.5" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }} />}
-                            <SummarySubLabel label={`Vehicle #${i+1}`} isDark={isDark} />
-                            <SummaryRow label="Year/Make/Model" value={[v.year,v.make,v.model].filter(Boolean).join(' ')} isDark={isDark} />
-                            <SummaryRow label="VIN" value={v.vin} isDark={isDark} />
-                            <SummaryRow label="Use / Radius" value={[v.use, v.radius ? `${v.radius} mi` : null].filter(Boolean).join(' · ')} isDark={isDark} />
-                            <SummaryRow label="GVW / Zip" value={[v.gvw, v.garagingZip].filter(Boolean).join(' / ')} isDark={isDark} />
-                          </div>
-                        ))
-                      }
-                    </SummarySection>
+                    {/* Vehicles — full row, items in 2-col grid inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Vehicles" icon="truck" isDark={isDark}>
+                        {vehicles.length === 0
+                          ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No vehicles added.</p>
+                          : <div className="grid grid-cols-2 gap-x-6">
+                              {vehicles.map((v, i) => (
+                                <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+                                  <SummarySubLabel label={`Vehicle #${i+1}`} isDark={isDark} />
+                                  <SummaryRow label="Year/Make/Model" value={[v.year,v.make,v.model].filter(Boolean).join(' ')} isDark={isDark} />
+                                  <SummaryRow label="VIN" value={v.vin} isDark={isDark} />
+                                  <SummaryRow label="Use / Radius" value={[v.use, v.radius ? `${v.radius} mi` : null].filter(Boolean).join(' · ')} isDark={isDark} />
+                                  <SummaryRow label="GVW / Zip" value={[v.gvw, v.garagingZip].filter(Boolean).join(' / ')} isDark={isDark} />
+                                </div>
+                              ))}
+                            </div>
+                        }
+                      </SummarySection>
+                    </div>
 
-                    {/* Drivers */}
-                    <SummarySection title="Drivers" icon="user" isDark={isDark}>
-                      {drivers.length === 0
-                        ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No drivers added.</p>
-                        : drivers.map((d, i) => (
-                          <div key={i}>
-                            {i > 0 && <div className="my-1" style={{ borderTop: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }} />}
-                            <SummarySubLabel label={`Driver #${i+1}`} isDark={isDark} />
-                            <SummaryRow label="Name" value={[d.firstName,d.lastName].filter(Boolean).join(' ')} isDark={isDark} />
-                            <SummaryRow label="DOB / State" value={[d.dob, d.licenseState].filter(Boolean).join(' / ')} isDark={isDark} />
-                            <SummaryRow label="License #" value={d.licenseNumber} isDark={isDark} />
-                            <SummaryRow label="Yrs Licensed" value={d.yearsLicensed} isDark={isDark} />
-                          </div>
-                        ))
-                      }
-                    </SummarySection>
+                    {/* Drivers — full row, items in 2-col grid inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Drivers" icon="user" isDark={isDark}>
+                        {drivers.length === 0
+                          ? <p className="text-[10px] py-0.5" style={{ color: '#9CA3AF' }}>No drivers added.</p>
+                          : <div className="grid grid-cols-2 gap-x-6">
+                              {drivers.map((d, i) => (
+                                <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+                                  <SummarySubLabel label={`Driver #${i+1}`} isDark={isDark} />
+                                  <SummaryRow label="Name" value={[d.firstName,d.lastName].filter(Boolean).join(' ')} isDark={isDark} />
+                                  <SummaryRow label="DOB / State" value={[d.dob, d.licenseState].filter(Boolean).join(' / ')} isDark={isDark} />
+                                  <SummaryRow label="License #" value={d.licenseNumber} isDark={isDark} />
+                                  <SummaryRow label="Yrs Licensed" value={d.yearsLicensed} isDark={isDark} />
+                                </div>
+                              ))}
+                            </div>
+                        }
+                      </SummarySection>
+                    </div>
 
-                    {/* Eligibility — spans both columns, 2-col fields inside */}
+                    {/* Eligibility — full row, 2-col fields inside */}
                     <div className="col-span-2">
                       <SummarySection title="Eligibility" icon="shield" isDark={isDark}>
                         <div className="grid grid-cols-2 gap-x-8">
@@ -459,33 +465,49 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       </SummarySection>
                     </div>
 
-                    {/* Additional Insured */}
-                    <SummarySection title="Additional Insured" icon="users" isDark={isDark}>
-                      <SummaryRow label="Has Additionals?" value={ai.hasAdditional} isDark={isDark} />
-                      {blanket.blanketAI  && <SummaryRow label="Blanket AI"  value="Selected" isDark={isDark} />}
-                      {blanket.blanketWOS && <SummaryRow label="Blanket WOS" value="Selected" isDark={isDark} />}
-                      {(ai.insureds||[]).map((ins,i) => (
-                        <div key={i}>
-                          <SummarySubLabel label={`Insured #${i+1}`} isDark={isDark} />
-                          <SummaryRow label="Name" value={ins.name} isDark={isDark} />
-                          <SummaryRow label="Address" value={[ins.address,ins.city,ins.state,ins.zip].filter(Boolean).join(', ')} isDark={isDark} />
-                          <SummaryRow label="WOS?" value={ins.waiverSubrogation} isDark={isDark} />
-                        </div>
-                      ))}
-                    </SummarySection>
+                    {/* Additional Insured — full row, items in 2-col grid inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Additional Insured" icon="users" isDark={isDark}>
+                        <SummaryRow label="Has Additionals?" value={ai.hasAdditional} isDark={isDark} />
+                        {(blanket.blanketAI || blanket.blanketWOS) && (
+                          <div className="flex gap-6 mt-0.5">
+                            {blanket.blanketAI  && <SummaryRow label="Blanket AI"  value="Selected" isDark={isDark} />}
+                            {blanket.blanketWOS && <SummaryRow label="Blanket WOS" value="Selected" isDark={isDark} />}
+                          </div>
+                        )}
+                        {(ai.insureds||[]).length > 0 && (
+                          <div className="grid grid-cols-2 gap-x-6 mt-1">
+                            {(ai.insureds||[]).map((ins,i) => (
+                              <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+                                <SummarySubLabel label={`Insured #${i+1}`} isDark={isDark} />
+                                <SummaryRow label="Name" value={ins.name} isDark={isDark} />
+                                <SummaryRow label="Address" value={[ins.address,ins.city,ins.state,ins.zip].filter(Boolean).join(', ')} isDark={isDark} />
+                                <SummaryRow label="WOS?" value={ins.waiverSubrogation} isDark={isDark} />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </SummarySection>
+                    </div>
 
-                    {/* Loss Payee */}
-                    <SummarySection title="Loss Payee" icon="building" isDark={isDark}>
-                      <SummaryRow label="Has Payees?" value={lp.hasPayee} isDark={isDark} />
-                      {(lp.payees||[]).map((p,i) => (
-                        <div key={i}>
-                          <SummarySubLabel label={`Payee #${i+1}`} isDark={isDark} />
-                          <SummaryRow label="Name" value={p.name} isDark={isDark} />
-                          <SummaryRow label="Address" value={[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')} isDark={isDark} />
-                          <SummaryRow label="Type" value={p.type} isDark={isDark} />
-                        </div>
-                      ))}
-                    </SummarySection>
+                    {/* Loss Payee — full row, items in 2-col grid inside */}
+                    <div className="col-span-2">
+                      <SummarySection title="Loss Payee" icon="building" isDark={isDark}>
+                        <SummaryRow label="Has Payees?" value={lp.hasPayee} isDark={isDark} />
+                        {(lp.payees||[]).length > 0 && (
+                          <div className="grid grid-cols-2 gap-x-6 mt-1">
+                            {(lp.payees||[]).map((p,i) => (
+                              <div key={i} className="py-1" style={{ borderBottom: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
+                                <SummarySubLabel label={`Payee #${i+1}`} isDark={isDark} />
+                                <SummaryRow label="Name" value={p.name} isDark={isDark} />
+                                <SummaryRow label="Address" value={[p.address,p.city,p.state,p.zip].filter(Boolean).join(', ')} isDark={isDark} />
+                                <SummaryRow label="Type" value={p.type} isDark={isDark} />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </SummarySection>
+                    </div>
 
                     {/* Prior Insurance */}
                     <SummarySection title="Prior Insurance" icon="doc" isDark={isDark}>
@@ -497,7 +519,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       <SummaryRow label="Lapse Reason" value={prior.lapseReason} isDark={isDark} />
                     </SummarySection>
 
-                    {/* Claims */}
+                    {/* Claims — full row, items in 2-col grid inside */}
                     <SummarySection title="Claims History" icon="warning" isDark={isDark}>
                       <SummaryRow label="Claims (3 yrs)?" value={claims.hasClaims} isDark={isDark} />
                       {(claims.claims||[]).map((c,i) => (
@@ -510,7 +532,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                       ))}
                     </SummarySection>
 
-                    {/* Payment Plan — spans both columns, 4-col fields inside */}
+                    {/* Payment Plan — full row, 4-col fields inside */}
                     <div className="col-span-2">
                       <SummarySection title="Payment Plan" icon="card" isDark={isDark}>
                         <div className="grid grid-cols-4 gap-x-8">
@@ -543,33 +565,18 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                   <div className="screen-only">
                     <button
                       onClick={handlePrint}
-                      className="w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-semibold transition"
+                      className="w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition hover:opacity-90"
                       style={{
-                        border: '1px solid rgba(166,20,195,0.3)',
-                        background: isDark ? 'rgba(167,139,250,0.08)' : 'white',
+                        background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+                        color: '#ffffff',
+                        WebkitTextFillColor: '#ffffff',
+                        boxShadow: '0 2px 12px rgba(92,46,212,0.3)',
                       }}
-                      onMouseEnter={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.15)' : 'rgba(92,46,212,0.04)'}
-                      onMouseLeave={e => e.currentTarget.style.background = isDark ? 'rgba(167,139,250,0.08)' : 'white'}
                     >
-                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                        <defs>
-                          <linearGradient id="btnPrintG" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
-                            <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
-                          </linearGradient>
-                        </defs>
-                        <path stroke="url(#btnPrintG)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                      <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="#ffffff" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
                       </svg>
-                      <span style={{
-                        background: isDark
-                          ? 'linear-gradient(88.09deg, #A78BFA 0.11%, #E879F9 63.8%)'
-                          : 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
-                        WebkitBackgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        backgroundClip: 'text',
-                      }}>
-                        Print / Save as PDF
-                      </span>
+                      Print / Save as PDF
                     </button>
                   </div>
                 </div>
@@ -610,25 +617,23 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
             {/* CROSS-SELL OPPORTUNITIES */}
             <div className="rounded-2xl px-10 py-8" style={{ background: isDark ? '#1A1E38' : 'white', border: isDark ? '1px solid rgba(255,255,255,0.06)' : '1px solid #F3F4F6' }}>
-              <div className="flex items-center justify-between mb-5">
-                <div>
-                  <div className="flex items-center gap-1.5 mb-1.5">
-                    <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt2)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}>
-                      <defs>
-                        <linearGradient id="lgBolt2" x1="0%" y1="0%" x2="100%" y2="0%">
-                          <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
-                          <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
-                        </linearGradient>
-                      </defs>
-                      <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                    </svg>
-                    <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">CROSS-SELL OPPORTUNITIES</span>
-                  </div>
-                  <h3 className="text-xl font-bold text-navy">One Form, Multiple Quotes</h3>
+              <div className="text-center mb-6">
+                <div className="flex items-center justify-center gap-1.5 mb-2">
+                  <svg className="w-3 h-3 shrink-0" viewBox="0 0 24 24" fill="none" stroke="url(#lgBolt2)" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5}>
+                    <defs>
+                      <linearGradient id="lgBolt2" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor={isDark ? '#A78BFA' : '#5C2ED4'}/>
+                        <stop offset="100%" stopColor={isDark ? '#E879F9' : '#A614C3'}/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                  </svg>
+                  <span className="text-[10px] font-bold tracking-widest uppercase text-gradient">CROSS-SELL OPPORTUNITIES</span>
                 </div>
-                <p className="text-xs text-gray-400 max-w-[240px] text-right leading-relaxed hidden sm:block">
-                  Client info already saved — adding coverages takes minutes.
-                </p>
+                <h3 className="text-2xl font-bold text-navy mb-2">
+                  We prefill your information to save you time.<br />Why wait? Get it done now.
+                </h3>
+                <p className="text-sm text-gray-400">Client info is already saved — adding coverages takes minutes.</p>
               </div>
 
               <div className="space-y-3 mb-5">

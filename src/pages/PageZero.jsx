@@ -1,10 +1,9 @@
 import { useState } from 'react'
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
-import jungleImg from '../assets/jungle.png'
-import carImg from '../assets/car3.png'
-import norbieBodyImg from '../assets/norbie-auto-body.png'
 import bananaImg from '../assets/banana.png'
+import jungleImg from '../assets/jungle.png'
+import norbieCircleImg from '../assets/norbie-circle-00.png'
 
 const ALL_STATES = [
   'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA',
@@ -184,27 +183,16 @@ export default function PageZero({ onStart }) {
         </div>
 
         {/* Right — illustration panel */}
-        <div className="relative overflow-hidden shrink-0" style={{ width: '50%', height: 'calc(100vh - 56px)', background: 'white' }}>
-          {/* Jungle background */}
+        <div className="relative overflow-hidden shrink-0 flex items-center justify-center" style={{ width: '50%', height: 'calc(100vh - 56px)', background: 'white' }}>
+          {/* Faded jungle bg */}
+          <img src={jungleImg} alt="" className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none" style={{ opacity: 0.25 }} />
+
+          {/* Norbie circle image */}
           <img
-            src={jungleImg}
-            alt=""
-            className="absolute inset-0 w-full h-full object-cover object-center select-none pointer-events-none"
-            style={{ opacity: 0.55 }}
-          />
-          {/* btis van — bottom right */}
-          <img
-            src={carImg}
-            alt="btis van"
-            className="absolute select-none pointer-events-none"
-            style={{ bottom: '6%', right: '-2%', width: '72%', objectFit: 'contain' }}
-          />
-          {/* Norbie gorilla — center-left */}
-          <img
-            src={norbieBodyImg}
+            src={norbieCircleImg}
             alt="Norbie"
-            className="absolute select-none pointer-events-none"
-            style={{ bottom: 'calc(2% + 180px)', left: 'calc(-2% + 10px)', width: '57%', objectFit: 'contain' }}
+            className="relative z-10 select-none pointer-events-none"
+            style={{ width: '500px', height: '500px', objectFit: 'contain' }}
           />
         </div>
 
