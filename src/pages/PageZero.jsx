@@ -142,10 +142,6 @@ export default function PageZero({ onStart }) {
                     </button>
                   </div>
 
-                  {/* Mobile-only Norbie thumbnail */}
-                  <div className="md:hidden flex justify-center mt-10 opacity-60">
-                    <img src={norbieCircleImg} alt="Norbie" className="w-28 h-28 object-contain" />
-                  </div>
                 </>
               ) : (
                 /* Decline message */
