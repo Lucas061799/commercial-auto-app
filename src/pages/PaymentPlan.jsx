@@ -116,17 +116,25 @@ export default function PaymentPlan({ formData, updateFormData, onSubmit, isDark
               className="w-full px-4 pt-3.5 pb-2 text-sm text-gray-700 placeholder-gray-300 bg-transparent focus:outline-none resize-none transition-all"
               style={{ display: 'block' }}
             />
-            <div className="flex items-center justify-between px-4 py-2 border-t" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(92,46,212,0.08)', background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(92,46,212,0.02)' }}>
-              <div className="flex items-center gap-3">
-                <span className="text-[10px] text-gray-400">Optional — won't affect your submission</span>
-                <span className="flex items-center gap-1 text-[10px] text-gray-400">
+            <div className="flex items-center justify-between px-4 py-2 border-t gap-2" style={{ borderColor: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(92,46,212,0.08)', background: isDark ? 'rgba(255,255,255,0.03)' : 'rgba(92,46,212,0.02)' }}>
+              {/* Left: optional tag + auto-saved */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-3 min-w-0">
+                <span className="text-[10px] text-gray-400 truncate">Optional — won't affect your submission</span>
+                <span className="hidden sm:flex items-center gap-1 text-[10px] text-gray-400 shrink-0">
                   <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
                   </svg>
                   Auto-saved · submitted with your application
                 </span>
+                <span className="sm:hidden flex items-center gap-1 text-[10px] text-gray-400">
+                  <svg className="w-2.5 h-2.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7"/>
+                  </svg>
+                  Auto-saved
+                </span>
               </div>
-              <span className="text-[10px] font-medium" style={{ color: comments.length > 0 ? '#5C2ED4' : '#9CA3AF' }}>{comments.length} chars</span>
+              {/* Right: char count */}
+              <span className="text-[10px] font-medium shrink-0" style={{ color: comments.length > 0 ? '#5C2ED4' : '#9CA3AF' }}>{comments.length} chars</span>
             </div>
           </div>
         </div>
