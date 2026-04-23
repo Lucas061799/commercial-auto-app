@@ -313,7 +313,7 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
               </div>
 
               {/* Info row — Submission ID · Date · Status */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-100 border-t border-gray-100">
+              <div className="grid grid-cols-3 divide-x divide-gray-100 border-t border-gray-100">
                 {[
                   { label: 'Submission ID', value: SUBMISSION_ID },
                   { label: 'Date Submitted', value: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) },
