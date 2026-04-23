@@ -304,12 +304,8 @@ html .btn-gradient {
 }
 
 /* ── Print button: ID selector (1,0,0) beats ALL class rules in any mode ── */
-button#print-pdf-btn,
 button#print-pdf-btn span,
-[data-dark="true"] button#print-pdf-btn,
 [data-dark="true"] button#print-pdf-btn span {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
-  background-clip: unset !important;
-  -webkit-background-clip: unset !important;
 }
