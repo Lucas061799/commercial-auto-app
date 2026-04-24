@@ -217,7 +217,7 @@ function PreviewModal({ formData, onClose, onSubmit, isDark = false }) {
             {/* Drivers — full width */}
             {ds.length > 0 && (
               <div className="col-span-1 md:col-span-2">
-                <PSection title="Drivers" icon="user" isDark={isDark}>
+                <PSection title="Drivers" icon="users" isDark={isDark}>
                   <div className={`grid gap-x-6 ${ds.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
                     {ds.map((d, i) => (
                       <div key={i} className="py-1" style={{ borderBottom: ds.length > 1 ? (isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid #F3F4F6') : 'none' }}>
