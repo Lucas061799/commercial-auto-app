@@ -68,7 +68,13 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
 
   const [viewYear, setViewYear] = useState(parsed ? parsed.getFullYear() : today.getFullYear())
   const [viewMonth, setViewMonth] = useState(parsed ? parsed.getMonth() : today.getMonth())
+  const [showYearPicker, setShowYearPicker] = useState(false)
   const popupRef = useRef()
+
+  // Year range: 10 years back, 15 years forward
+  const yearStart = today.getFullYear() - 10
+  const yearEnd = today.getFullYear() + 15
+  const years = Array.from({ length: yearEnd - yearStart + 1 }, (_, i) => yearStart + i)
 
   // Close on outside click
   useEffect(() => {
@@ -105,13 +111,6 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
     onClose()
   }
 
-  const selectToday = () => {
-    const m = String(today.getMonth() + 1).padStart(2, '0')
-    const d = String(today.getDate()).padStart(2, '0')
-    onChange(`${m}/${d}/${today.getFullYear()}`)
-    onClose()
-  }
-
   return (
     <div
       ref={popupRef}
@@ -125,63 +124,119 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
     >
       {/* Month / Year navigation */}
       <div className="flex items-center justify-between mb-3">
+        {!showYearPicker && (
+          <button
+            type="button"
+            onClick={prevMonth}
+            className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
+          >
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+        )}
+        {/* Clickable header — toggles year picker */}
         <button
           type="button"
-          onClick={prevMonth}
-          className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
+          onClick={() => setShowYearPicker(v => !v)}
+          className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-[13px] font-bold transition hover:bg-gray-50 ${showYearPicker ? 'flex-1 justify-center' : ''}`}
+          style={{ color: showYearPicker ? '#7C3AED' : '#111827' }}
         >
-          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
-          </svg>
+          {showYearPicker ? (
+            <>
+              <span>Select Year</span>
+              <svg className="w-3 h-3 rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </>
+          ) : (
+            <>
+              <span>{MONTHS[viewMonth]} {viewYear}</span>
+              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+              </svg>
+            </>
+          )}
         </button>
-        <span className="text-[13px] font-bold text-gray-800">{MONTHS[viewMonth]} {viewYear}</span>
-        <button
-          type="button"
-          onClick={nextMonth}
-          className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-        >
-          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
-          </svg>
-        </button>
+        {!showYearPicker && (
+          <button
+            type="button"
+            onClick={nextMonth}
+            className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
+          >
+            <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        )}
       </div>
 
-      {/* Weekday headers */}
-      <div className="grid grid-cols-7 mb-1">
-        {WEEK_DAYS.map(d => (
-          <span key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1.5">{d}</span>
-        ))}
-      </div>
+      {/* Year picker grid */}
+      {showYearPicker ? (
+        <div className="grid grid-cols-4 gap-1 max-h-48 overflow-y-auto py-1">
+          {years.map(yr => {
+            const isCurrent = yr === today.getFullYear()
+            const isActive = yr === viewYear
+            return (
+              <button
+                key={yr}
+                type="button"
+                onClick={() => { setViewYear(yr); setShowYearPicker(false) }}
+                className="py-1.5 rounded-lg text-xs font-semibold transition-all"
+                style={
+                  isActive
+                    ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
+                    : isCurrent
+                    ? { color: '#7C3AED', border: '1.5px solid #7C3AED', background: 'transparent' }
+                    : { color: '#374151', background: 'transparent' }
+                }
+                onMouseEnter={e => { if (!isActive) e.currentTarget.style.background = '#F3F4F6' }}
+                onMouseLeave={e => { if (!isActive) e.currentTarget.style.background = isCurrent ? 'transparent' : 'transparent' }}
+              >
+                {yr}
+              </button>
+            )
+          })}
+        </div>
+      ) : (
+        <>
+          {/* Weekday headers */}
+          <div className="grid grid-cols-7 mb-1">
+            {WEEK_DAYS.map(d => (
+              <span key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1.5">{d}</span>
+            ))}
+          </div>
 
-      {/* Day grid */}
-      <div className="grid grid-cols-7 gap-y-0.5">
-        {cells.map((day, i) => {
-          const selected = day && isSelected(day)
-          const tod = day && isToday(day)
-          return (
-            <button
-              key={i}
-              type="button"
-              disabled={!day}
-              onClick={() => day && selectDay(day)}
-              className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
-                !day ? 'invisible' :
-                selected ? 'text-white font-bold scale-105' :
-                tod ? 'font-bold hover:bg-gray-50' :
-                'text-gray-700 hover:bg-gray-100'
-              }`}
-              style={
-                selected ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', boxShadow: '0 2px 8px rgba(92,46,212,0.35)' } :
-                tod ? { color: '#7C3AED', border: '1.5px solid #7C3AED' } :
-                {}
-              }
-            >
-              {day}
-            </button>
-          )
-        })}
-      </div>
-
+          {/* Day grid */}
+          <div className="grid grid-cols-7 gap-y-0.5">
+            {cells.map((day, i) => {
+              const selected = day && isSelected(day)
+              const tod = day && isToday(day)
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  disabled={!day}
+                  onClick={() => day && selectDay(day)}
+                  className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
+                    !day ? 'invisible' :
+                    selected ? 'text-white font-bold scale-105' :
+                    tod ? 'font-bold hover:bg-gray-50' :
+                    'text-gray-700 hover:bg-gray-100'
+                  }`}
+                  style={
+                    selected ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', boxShadow: '0 2px 8px rgba(92,46,212,0.35)' } :
+                    tod ? { color: '#7C3AED', border: '1.5px solid #7C3AED' } :
+                    {}
+                  }
+                >
+                  {day}
+                </button>
+              )
+            })}
+          </div>
+        </>
+      )}
     </div>
   )
 }
