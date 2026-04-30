@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 
 // Phone formatter — produces (555) 000-0000
 function formatPhone(raw) {
@@ -52,31 +52,163 @@ function formatDateInput(raw) {
   return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`
 }
 
-// Date input with auto-format + calendar icon picker
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December']
+const WEEK_DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa']
+
+// Custom calendar popup
+function CalendarPopup({ value, onChange, onClose, anchorRef }) {
+  const today = new Date()
+  const parsed = (() => {
+    if (!value || value.length < 10) return null
+    const [m, d, y] = value.split('/')
+    if (!m || !d || !y || y.length !== 4) return null
+    const dt = new Date(+y, +m - 1, +d)
+    return isNaN(dt.getTime()) ? null : dt
+  })()
+
+  const [viewYear, setViewYear] = useState(parsed ? parsed.getFullYear() : today.getFullYear())
+  const [viewMonth, setViewMonth] = useState(parsed ? parsed.getMonth() : today.getMonth())
+  const popupRef = useRef()
+
+  // Close on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (popupRef.current && !popupRef.current.contains(e.target) &&
+          anchorRef.current && !anchorRef.current.contains(e.target)) {
+        onClose()
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [onClose, anchorRef])
+
+  const prevMonth = () => {
+    if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1) }
+    else setViewMonth(m => m - 1)
+  }
+  const nextMonth = () => {
+    if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1) }
+    else setViewMonth(m => m + 1)
+  }
+
+  const firstDay = new Date(viewYear, viewMonth, 1).getDay()
+  const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()
+  const cells = [...Array(firstDay).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)]
+
+  const isSelected = (day) => parsed && parsed.getFullYear() === viewYear && parsed.getMonth() === viewMonth && parsed.getDate() === day
+  const isToday = (day) => today.getFullYear() === viewYear && today.getMonth() === viewMonth && today.getDate() === day
+
+  const selectDay = (day) => {
+    const m = String(viewMonth + 1).padStart(2, '0')
+    const d = String(day).padStart(2, '0')
+    onChange(`${m}/${d}/${viewYear}`)
+    onClose()
+  }
+
+  const selectToday = () => {
+    const m = String(today.getMonth() + 1).padStart(2, '0')
+    const d = String(today.getDate()).padStart(2, '0')
+    onChange(`${m}/${d}/${today.getFullYear()}`)
+    onClose()
+  }
+
+  return (
+    <div
+      ref={popupRef}
+      className="absolute right-0 top-full mt-2 z-50 rounded-2xl p-4 select-none"
+      style={{
+        background: 'white',
+        border: '1px solid #E5E7EB',
+        boxShadow: '0 12px 40px rgba(92,46,212,0.15), 0 2px 8px rgba(0,0,0,0.06)',
+        width: '272px',
+      }}
+    >
+      {/* Month / Year navigation */}
+      <div className="flex items-center justify-between mb-3">
+        <button
+          type="button"
+          onClick={prevMonth}
+          className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
+        >
+          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <span className="text-[13px] font-bold text-gray-800">{MONTHS[viewMonth]} {viewYear}</span>
+        <button
+          type="button"
+          onClick={nextMonth}
+          className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
+        >
+          <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+
+      {/* Weekday headers */}
+      <div className="grid grid-cols-7 mb-1">
+        {WEEK_DAYS.map(d => (
+          <span key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1.5">{d}</span>
+        ))}
+      </div>
+
+      {/* Day grid */}
+      <div className="grid grid-cols-7 gap-y-0.5">
+        {cells.map((day, i) => {
+          const selected = day && isSelected(day)
+          const tod = day && isToday(day)
+          return (
+            <button
+              key={i}
+              type="button"
+              disabled={!day}
+              onClick={() => day && selectDay(day)}
+              className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
+                !day ? 'invisible' :
+                selected ? 'text-white font-bold scale-105' :
+                tod ? 'font-bold' :
+                'text-gray-700 hover:bg-gray-100'
+              }`}
+              style={
+                selected ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', boxShadow: '0 2px 8px rgba(92,46,212,0.35)' } :
+                tod ? { color: '#7C3AED', background: 'rgba(124,58,237,0.08)' } :
+                {}
+              }
+            >
+              {day}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Today shortcut */}
+      <div className="mt-3 pt-3" style={{ borderTop: '1px solid #F3F4F6' }}>
+        <button
+          type="button"
+          onClick={selectToday}
+          className="w-full text-center text-[11px] font-semibold py-1.5 rounded-lg transition hover:bg-gray-50"
+          style={{ color: '#7C3AED' }}
+        >
+          Today
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// Date input with auto-format + custom calendar picker
 export function DateInput({ label, required, value, onChange, className = '', error = false }) {
-  const pickerRef = useRef()
+  const [showCal, setShowCal] = useState(false)
+  const wrapRef = useRef()
 
   const handleTextChange = (e) => {
     if (!onChange) return
     onChange(formatDateInput(e.target.value))
   }
 
-  const handlePickerChange = (e) => {
-    if (!onChange || !e.target.value) return
-    const [y, m, d] = e.target.value.split('-')
-    onChange(`${m}/${d}/${y}`)
-  }
-
-  // Convert stored MM/DD/YYYY → YYYY-MM-DD for the native picker value
-  const pickerValue = (() => {
-    if (!value || value.length < 10) return ''
-    const [m, d, y] = value.split('/')
-    if (!m || !d || !y || y.length !== 4) return ''
-    return `${y}-${m.padStart(2,'0')}-${d.padStart(2,'0')}`
-  })()
-
   return (
-    <div className={className}>
+    <div className={`${className} relative`} ref={wrapRef}>
       {label && (
         <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
           {label}{required && <span className="text-red-400 ml-0.5">*</span>}
@@ -96,31 +228,32 @@ export function DateInput({ label, required, value, onChange, className = '', er
               : 'border-gray-200 bg-white focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
           }`}
         />
-        {/* Calendar icon — clicks the hidden native picker */}
+        {/* Calendar icon */}
         <button
           type="button"
-          onClick={() => pickerRef.current?.showPicker?.() ?? pickerRef.current?.click()}
+          onClick={() => setShowCal(v => !v)}
           className="absolute inset-y-0 right-0 flex items-center px-3 transition-colors"
-          style={{ color: value ? '#7C3AED' : '#9CA3AF' }}
+          style={{ color: showCal ? '#7C3AED' : value ? '#7C3AED' : '#9CA3AF' }}
           onMouseEnter={e => e.currentTarget.style.color = '#7C3AED'}
-          onMouseLeave={e => e.currentTarget.style.color = value ? '#7C3AED' : '#9CA3AF'}
+          onMouseLeave={e => e.currentTarget.style.color = (showCal || value) ? '#7C3AED' : '#9CA3AF'}
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <rect x="3" y="4" width="18" height="18" rx="2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16 2v4M8 2v4M3 10h18"/>
           </svg>
         </button>
-        {/* Hidden native date picker */}
-        <input
-          ref={pickerRef}
-          type="date"
-          value={pickerValue}
-          onChange={handlePickerChange}
-          className="absolute opacity-0 pointer-events-none"
-          style={{ top: 0, right: 0, width: 1, height: 1 }}
-          tabIndex={-1}
-        />
       </div>
+
+      {/* Custom calendar popup */}
+      {showCal && (
+        <CalendarPopup
+          value={value}
+          onChange={(v) => { onChange && onChange(v) }}
+          onClose={() => setShowCal(false)}
+          anchorRef={wrapRef}
+        />
+      )}
+
       {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )

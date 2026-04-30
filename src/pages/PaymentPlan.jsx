@@ -315,15 +315,6 @@ function PreviewModal({ formData, onClose, onSubmit, isDark = false }) {
               </div>
             )}
 
-            {/* Comments */}
-            {comments && (
-              <div className="col-span-1 md:col-span-2">
-                <PSection title="Comments / Special Instructions" icon="doc" isDark={isDark}>
-                  <p className="text-[10px] leading-relaxed py-0.5" style={{ color: isDark ? '#D1D5DB' : '#374151' }}>{comments}</p>
-                </PSection>
-              </div>
-            )}
-
           </div>
         </div>
 
