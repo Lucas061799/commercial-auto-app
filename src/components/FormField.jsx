@@ -167,12 +167,12 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
               className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
                 !day ? 'invisible' :
                 selected ? 'text-white font-bold scale-105' :
-                tod ? 'font-bold' :
+                tod ? 'font-bold hover:bg-gray-50' :
                 'text-gray-700 hover:bg-gray-100'
               }`}
               style={
                 selected ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', boxShadow: '0 2px 8px rgba(92,46,212,0.35)' } :
-                tod ? { color: '#7C3AED', background: 'rgba(124,58,237,0.08)' } :
+                tod ? { color: '#7C3AED', border: '1.5px solid #7C3AED' } :
                 {}
               }
             >
@@ -182,17 +182,6 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
         })}
       </div>
 
-      {/* Today shortcut */}
-      <div className="mt-3 pt-3" style={{ borderTop: '1px solid #F3F4F6' }}>
-        <button
-          type="button"
-          onClick={selectToday}
-          className="w-full text-center text-[11px] font-semibold py-1.5 rounded-lg transition hover:bg-gray-50"
-          style={{ color: '#7C3AED' }}
-        >
-          Today
-        </button>
-      </div>
     </div>
   )
 }
