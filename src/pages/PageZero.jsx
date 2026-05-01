@@ -94,8 +94,8 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
                       onClick={() => handleSelect(opt)}
                       className="w-full text-left px-4 py-2.5 text-sm transition-all flex items-center justify-between gap-2"
                       style={{
-                        background: selected ? 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' : 'transparent',
-                        color: selected ? 'white' : '#374151',
+                        background: selected ? 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' : 'transparent',
+                        color: selected ? '#A614C3' : '#374151',
                         fontWeight: selected ? 600 : 400,
                       }}
                       onMouseEnter={e => { if (!selected) e.currentTarget.style.background = '#F9FAFB' }}
@@ -104,7 +104,12 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
                       <span>{opt}</span>
                       {selected && (
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                          <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <path d="M5 13l4 4L19 7" stroke="url(#ddCheckG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <defs>
+                            <linearGradient id="ddCheckG" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                            </linearGradient>
+                          </defs>
                         </svg>
                       )}
                     </button>
