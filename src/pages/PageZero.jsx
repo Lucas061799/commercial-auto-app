@@ -81,30 +81,11 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
             boxShadow: 'none',
           }}
         >
-          {/* Search box for searchable dropdowns */}
-          {searchable && (
-            <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #F3F4F6' }}>
-              <div className="relative">
-                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                </svg>
-                <input
-                  autoFocus
-                  type="text"
-                  value={query}
-                  onChange={e => setQuery(e.target.value)}
-                  placeholder="Search..."
-                  className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:border-[#A614C3]/50 focus:ring-2 focus:ring-[#A614C3]/10"
-                />
-              </div>
-            </div>
-          )}
-
           {/* Options list */}
           <div className="overflow-y-auto" style={{ maxHeight: '220px' }}>
-            {filtered.length === 0
+            {options.length === 0
               ? <p className="text-sm text-gray-400 text-center py-4">No results</p>
-              : filtered.map(opt => {
+              : options.map(opt => {
                   const selected = opt === value
                   return (
                     <button
@@ -113,8 +94,8 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
                       onClick={() => handleSelect(opt)}
                       className="w-full text-left px-4 py-2.5 text-sm transition-all flex items-center justify-between gap-2"
                       style={{
-                        background: selected ? 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' : 'transparent',
-                        color: selected ? '#5C2ED4' : '#374151',
+                        background: selected ? 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)' : 'transparent',
+                        color: selected ? 'white' : '#374151',
                         fontWeight: selected ? 600 : 400,
                       }}
                       onMouseEnter={e => { if (!selected) e.currentTarget.style.background = '#F9FAFB' }}
@@ -123,12 +104,7 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
                       <span>{opt}</span>
                       {selected && (
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
-                          <path d="M5 13l4 4L19 7" stroke="url(#ddCheckG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <defs>
-                            <linearGradient id="ddCheckG" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                            </linearGradient>
-                          </defs>
+                          <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
                         </svg>
                       )}
                     </button>
