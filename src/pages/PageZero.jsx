@@ -78,7 +78,7 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
           style={{
             background: 'white',
             border: '1px solid #E5E7EB',
-            boxShadow: '0 12px 40px rgba(92,46,212,0.15), 0 2px 8px rgba(0,0,0,0.06)',
+            boxShadow: 'none',
           }}
         >
           {/* Search box for searchable dropdowns */}
