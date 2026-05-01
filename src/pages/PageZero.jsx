@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import norbielinkLogo from '../assets/norbielink-logo.png'
 import btisLogo from '../assets/btislogo.png'
 import bananaImg from '../assets/banana.png'
@@ -22,6 +22,119 @@ const APPROVED_CATEGORIES = [
   'Restaurants (No Delivery)',
   'Farming',
 ]
+
+// Custom dropdown — no native <select>
+function Dropdown({ value, onChange, options, placeholder, searchable = false }) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const filtered = searchable
+    ? options.filter(o => o.toLowerCase().includes(query.toLowerCase()))
+    : options
+
+  const handleSelect = (opt) => { onChange(opt); setOpen(false); setQuery('') }
+
+  return (
+    <div ref={ref} className="relative w-full">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between px-4 py-3.5 rounded-xl border transition-all text-base text-left"
+        style={{
+          background: 'white',
+          borderColor: open ? '#A614C3' : '#E5E7EB',
+          boxShadow: open ? '0 0 0 3px rgba(166,20,195,0.12)' : 'none',
+          color: value ? '#111827' : '#9CA3AF',
+        }}
+      >
+        <span className="truncate pr-2">{value || placeholder}</span>
+        <svg
+          className="w-4 h-4 shrink-0 transition-transform"
+          style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', color: open ? '#A614C3' : '#9CA3AF' }}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div
+          className="absolute left-0 right-0 top-full mt-1.5 z-50 rounded-2xl overflow-hidden"
+          style={{
+            background: 'white',
+            border: '1px solid #E5E7EB',
+            boxShadow: '0 12px 40px rgba(92,46,212,0.15), 0 2px 8px rgba(0,0,0,0.06)',
+          }}
+        >
+          {/* Search box for searchable dropdowns */}
+          {searchable && (
+            <div className="px-3 pt-3 pb-2" style={{ borderBottom: '1px solid #F3F4F6' }}>
+              <div className="relative">
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <input
+                  autoFocus
+                  type="text"
+                  value={query}
+                  onChange={e => setQuery(e.target.value)}
+                  placeholder="Search..."
+                  className="w-full pl-8 pr-3 py-2 text-sm rounded-lg border border-gray-200 focus:outline-none focus:border-[#A614C3]/50 focus:ring-2 focus:ring-[#A614C3]/10"
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Options list */}
+          <div className="overflow-y-auto" style={{ maxHeight: '220px' }}>
+            {filtered.length === 0
+              ? <p className="text-sm text-gray-400 text-center py-4">No results</p>
+              : filtered.map(opt => {
+                  const selected = opt === value
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => handleSelect(opt)}
+                      className="w-full text-left px-4 py-2.5 text-sm transition-all flex items-center justify-between gap-2"
+                      style={{
+                        background: selected ? 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' : 'transparent',
+                        color: selected ? '#5C2ED4' : '#374151',
+                        fontWeight: selected ? 600 : 400,
+                      }}
+                      onMouseEnter={e => { if (!selected) e.currentTarget.style.background = '#F9FAFB' }}
+                      onMouseLeave={e => { if (!selected) e.currentTarget.style.background = 'transparent' }}
+                    >
+                      <span>{opt}</span>
+                      {selected && (
+                        <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                          <path d="M5 13l4 4L19 7" stroke="url(#ddCheckG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                          <defs>
+                            <linearGradient id="ddCheckG" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      )}
+                    </button>
+                  )
+                })
+            }
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 export default function PageZero({ onStart }) {
   const [state, setState] = useState('')
@@ -95,37 +208,24 @@ export default function PageZero({ onStart }) {
                     {/* State dropdown */}
                     <div>
                       <label className="block text-sm font-semibold text-navy mb-2">Location of Vehicle</label>
-                      <div className="relative">
-                        <select
-                          value={state}
-                          onChange={e => { setState(e.target.value); setDeclined(false) }}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#A614C3]/20 focus:border-[#A614C3] appearance-none pr-9"
-                        >
-                          <option value="">Select which state the vehicle is located.</option>
-                          {ALL_STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                        </select>
-                        <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
-                        </svg>
-                      </div>
+                      <Dropdown
+                        value={state}
+                        onChange={v => { setState(v); setDeclined(false) }}
+                        options={ALL_STATES}
+                        placeholder="Select which state the vehicle is located."
+                        searchable
+                      />
                     </div>
 
                     {/* Risk category dropdown */}
                     <div>
                       <label className="block text-sm font-semibold text-navy mb-2">Acceptable Risk Categories</label>
-                      <div className="relative">
-                        <select
-                          value={riskCategory}
-                          onChange={e => { setRiskCategory(e.target.value); setDeclined(false) }}
-                          className="w-full border border-gray-200 rounded-xl px-4 py-3.5 text-base text-gray-700 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-[#A614C3]/20 focus:border-[#A614C3] appearance-none pr-9"
-                        >
-                          <option value="">Select from our accepted categories.</option>
-                          {APPROVED_CATEGORIES.map(r => <option key={r} value={r}>{r}</option>)}
-                        </select>
-                        <svg className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
-                        </svg>
-                      </div>
+                      <Dropdown
+                        value={riskCategory}
+                        onChange={v => { setRiskCategory(v); setDeclined(false) }}
+                        options={APPROVED_CATEGORIES}
+                        placeholder="Select from our accepted categories."
+                      />
                     </div>
 
                     {/* Check Appetite button */}
