@@ -328,38 +328,94 @@ export function Textarea({ label, required, placeholder, rows = 4, value, onChan
   )
 }
 
-// Select / Dropdown
+// Select / Dropdown — custom styled, no native <select>
 export function Select({ label, required, options = [], value, onChange, placeholder = 'Select...', className = '', error = false }) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const handler = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false) }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const optVal = (opt) => opt.value ?? opt
+  const optLabel = (opt) => opt.label ?? opt
+  const selectedLabel = options.find(o => optVal(o) === value) ? optLabel(options.find(o => optVal(o) === value)) : null
+
   return (
-    <div className={className}>
+    <div className={`${className} relative`} ref={ref}>
       {label && (
         <label className="block text-[13px] font-semibold text-gray-600 mb-1.5 tracking-wide">
           {label}{required && <span className="text-red-400 ml-0.5">*</span>}
         </label>
       )}
-      <div className="relative">
-        <select
-          value={value || ''}
-          onChange={e => onChange && onChange(e.target.value)}
-          className={`w-full border rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 transition-all appearance-none bg-white pr-9 cursor-pointer ${
-            value ? 'text-gray-800' : 'text-gray-400'
-          } ${
-            error
-              ? 'border-red-300 bg-red-50/50 focus:ring-red-100 focus:border-red-400'
-              : 'border-gray-200 focus:ring-[#7C3AED]/10 focus:border-[#7C3AED]/40 hover:border-gray-300'
-          }`}
+
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border text-sm text-left transition-all"
+        style={{
+          background: 'white',
+          borderColor: error ? '#FCA5A5' : open ? '#7C3AED' : '#E5E7EB',
+          boxShadow: error ? '0 0 0 2px rgba(252,165,165,0.3)' : open ? '0 0 0 2px rgba(124,58,237,0.1)' : 'none',
+          color: selectedLabel ? '#1F2937' : '#9CA3AF',
+        }}
+      >
+        <span className="truncate pr-2">{selectedLabel || placeholder}</span>
+        <svg
+          className="w-4 h-4 shrink-0 transition-transform"
+          style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', color: open ? '#7C3AED' : '#9CA3AF' }}
+          fill="none" stroke="currentColor" viewBox="0 0 24 24"
         >
-          <option value="">{placeholder}</option>
-          {options.map(opt => (
-            <option key={opt.value || opt} value={opt.value || opt}>{opt.label || opt}</option>
-          ))}
-        </select>
-        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-          <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
-          </svg>
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div
+          className="absolute left-0 right-0 top-full mt-1 z-50 rounded-xl overflow-hidden"
+          style={{ background: 'white', border: '1px solid #E5E7EB', boxShadow: 'none' }}
+        >
+          <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
+            {options.map(opt => {
+              const v = optVal(opt)
+              const l = optLabel(opt)
+              const selected = v === value
+              return (
+                <button
+                  key={v}
+                  type="button"
+                  onClick={() => { onChange && onChange(v); setOpen(false) }}
+                  className="w-full text-left px-3.5 py-2.5 text-sm transition-all flex items-center justify-between gap-2"
+                  style={{
+                    background: selected ? 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' : 'transparent',
+                    color: selected ? '#A614C3' : '#374151',
+                    fontWeight: selected ? 600 : 400,
+                  }}
+                  onMouseEnter={e => { if (!selected) e.currentTarget.style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (!selected) e.currentTarget.style.background = 'transparent' }}
+                >
+                  <span>{l}</span>
+                  {selected && (
+                    <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                      <path d="M5 13l4 4L19 7" stroke="url(#selCheckG)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <defs>
+                        <linearGradient id="selCheckG" x1="0%" y1="0%" x2="100%" y2="0%">
+                          <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
+                        </linearGradient>
+                      </defs>
+                    </svg>
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
+
       {error && <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1"><span>⚠</span> This field is required</p>}
     </div>
   )
