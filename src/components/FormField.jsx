@@ -56,8 +56,9 @@ const MONTHS = ['January','February','March','April','May','June','July','August
 const WEEK_DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa']
 
 const MONTHS_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+const YEAR_RANGE = Array.from({ length: 26 }, (_, i) => new Date().getFullYear() - 5 + i)
 
-// Custom calendar popup — 2-step: month/year picker → day grid
+// Custom calendar popup — 3-mode: days / months / years
 function CalendarPopup({ value, onChange, onClose, anchorRef }) {
   const today = new Date()
   const parsed = (() => {
@@ -70,9 +71,8 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
 
   const [viewYear, setViewYear] = useState(parsed ? parsed.getFullYear() : today.getFullYear())
   const [viewMonth, setViewMonth] = useState(parsed ? parsed.getMonth() : today.getMonth())
-  // 'month' = year+month grid (first step), 'day' = day grid (second step)
-  const [mode, setMode] = useState('month')
-  const popupRef = useRef()
+  const [mode, setMode] = useState('days') // 'days' | 'months' | 'years'
+  const popupRef = useRef(null)
 
   useEffect(() => {
     const handler = (e) => {
@@ -85,133 +85,63 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
     return () => document.removeEventListener('mousedown', handler)
   }, [onClose, anchorRef])
 
-  // Day grid helpers
+  const prevMonth = () => { if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1) } else setViewMonth(m => m - 1) }
+  const nextMonth = () => { if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1) } else setViewMonth(m => m + 1) }
+  const prevYear = () => setViewYear(y => y - 1)
+  const nextYear = () => setViewYear(y => y + 1)
+
   const firstDay = new Date(viewYear, viewMonth, 1).getDay()
   const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate()
   const cells = [...Array(firstDay).fill(null), ...Array.from({ length: daysInMonth }, (_, i) => i + 1)]
 
-  const isSelectedDay = (day) => parsed && parsed.getFullYear() === viewYear && parsed.getMonth() === viewMonth && parsed.getDate() === day
-  const isTodayDay = (day) => today.getFullYear() === viewYear && today.getMonth() === viewMonth && today.getDate() === day
+  const isSelected = (day) => parsed && parsed.getFullYear() === viewYear && parsed.getMonth() === viewMonth && parsed.getDate() === day
+  const isToday = (day) => today.getFullYear() === viewYear && today.getMonth() === viewMonth && today.getDate() === day
 
   const selectDay = (day) => {
-    const m = String(viewMonth + 1).padStart(2, '0')
-    const d = String(day).padStart(2, '0')
-    onChange(`${m}/${d}/${viewYear}`)
+    onChange(`${String(viewMonth + 1).padStart(2,'0')}/${String(day).padStart(2,'0')}/${viewYear}`)
     onClose()
   }
 
   return (
     <div
       ref={popupRef}
-      className="absolute right-0 top-full mt-2 z-50 rounded-2xl p-4 select-none"
-      style={{
-        background: 'white',
-        border: '1px solid #E5E7EB',
-        boxShadow: 'none',
-        width: '272px',
-      }}
+      className="absolute left-0 top-full mt-2 z-50 rounded-2xl p-3 select-none"
+      style={{ background: 'white', border: '1px solid #E5E7EB', boxShadow: 'none', width: '264px' }}
     >
-      {mode === 'month' ? (
-        /* ── Step 1: Year nav + Month grid ── */
+      {/* ── DAYS VIEW ── */}
+      {mode === 'days' && (
         <>
-          {/* Year navigation */}
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="button"
-              onClick={() => setViewYear(y => y - 1)}
-              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-            >
-              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+          {/* Header */}
+          <div className="flex items-center justify-between mb-2">
+            <button type="button" onClick={prevMonth}
+              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
               </svg>
             </button>
-            <span className="text-[15px] font-bold" style={{ color: '#111827' }}>{viewYear}</span>
-            <button
-              type="button"
-              onClick={() => setViewYear(y => y + 1)}
-              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-            >
-              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+            <button type="button" onClick={() => setMode('months')}
+              className="px-3 py-1 rounded-lg text-[13px] font-bold transition hover:bg-gray-100"
+              style={{ background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {MONTHS_SHORT[viewMonth]} {viewYear}
+            </button>
+            <button type="button" onClick={nextMonth}
+              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
               </svg>
             </button>
           </div>
-
-          {/* Month grid — 3 cols × 4 rows */}
-          <div className="grid grid-cols-3 gap-2">
-            {MONTHS_SHORT.map((name, i) => {
-              const isCurrentMonth = today.getFullYear() === viewYear && today.getMonth() === i
-              const isSelectedMonth = parsed && parsed.getFullYear() === viewYear && parsed.getMonth() === i
-              return (
-                <button
-                  key={name}
-                  type="button"
-                  onClick={() => { setViewMonth(i); setMode('day') }}
-                  className="py-2 rounded-xl text-sm font-semibold transition-all"
-                  style={
-                    isSelectedMonth
-                      ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
-                      : isCurrentMonth
-                      ? { color: '#7C3AED', border: '1.5px solid #7C3AED', background: 'transparent' }
-                      : { color: '#374151', background: 'transparent' }
-                  }
-                  onMouseEnter={e => { if (!isSelectedMonth) e.currentTarget.style.background = '#F3F4F6' }}
-                  onMouseLeave={e => { if (!isSelectedMonth) e.currentTarget.style.background = isCurrentMonth ? 'transparent' : 'transparent' }}
-                >
-                  {name}
-                </button>
-              )
-            })}
-          </div>
-        </>
-      ) : (
-        /* ── Step 2: Day grid ── */
-        <>
-          {/* Header — click title to go back to month view */}
-          <div className="flex items-center justify-between mb-3">
-            <button
-              type="button"
-              onClick={() => { if (viewMonth === 0) { setViewMonth(11); setViewYear(y => y - 1) } else setViewMonth(m => m - 1) }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-            >
-              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode('month')}
-              className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[13px] font-bold transition hover:bg-gray-50"
-              style={{ color: '#111827' }}
-            >
-              {MONTHS[viewMonth]} {viewYear}
-              <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
-              </svg>
-            </button>
-            <button
-              type="button"
-              onClick={() => { if (viewMonth === 11) { setViewMonth(0); setViewYear(y => y + 1) } else setViewMonth(m => m + 1) }}
-              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-            >
-              <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
-              </svg>
-            </button>
-          </div>
-
           {/* Weekday headers */}
           <div className="grid grid-cols-7 mb-1">
             {WEEK_DAYS.map(d => (
-              <span key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1.5">{d}</span>
+              <span key={d} className="text-center text-[10px] font-bold text-gray-400 pb-1">{d}</span>
             ))}
           </div>
-
           {/* Day grid */}
           <div className="grid grid-cols-7 gap-y-0.5">
             {cells.map((day, i) => {
-              const selected = day && isSelectedDay(day)
-              const tod = day && isTodayDay(day)
+              const selected = day && isSelected(day)
+              const tod = day && isToday(day)
               return (
                 <button
                   key={i}
@@ -220,8 +150,8 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
                   onClick={() => day && selectDay(day)}
                   className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
                     !day ? 'invisible' :
-                    selected ? 'text-white font-bold scale-105' :
-                    tod ? 'font-bold hover:bg-gray-50' :
+                    selected ? 'text-white font-bold' :
+                    tod ? 'font-bold' :
                     'text-gray-700 hover:bg-gray-100'
                   }`}
                   style={
@@ -234,6 +164,98 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
                 </button>
               )
             })}
+          </div>
+        </>
+      )}
+
+      {/* ── MONTHS VIEW ── */}
+      {mode === 'months' && (
+        <>
+          <div className="flex items-center justify-between mb-3">
+            <button type="button" onClick={prevYear}
+              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button type="button" onClick={() => setMode('years')}
+              className="px-2 py-1 rounded-lg text-[13px] font-bold text-gray-800 transition hover:bg-gray-100">
+              {viewYear}
+            </button>
+            <button type="button" onClick={nextYear}
+              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+          <div className="grid grid-cols-3 gap-1.5">
+            {MONTHS_SHORT.map((m, idx) => {
+              const isCurMonth = idx === viewMonth
+              const isTodayMonth = today.getFullYear() === viewYear && today.getMonth() === idx
+              return (
+                <button
+                  key={m}
+                  type="button"
+                  onClick={() => { setViewMonth(idx); setMode('days') }}
+                  className="py-2 rounded-xl text-xs font-semibold transition-all"
+                  style={
+                    isCurMonth
+                      ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
+                      : isTodayMonth
+                      ? { border: '1.5px solid #7C3AED', color: '#7C3AED', background: 'transparent' }
+                      : { border: '1.5px solid transparent', color: '#374151', background: 'transparent' }
+                  }
+                  onMouseEnter={e => { if (!isCurMonth) e.currentTarget.style.background = '#F9FAFB' }}
+                  onMouseLeave={e => { if (!isCurMonth) e.currentTarget.style.background = isTodayMonth ? 'transparent' : 'transparent' }}
+                >
+                  {m}
+                </button>
+              )
+            })}
+          </div>
+        </>
+      )}
+
+      {/* ── YEARS VIEW ── */}
+      {mode === 'years' && (
+        <>
+          <div className="flex items-center justify-between mb-3">
+            <button type="button" onClick={() => setMode('days')}
+              className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100">
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <span className="text-[13px] font-bold text-gray-800">Select Year</span>
+            <div className="w-7" />
+          </div>
+          <div className="overflow-y-auto" style={{ maxHeight: '192px' }}>
+            <div className="grid grid-cols-3 gap-1.5">
+              {YEAR_RANGE.map(y => {
+                const isSelYear = y === viewYear
+                const isTodayYear = y === today.getFullYear()
+                return (
+                  <button
+                    key={y}
+                    type="button"
+                    onClick={() => { setViewYear(y); setMode('months') }}
+                    className="py-2 rounded-xl text-xs font-semibold transition-all"
+                    style={
+                      isSelYear
+                        ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
+                        : isTodayYear
+                        ? { border: '1.5px solid #7C3AED', color: '#7C3AED', background: 'transparent' }
+                        : { border: '1.5px solid transparent', color: '#374151', background: 'transparent' }
+                    }
+                    onMouseEnter={e => { if (!isSelYear) e.currentTarget.style.background = '#F9FAFB' }}
+                    onMouseLeave={e => { if (!isSelYear) e.currentTarget.style.background = 'transparent' }}
+                  >
+                    {y}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </>
       )}
