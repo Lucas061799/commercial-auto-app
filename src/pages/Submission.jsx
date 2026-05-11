@@ -12,62 +12,6 @@ import sellMoreBg from '../assets/sell-more-bg.png'
 
 const SUBMISSION_ID = 'CA0094894'
 
-function buildEmailPreview({ applicant = {}, submissionId }) {
-  const firstName = applicant.namedInsured?.split(' ')[0] || 'there'
-  const submittedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-  const BASE = window.location.origin
-  return `<!DOCTYPE html>
-<html><head><meta charset="UTF-8"/>
-<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#F3F4F6;font-family:'Helvetica Neue',Arial,sans-serif;}</style>
-</head><body style="background:#F3F4F6;padding:20px;">
-<table width="600" cellpadding="0" cellspacing="0" style="background:white;border-radius:16px;overflow:hidden;width:600px;">
-  <tr><td>
-    <div style="height:4px;background:linear-gradient(88deg,#5C2ED4 0%,#A614C3 100%);"></div>
-    <table width="100%" cellpadding="0" cellspacing="0" style="padding:18px 28px 14px;">
-      <tr>
-        <td><img src="${BASE}/norbielink-logo.png" alt="NorbieLink" height="24" style="display:block;"/></td>
-        <td align="right" style="vertical-align:middle;">
-          <span style="font-size:10px;color:#9CA3AF;letter-spacing:0.08em;font-weight:600;margin-right:6px;">POWERED BY</span>
-          <img src="${BASE}/btislogo.png" alt="btis" height="20" style="display:inline-block;vertical-align:middle;"/>
-        </td>
-      </tr>
-    </table>
-    <div style="height:1px;background:#F3F4F6;margin:0 28px;"></div>
-  </td></tr>
-  <tr><td style="padding:24px 28px 28px;">
-    <p style="font-size:15px;color:#111827;margin-bottom:14px;">Hello ${firstName},</p>
-    <p style="font-size:13px;color:#374151;line-height:1.7;margin-bottom:20px;">Thank you for completing your Commercial Auto submission. We've successfully received your information, and our team is now reviewing the details provided.</p>
-    <table width="100%" cellpadding="0" cellspacing="0" style="background:#F9FAFB;border-radius:10px;padding:16px 20px;margin-bottom:18px;">
-      <tr><td style="padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
-        <span style="font-size:10px;color:#9CA3AF;display:block;">Submission Number</span>
-        <span style="font-size:13px;font-weight:700;color:#111827;">${submissionId}</span>
-      </td></tr>
-      <tr><td style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
-        <span style="font-size:10px;color:#9CA3AF;display:block;">Applicant Name</span>
-        <span style="font-size:13px;font-weight:700;color:#111827;">${applicant.namedInsured || '—'}</span>
-      </td></tr>
-      <tr><td style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
-        <span style="font-size:10px;color:#9CA3AF;display:block;">Effective Date</span>
-        <span style="font-size:13px;font-weight:700;color:#111827;">${applicant.effectiveDate || '—'}</span>
-      </td></tr>
-      <tr><td style="padding-top:8px;">
-        <span style="font-size:10px;color:#9CA3AF;display:block;">Date Submitted</span>
-        <span style="font-size:13px;font-weight:700;color:#111827;">${submittedDate}</span>
-      </td></tr>
-    </table>
-    <div style="display:inline-block;background:rgba(251,191,36,0.12);border-radius:999px;padding:5px 12px;margin-bottom:18px;">
-      <span style="font-size:11px;font-weight:700;color:#D97706;">● Under Review</span>
-    </div>
-    <p style="font-size:13px;color:#374151;line-height:1.7;margin-bottom:18px;">Your submission will be reviewed as soon as possible. If any additional information is needed, a member of our team will reach out to you directly.</p>
-    <p style="font-size:13px;color:#374151;font-weight:600;">The Commercial Auto Team</p>
-  </td></tr>
-  <tr><td style="background:#F9FAFB;border-top:1px solid #E5E7EB;padding:16px 28px;text-align:center;">
-    <p style="font-size:10px;color:#6B7280;margin-bottom:3px;">6610 Sierra College Blvd. | Rocklin, CA 95677 | License #0D10271</p>
-    <p style="font-size:10px;color:#6B7280;">877.649.6682 Phone | 916.772.9292 Fax | <a href="https://www.btisinc.com" style="color:#5C2ED4;">www.btisinc.com</a></p>
-  </td></tr>
-</table>
-</body></html>`
-}
 const STEP_LABELS = ['Applicant','Vehicles','Driver','Eligibility','Coverage','Additional Insured','Loss Payee','Prior History','Claims','Payment Plan']
 
 function Confetti() {
@@ -112,7 +56,6 @@ function Confetti() {
 export default function Submission({ formData, onBack, isDark = false, onToggleDark }) {
   const [summaryOpen, setSummaryOpen] = useState(false)
   const [showConfetti, setShowConfetti] = useState(true)
-  const [showEmailPreview, setShowEmailPreview] = useState(false)
 
   useEffect(() => {
     const t = setTimeout(() => setShowConfetti(false), 4500)
@@ -774,22 +717,11 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
                 </div>
               </div>
 
-              {/* Step 2 — Email preview inline */}
               <div className="flex gap-4">
                 <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}><span className="text-gradient">2</span></span>
-                <div className="flex-1 min-w-0">
+                <div>
                   <p className="text-sm font-medium text-navy">Email Confirmation</p>
-                  <p className="text-xs text-gray-400 mt-1 mb-3 leading-relaxed">Here's a preview of the confirmation email that will be sent.</p>
-                  <button
-                    onClick={() => setShowEmailPreview(true)}
-                    className="flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold transition-all"
-                    style={{ background: 'linear-gradient(88.09deg,rgba(92,46,212,0.08) 0%,rgba(166,20,195,0.08) 100%)', border: '1px solid rgba(92,46,212,0.2)', color: '#5C2ED4' }}
-                  >
-                    <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                    </svg>
-                    Preview Confirmation Email
-                  </button>
+                  <p className="text-xs text-gray-400 mt-1 leading-relaxed">You'll receive detailed quote confirmation via email</p>
                 </div>
               </div>
             </div>
@@ -799,51 +731,6 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
         </aside>
       </div>
 
-      {/* Email Preview Modal */}
-      {showEmailPreview && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4"
-          style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(4px)' }}
-          onClick={() => setShowEmailPreview(false)}
-        >
-          <div
-            className="relative w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl"
-            style={{ maxHeight: '90vh', display: 'flex', flexDirection: 'column' }}
-            onClick={e => e.stopPropagation()}
-          >
-            {/* Modal header */}
-            <div className="flex items-center justify-between px-5 py-3 shrink-0"
-              style={{ background: 'white', borderBottom: '1px solid #E5E7EB' }}>
-              <div className="flex items-center gap-2">
-                <svg className="w-4 h-4" fill="none" stroke="url(#emailModalG)" viewBox="0 0 24 24" strokeWidth={1.8}>
-                  <defs>
-                    <linearGradient id="emailModalG" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#5C2ED4"/><stop offset="100%" stopColor="#A614C3"/>
-                    </linearGradient>
-                  </defs>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-                </svg>
-                <span className="text-sm font-bold text-navy">Confirmation Email Preview</span>
-              </div>
-              <button
-                onClick={() => setShowEmailPreview(false)}
-                className="w-7 h-7 flex items-center justify-center rounded-lg transition hover:bg-gray-100"
-                style={{ color: '#9CA3AF' }}
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-              </button>
-            </div>
-            {/* iframe — full size, scrollable */}
-            <iframe
-              srcDoc={buildEmailPreview({ applicant, submissionId: SUBMISSION_ID })}
-              title="Email Preview"
-              style={{ flex: 1, border: 'none', background: '#F3F4F6', minHeight: '500px' }}
-            />
-          </div>
-        </div>
-      )}
 
     </div>
   )
