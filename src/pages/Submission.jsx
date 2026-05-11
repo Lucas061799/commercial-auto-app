@@ -11,6 +11,63 @@ import iconBO from '../assets/icon-business-owner.png'
 import sellMoreBg from '../assets/sell-more-bg.png'
 
 const SUBMISSION_ID = 'CA0094894'
+
+function buildEmailPreview({ applicant = {}, submissionId }) {
+  const firstName = applicant.namedInsured?.split(' ')[0] || 'there'
+  const submittedDate = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  const BASE = window.location.origin
+  return `<!DOCTYPE html>
+<html><head><meta charset="UTF-8"/>
+<style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#F3F4F6;font-family:'Helvetica Neue',Arial,sans-serif;}</style>
+</head><body style="background:#F3F4F6;padding:20px;">
+<table width="600" cellpadding="0" cellspacing="0" style="background:white;border-radius:16px;overflow:hidden;width:600px;">
+  <tr><td>
+    <div style="height:4px;background:linear-gradient(88deg,#5C2ED4 0%,#A614C3 100%);"></div>
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:18px 28px 14px;">
+      <tr>
+        <td><img src="${BASE}/norbielink-logo.png" alt="NorbieLink" height="24" style="display:block;"/></td>
+        <td align="right" style="vertical-align:middle;">
+          <span style="font-size:10px;color:#9CA3AF;letter-spacing:0.08em;font-weight:600;margin-right:6px;">POWERED BY</span>
+          <img src="${BASE}/btislogo.png" alt="btis" height="20" style="display:inline-block;vertical-align:middle;"/>
+        </td>
+      </tr>
+    </table>
+    <div style="height:1px;background:#F3F4F6;margin:0 28px;"></div>
+  </td></tr>
+  <tr><td style="padding:24px 28px 28px;">
+    <p style="font-size:15px;color:#111827;margin-bottom:14px;">Hello ${firstName},</p>
+    <p style="font-size:13px;color:#374151;line-height:1.7;margin-bottom:20px;">Thank you for completing your Commercial Auto submission. We've successfully received your information, and our team is now reviewing the details provided.</p>
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#F9FAFB;border-radius:10px;padding:16px 20px;margin-bottom:18px;">
+      <tr><td style="padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
+        <span style="font-size:10px;color:#9CA3AF;display:block;">Submission Number</span>
+        <span style="font-size:13px;font-weight:700;color:#111827;">${submissionId}</span>
+      </td></tr>
+      <tr><td style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
+        <span style="font-size:10px;color:#9CA3AF;display:block;">Applicant Name</span>
+        <span style="font-size:13px;font-weight:700;color:#111827;">${applicant.namedInsured || '—'}</span>
+      </td></tr>
+      <tr><td style="padding-top:8px;padding-bottom:8px;border-bottom:1px solid #E5E7EB;">
+        <span style="font-size:10px;color:#9CA3AF;display:block;">Effective Date</span>
+        <span style="font-size:13px;font-weight:700;color:#111827;">${applicant.effectiveDate || '—'}</span>
+      </td></tr>
+      <tr><td style="padding-top:8px;">
+        <span style="font-size:10px;color:#9CA3AF;display:block;">Date Submitted</span>
+        <span style="font-size:13px;font-weight:700;color:#111827;">${submittedDate}</span>
+      </td></tr>
+    </table>
+    <div style="display:inline-block;background:rgba(251,191,36,0.12);border-radius:999px;padding:5px 12px;margin-bottom:18px;">
+      <span style="font-size:11px;font-weight:700;color:#D97706;">● Under Review</span>
+    </div>
+    <p style="font-size:13px;color:#374151;line-height:1.7;margin-bottom:18px;">Your submission will be reviewed as soon as possible. If any additional information is needed, a member of our team will reach out to you directly.</p>
+    <p style="font-size:13px;color:#374151;font-weight:600;">The Commercial Auto Team</p>
+  </td></tr>
+  <tr><td style="background:#F9FAFB;border-top:1px solid #E5E7EB;padding:16px 28px;text-align:center;">
+    <p style="font-size:10px;color:#6B7280;margin-bottom:3px;">6610 Sierra College Blvd. | Rocklin, CA 95677 | License #0D10271</p>
+    <p style="font-size:10px;color:#6B7280;">877.649.6682 Phone | 916.772.9292 Fax | <a href="https://www.btisinc.com" style="color:#5C2ED4;">www.btisinc.com</a></p>
+  </td></tr>
+</table>
+</body></html>`
+}
 const STEP_LABELS = ['Applicant','Vehicles','Driver','Eligibility','Coverage','Additional Insured','Loss Payee','Prior History','Claims','Payment Plan']
 
 function Confetti() {
@@ -707,19 +764,41 @@ export default function Submission({ formData, onBack, isDark = false, onToggleD
 
             {/* What's Next */}
             <h3 className="text-sm font-bold text-navy mb-5">What's Next?</h3>
-            <div className="space-y-6 mb-6">
-              {[
-                { n: 1, title: 'Review & Processing', desc: 'Your application will be reviewed within 24-48 hours' },
-                { n: 2, title: 'Email Confirmation',  desc: "You'll receive detailed quote confirmation via email" },
-              ].map(item => (
-                <div key={item.n} className="flex gap-4">
-                  <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}><span className="text-gradient">{item.n}</span></span>
-                  <div>
-                    <p className="text-sm font-medium text-navy">{item.title}</p>
-                    <p className="text-xs text-gray-400 mt-1 leading-relaxed">{item.desc}</p>
+            <div className="space-y-6 mb-5">
+              <div className="flex gap-4">
+                <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}><span className="text-gradient">1</span></span>
+                <div>
+                  <p className="text-sm font-medium text-navy">Review &amp; Processing</p>
+                  <p className="text-xs text-gray-400 mt-1 leading-relaxed">Your application will be reviewed within 24-48 hours</p>
+                </div>
+              </div>
+
+              {/* Step 2 — Email preview inline */}
+              <div className="flex gap-4">
+                <span className="w-9 h-9 rounded-full text-sm font-bold flex items-center justify-center shrink-0" style={{ background: 'linear-gradient(88.09deg, rgba(92,46,212,0.25) 0%, rgba(166,20,195,0.25) 100%)' }}><span className="text-gradient">2</span></span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-navy">Email Confirmation</p>
+                  <p className="text-xs text-gray-400 mt-1 mb-3 leading-relaxed">Here's a preview of the confirmation email that will be sent.</p>
+                  {/* Scaled email preview */}
+                  <div className="rounded-xl overflow-hidden" style={{ border: '1px solid #E5E7EB' }}>
+                    <iframe
+                      srcDoc={buildEmailPreview({ applicant, submissionId: SUBMISSION_ID })}
+                      title="Email Preview"
+                      scrolling="no"
+                      style={{
+                        width: '600px',
+                        height: '560px',
+                        border: 'none',
+                        display: 'block',
+                        transformOrigin: 'top left',
+                        transform: 'scale(0.42)',
+                        marginBottom: '-328px',
+                        pointerEvents: 'none',
+                      }}
+                    />
                   </div>
                 </div>
-              ))}
+              </div>
             </div>
 
           </div>
