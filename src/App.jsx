@@ -469,7 +469,28 @@ function App() {
               { id: 7, title: 'Loss Payee Information', el: <LossPayee formData={formData} updateFormData={updateFormData} isDark={darkMode} /> },
               { id: 8, title: 'Prior History',          el: <PriorHistory formData={formData} updateFormData={updateFormData} isDark={darkMode} /> },
               { id: 9, title: 'Claim History',          el: <ClaimHistory formData={formData} updateFormData={updateFormData} isDark={darkMode} /> },
-              { id: 10, title: 'Payment Plan',          el: <PaymentPlan formData={formData} updateFormData={updateFormData} onSubmit={() => setSubmitted(true)} errorFields={errorFields} isDark={darkMode} /> },
+              { id: 10, title: 'Payment Plan',          el: <PaymentPlan formData={formData} updateFormData={updateFormData} onSubmit={async () => {
+                setSubmitted(true)
+                // Send confirmation email (fire-and-forget)
+                const applicant = formData.applicant || {}
+                if (applicant.email) {
+                  try {
+                    await fetch('/api/send-confirmation', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        email: applicant.email,
+                        firstName: applicant.namedInsured?.split(' ')[0],
+                        namedInsured: applicant.namedInsured,
+                        submissionId: 'CA0094894',
+                        effectiveDate: applicant.effectiveDate,
+                      }),
+                    })
+                  } catch (e) {
+                    console.warn('Email send failed (non-blocking):', e)
+                  }
+                }
+              }} errorFields={errorFields} isDark={darkMode} /> },
             ].map(section => (
               <section
                 key={section.id}
