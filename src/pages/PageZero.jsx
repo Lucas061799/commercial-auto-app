@@ -175,8 +175,10 @@ function MaintenanceNotice() {
           className="text-sm md:text-base text-gray-500 leading-relaxed mt-4 pt-4"
           style={{ borderTop: '1px solid #E5E7EB' }}
         >
-          All accounts submitted prior to the shutdown have been logged and are actively
-          being reviewed by our underwriting team.
+          All accounts submitted prior to the shutdown have been logged and are{' '}
+          <span className="font-medium text-gray-700">
+            actively being reviewed by our underwriting team
+          </span>.
         </p>
       </div>
 
