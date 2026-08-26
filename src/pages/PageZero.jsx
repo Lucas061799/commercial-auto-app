@@ -29,6 +29,14 @@ const APPROVED_CATEGORIES = [
   'Farming',
 ]
 
+// ---------------------------------------------------------------------------
+// Maintenance mode — flip MAINTENANCE_MODE back to false to restore the form.
+// ---------------------------------------------------------------------------
+export const MAINTENANCE_MODE = true
+const MAINTENANCE_REOPEN_DATE = 'September 6'
+// TODO: point this at the real marketplace URL.
+const MARKETPLACE_URL = 'https://www.btisinc.com/'
+
 // Custom dropdown — no native <select>
 function Dropdown({ value, onChange, options, placeholder, searchable = false }) {
   const [open, setOpen] = useState(false)
@@ -123,6 +131,73 @@ function Dropdown({ value, onChange, options, placeholder, searchable = false })
   )
 }
 
+function MaintenanceNotice() {
+  return (
+    <>
+      {/* Title */}
+      <div className="mb-6 md:mb-8">
+        <p className="text-xs md:text-sm font-bold tracking-widest uppercase text-gradient mb-2 md:mb-3">
+          Commercial Auto Insurance
+        </p>
+        <h1 className="text-3xl md:text-4xl font-bold text-navy leading-tight mb-3 md:mb-4">
+          Commercial Auto is<br />
+          <span className="text-gradient">Temporarily Unavailable.</span>
+        </h1>
+        <p className="text-sm md:text-base text-gray-500 leading-relaxed">
+          We're making system improvements and performing scheduled maintenance.
+        </p>
+      </div>
+
+      {/* Scheduled maintenance card */}
+      <div
+        className="rounded-2xl p-5 md:p-6 mb-7 md:mb-8 bg-gray-50"
+        style={{ border: '1px solid #E5E7EB' }}
+      >
+        <div className="flex items-center gap-2.5 mb-2">
+          <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z"
+              stroke="url(#maintG)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"
+            />
+            <defs>
+              <linearGradient id="maintG" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#5C2ED4" /><stop offset="100%" stopColor="#A614C3" />
+              </linearGradient>
+            </defs>
+          </svg>
+          <span className="text-sm md:text-base font-bold text-navy">Scheduled Maintenance</span>
+        </div>
+        <p className="text-sm md:text-base text-gray-600 leading-relaxed">
+          New submissions will reopen{' '}
+          <span className="font-bold text-gradient">{MAINTENANCE_REOPEN_DATE}</span>.
+        </p>
+        <p
+          className="text-sm md:text-base text-gray-500 leading-relaxed mt-4 pt-4"
+          style={{ borderTop: '1px solid #E5E7EB' }}
+        >
+          All accounts submitted prior to the shutdown have been logged and are actively
+          being reviewed by our underwriting team.
+        </p>
+      </div>
+
+      {/* Secondary CTA */}
+      <a
+        href={MARKETPLACE_URL}
+        className="w-full flex items-center justify-center gap-2 py-4 rounded-xl text-base font-bold text-white transition-all hover:opacity-90 active:scale-[0.98]"
+        style={{
+          background: 'linear-gradient(88.09deg, #5C2ED4 0.11%, #A614C3 63.8%)',
+          boxShadow: '0 4px 20px rgba(92,46,212,0.3)',
+        }}
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Return to Marketplace
+      </a>
+    </>
+  )
+}
+
 export default function PageZero({ onStart }) {
   const [state, setState] = useState('')
   const [riskCategory, setRiskCategory] = useState('')
@@ -175,7 +250,9 @@ export default function PageZero({ onStart }) {
           <div className="relative z-10 min-h-full flex flex-col justify-center items-center py-10 px-6 md:px-[10%]">
             <div className="w-full max-w-xl">
 
-              {!declined ? (
+              {MAINTENANCE_MODE ? (
+                <MaintenanceNotice />
+              ) : !declined ? (
                 <>
                   {/* Title */}
                   <div className="mb-8 md:mb-10">

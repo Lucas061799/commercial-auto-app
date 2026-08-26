@@ -16,7 +16,7 @@ import PriorHistory from './pages/PriorHistory'
 import ClaimHistory from './pages/ClaimHistory'
 import PaymentPlan from './pages/PaymentPlan'
 import Submission from './pages/Submission'
-import PageZero from './pages/PageZero'
+import PageZero, { MAINTENANCE_MODE } from './pages/PageZero'
 
 const STEPS = [
   { id: 1, label: 'Applicant',          key: 'applicant' },
@@ -238,8 +238,9 @@ function App() {
   // URL param shortcuts for Builder.io / Figma import
   // ?page=main → skip PageZero
   // ?page=submission → go straight to submission
+  // While MAINTENANCE_MODE is on, these are ignored so every URL lands on PageZero.
   const urlParams = new URLSearchParams(window.location.search)
-  const pageParam = urlParams.get('page')
+  const pageParam = MAINTENANCE_MODE ? null : urlParams.get('page')
 
   const [formData, setFormData] = useState({})
   const [activeStep, setActiveStep] = useState(1)
