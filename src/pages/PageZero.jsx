@@ -32,7 +32,7 @@ const APPROVED_CATEGORIES = [
 // ---------------------------------------------------------------------------
 // Maintenance mode — flip MAINTENANCE_MODE back to false to restore the form.
 // ---------------------------------------------------------------------------
-export const MAINTENANCE_MODE = true
+export const MAINTENANCE_MODE = false
 const MAINTENANCE_REOPEN_DATE = 'September 6'
 // TODO: point this at the real marketplace URL.
 const MARKETPLACE_URL = 'https://www.btisinc.com/'
