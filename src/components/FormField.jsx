@@ -105,7 +105,7 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
   return (
     <div
       ref={popupRef}
-      className="absolute left-0 top-full mt-2 z-50 rounded-2xl p-3 select-none"
+      className="absolute left-0 top-full mt-2 z-50 rounded-2xl p-3 select-none calendar-popup"
       style={{ background: 'white', border: '1px solid #E5E7EB', boxShadow: 'none', width: '264px' }}
     >
       {/* ── DAYS VIEW ── */}
@@ -148,10 +148,10 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
                   type="button"
                   disabled={!day}
                   onClick={() => day && selectDay(day)}
-                  className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all ${
+                  className={`w-8 h-8 mx-auto flex items-center justify-center rounded-full text-xs font-medium transition-all cal-cell ${
                     !day ? 'invisible' :
-                    selected ? 'text-white font-bold' :
-                    tod ? 'font-bold' :
+                    selected ? 'text-white font-bold is-active' :
+                    tod ? 'font-bold is-today' :
                     'text-gray-700 hover:bg-gray-100'
                   }`}
                   style={
@@ -198,7 +198,8 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
                   key={m}
                   type="button"
                   onClick={() => { setViewMonth(idx); setMode('days') }}
-                  className="py-2 rounded-xl text-xs font-semibold transition-all"
+                  className={`py-2 rounded-xl text-xs font-semibold transition-all cal-cell${
+                    isCurMonth ? ' is-active' : isTodayMonth ? ' is-today' : ''}`}
                   style={
                     isCurMonth
                       ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
@@ -240,7 +241,8 @@ function CalendarPopup({ value, onChange, onClose, anchorRef }) {
                     key={y}
                     type="button"
                     onClick={() => { setViewYear(y); setMode('months') }}
-                    className="py-2 rounded-xl text-xs font-semibold transition-all"
+                    className={`py-2 rounded-xl text-xs font-semibold transition-all cal-cell${
+                      isSelYear ? ' is-active' : isTodayYear ? ' is-today' : ''}`}
                     style={
                       isSelYear
                         ? { background: 'linear-gradient(88.09deg,#5C2ED4 0%,#A614C3 100%)', color: 'white', boxShadow: '0 2px 8px rgba(92,46,212,0.3)' }
@@ -377,7 +379,8 @@ export function Select({ label, required, options = [], value, onChange, placeho
       <button
         type="button"
         onClick={() => setOpen(v => !v)}
-        className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border text-sm text-left transition-all"
+        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-lg border text-sm text-left transition-all select-trigger${
+          selectedLabel ? ' has-value' : ''}${open ? ' is-open' : ''}${error ? ' is-error' : ''}`}
         style={{
           background: 'white',
           borderColor: error ? '#FCA5A5' : open ? '#7C3AED' : '#E5E7EB',
@@ -398,7 +401,7 @@ export function Select({ label, required, options = [], value, onChange, placeho
       {/* Dropdown panel */}
       {open && (
         <div
-          className="absolute left-0 right-0 top-full mt-1 z-50 rounded-xl overflow-hidden"
+          className="absolute left-0 right-0 top-full mt-1 z-50 rounded-xl overflow-hidden select-panel"
           style={{ background: 'white', border: '1px solid #E5E7EB', boxShadow: 'none' }}
         >
           <div className="overflow-y-auto" style={{ maxHeight: '200px' }}>
@@ -411,7 +414,8 @@ export function Select({ label, required, options = [], value, onChange, placeho
                   key={v}
                   type="button"
                   onClick={() => { onChange && onChange(v); setOpen(false) }}
-                  className="w-full text-left px-3.5 py-2.5 text-sm transition-all flex items-center justify-between gap-2"
+                  className={`w-full text-left px-3.5 py-2.5 text-sm transition-all flex items-center justify-between gap-2 select-option${
+                    selected ? ' is-selected' : ''}`}
                   style={{
                     background: selected ? 'linear-gradient(88.09deg, rgba(92,46,212,0.07) 0%, rgba(166,20,195,0.07) 100%)' : 'transparent',
                     color: selected ? '#A614C3' : '#374151',

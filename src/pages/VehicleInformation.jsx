@@ -120,7 +120,8 @@ export default function VehicleInformation({ formData, updateFormData }) {
                     : { borderColor: '#e5e7eb', background: '#f9fafb', opacity: hasAddr ? 1 : 0.5, cursor: hasAddr ? 'pointer' : 'not-allowed' }}
                 >
                   <div
-                    className="w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all"
+                    className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all addr-copy-box${
+                      applied ? ' is-checked' : ''}`}
                     style={applied
                       ? { background: 'linear-gradient(88.09deg, #5C2ED4 0%, #A614C3 100%)', borderColor: 'transparent' }
                       : { borderColor: '#d1d5db', background: 'white' }}

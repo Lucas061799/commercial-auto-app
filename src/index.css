@@ -265,6 +265,61 @@ button.force-white-text,
   border-color: rgba(166,20,195,0.65) !important;
 }
 
+/* Custom Select (FormField) — trigger, panel and options in dark.
+   These carry inline styles, so the overrides need !important to win. */
+[data-dark="true"] .select-trigger {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.08) !important;
+  color: #6B7280 !important;
+}
+[data-dark="true"] .select-trigger.has-value {
+  color: #F9FAFB !important;
+}
+[data-dark="true"] .select-trigger:hover,
+[data-dark="true"] .select-trigger.is-open {
+  border-color: rgba(166,20,195,0.65) !important;
+}
+[data-dark="true"] .select-trigger.is-error {
+  border-color: #F87171 !important;
+}
+[data-dark="true"] .select-panel {
+  background: #252948 !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+[data-dark="true"] .select-option {
+  background: transparent !important;
+  color: #D1D5DB !important;
+}
+[data-dark="true"] .select-option:hover {
+  background: rgba(255,255,255,0.06) !important;
+}
+[data-dark="true"] .select-option.is-selected {
+  background: linear-gradient(88.09deg, rgba(167,139,250,0.18) 0%, rgba(232,121,249,0.18) 100%) !important;
+  color: #E879F9 !important;
+}
+
+/* Calendar popup (DateInput) in dark */
+[data-dark="true"] .calendar-popup {
+  background: #252948 !important;
+  border-color: rgba(255,255,255,0.1) !important;
+}
+[data-dark="true"] .calendar-popup .cal-cell:not(.is-active):not(.is-today) {
+  color: #D1D5DB !important;
+}
+[data-dark="true"] .calendar-popup .cal-cell.is-today {
+  color: #C4B5FD !important;
+  border-color: #A78BFA !important;
+}
+[data-dark="true"] .calendar-popup button:not(.is-active):hover {
+  background: rgba(255,255,255,0.08) !important;
+}
+
+/* "Same as applicant address" checkbox square that has no isDark prop */
+[data-dark="true"] .addr-copy-box:not(.is-checked) {
+  background: rgba(255,255,255,0.05) !important;
+  border-color: rgba(255,255,255,0.2) !important;
+}
+
 /* Screen-only / print-only helpers */
 .print-only { display: none !important; }
 
